@@ -46,13 +46,6 @@ export default function ShoppingCart() {
     }
     return newObj;
   };
-  /*  
-const cartObj = {
-soups: newFoodObj(soupObj, foodData),
-bread: newFoodObj(breadObj, foodData),
-drinks: newFoodObj(drinksObj, foodData)
-}
-  */
   /***********************************************/
 
   const getUser = async () => {
@@ -83,17 +76,18 @@ drinks: newFoodObj(drinksObj, foodData)
   }, [user]);
 
   useEffect(() => {
-    if (cartItems) {
+    if (cartItems && foodData.soups !== undefined) {
       const cartObj = {
         soups: newFoodObj(countOccurences(cartItems.soup), foodData.soups),
         bread: newFoodObj(countOccurences(cartItems.bread), foodData.breads),
         drinks: newFoodObj(countOccurences(cartItems.drinks), foodData.drinks)
       };
-
       setCart(cartObj);
       //här finns grejerna. gör allt.
+      return;
     }
-  }, [cartItems]);
+    return;
+  }, [cartItems, foodData]);
 
   return (
     <Container>
