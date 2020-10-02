@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
-import FoodContext from '../../context/FoodContext';
-import styled from 'styled-components';
+import React, { useContext, useState } from "react";
+import FoodContext from "../../context/FoodContext";
+import styled from "styled-components";
 
 const Button = styled.button`
   position: fixed;
@@ -18,6 +18,16 @@ const Ul = styled.ul`
   display: flex;
   flex-direction: column;
 `;
+const ListContainer = styled.div`
+  background-color: green;
+  display: flex;
+  justify-content: space-around;
+`;
+const Li = styled.li`
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+`;
 
 export default function CartItem({ title, cart }) {
   return (
@@ -27,7 +37,16 @@ export default function CartItem({ title, cart }) {
           <div>{title}</div>
           <Ul>
             {cart.map((prod) => (
-              <li key={prod._id}>{prod.name}</li>
+              <Li key={prod._id}>
+                <ListContainer>
+                  <h3 id="name">{prod.name}</h3>
+                  <h3 id="price">{prod.price}</h3>
+                </ListContainer>
+                <ListContainer>
+                  <h3 id="amount">{prod.amount}</h3>
+                  <h3 id="trashCan">trashcan</h3>
+                </ListContainer>
+              </Li>
             ))}
           </Ul>
         </Container>

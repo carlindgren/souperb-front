@@ -14,13 +14,13 @@ top: 80px;
 left: 20px;
 `
 
-
 const Button = styled.button`
 width: 120px;
 height: 40px;
   background-color: green;
   border-radius: 8px;
 `;
+
 const Container = styled.div`
   width: 100%;
 `;
