@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import LOGO from '../../images/icon/souplogo.png';
 import { Link } from 'react-router-dom';
-
+const StyledP = styled.p`
+  color: #438a5e;
+  margin: 0;
+  .click {
+    text-decoration: underline;
+  }
+`;
 const Login = styled.section`
   display: flex;
   text-align: center;
@@ -15,10 +21,11 @@ const Title = styled.section`
   flex-direction: column;
   align-items: center;
   * {
-    margin: 2px;
+    color: #436f8a;
   }
   .souperb {
     font-size: 40px;
+    font-weight: bold;
   }
 `;
 const Offer = styled.section`
@@ -38,7 +45,8 @@ const Icon = styled.div`
   }
 `;
 const Container = styled.main`
-  background-color: #ddebe9;
+  /* background-color: #f7fbe1; */
+  background-color: ${(props) => props.theme.mainBg};
   padding: 0px 10px;
   width: 100vw;
   height: 100vh;
@@ -52,32 +60,49 @@ const Form = styled.form`
   justify-content: center;
   outline: none;
   input {
+    color: #f7fbe1;
     outline: none;
     border: none;
     font-size: 20px;
     letter-spacing: 1.5px;
-    padding-left: 5px;
-    background-color: #d3f8e2;
+    padding-left: 10px;
+    background-color: #436f8a;
     border-radius: 8px;
     width: 400px;
     height: 40px;
+    ::placeholder {
+      color: #f7fbe1;
+    }
   }
 `;
 
 export default function Address() {
-  const [address, setAddress] = useState();
+  const [address, setAddress] = useState('');
   const history = useHistory();
   let currentAddress = localStorage.getItem('user-address');
-  currentAddress = localStorage.setItem('user-address', '')
+  //do below if we wanna render this page.
+  //currentAddress = localStorage.setItem('user-address', '');
 
   const submit = (e) => {
-    e.preventDefault(); 
-  if (currentAddress !== '') {
-    console.log(currentAddress)
-    history.push('/home');
-  }
+    e.preventDefault();
+    setAddress(currentAddress);
+    if (address !== '') {
+      console.log(currentAddress);
+      history.push('/home');
+    }
     localStorage.setItem('user-address', address);
   };
+  //rerendering users whom already entered address to LS.
+  useEffect(() => {
+    let address = localStorage.getItem('user-address');
+    if (address === 'null' || address === null) {
+      localStorage.setItem('user-address', '');
+      return;
+    }
+    if (address !== '') {
+      history.push('/home');
+    }
+  }, [address]);
 
   return (
     <Container>
@@ -91,7 +116,7 @@ export default function Address() {
       <Form onSubmit={submit}>
         <input
           type='text'
-          placeholder='adress'
+          placeholder='Skriv in din adress här...'
           onChange={(e) => setAddress(e.target.value)}
         />
       </Form>
@@ -104,7 +129,8 @@ export default function Address() {
 
       <Login>
         <Link to='/login'>
-          <p>Har du redan ett konto?</p> <p>Klicka här</p>
+          <StyledP>Har du redan ett konto?</StyledP>{' '}
+          <StyledP className='link'>Klicka här</StyledP>
         </Link>
       </Login>
     </Container>

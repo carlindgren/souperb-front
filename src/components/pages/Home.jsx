@@ -29,12 +29,12 @@ const Img = styled.img`
 `;
 
 const Container = styled.div`
-  width: 100vw;
   display: flex;
   flex-flow: row wrap;
+  background-color: ${(props) => props.theme.mainBg};
   justify-content: center;
-  margin-bottom: 50px;
-  margin-top: 10px;
+  margin-bottom: 60px;
+  /* margin-top: 10px; */
 `;
 
 const SpinnerContainer = styled.div`
@@ -55,10 +55,8 @@ export default function Home() {
   };
 
   const goBack = () => {
-    setSoup(null)    
-  }
-
-
+    setSoup(null);
+  };
 
   let soups = foodData.soups;
 

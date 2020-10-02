@@ -5,7 +5,7 @@ import FoodContext from '../../context/FoodContext';
 import Cart from '../misc/Cart';
 import styled from 'styled-components';
 const Container = styled.div`
-  height: 100%;
+  background-color: ${(props) => props.theme.mainBg};
 `;
 
 export default function ShoppingCart() {

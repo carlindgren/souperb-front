@@ -18,7 +18,7 @@ export const Form = styled.form`
     width: 100%;
     font-size: 1.1rem;
     border: 1px solid #c2c2c2;
-    background-color: #f0f0f0;
+    background-color: ${(props) => props.theme.mainButtonBg};
     border-radius: 8px;
     padding: 0.3rem;
     > input:focus {

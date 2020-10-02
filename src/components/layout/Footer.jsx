@@ -18,7 +18,7 @@ const Nav = styled.div`
   justify-content: space-around;
   align-items: center;
   bottom: 0;
-  background-color: #bdc3cb;
+  background-color: #436f8a;
   height: 60px;
   > * {
     font-size: 2rem;
@@ -33,7 +33,7 @@ const Nav = styled.div`
 
 export default function Footer() {
   const { userData, setUserData } = useContext(UserContext);
- /*  useEffect(() => {
+  /*  useEffect(() => {
     history.push('/home');
   }, [userData]); */
 

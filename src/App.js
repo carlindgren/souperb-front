@@ -14,17 +14,20 @@ import Header from './components/layout/Header';
 import UserContext from './context/UserContext';
 import FoodContext from './context/FoodContext';
 import './style.css';
-import styled from 'styled-components';
-
+import styled, { ThemeProvider } from 'styled-components';
+const theme = {
+  mainBg: '#f7fbe1',
+  secondaryBg: '#438A5E',
+  mainLinkColor: '#BAC964',
+  mainButtonBg: '#436F8A',
+  mainButtonColor: '#f7fbe1?'
+};
 //header might not be needed as in this state.
 
-const Container = styled.div`
-  max-width: 900px;
-`;
+const Container = styled.div``;
 
 export default function App() {
-  const address = localStorage.getItem('user-address');
-
+  const [address, setAddress] = useState();
   const [userData, setUserData] = useState({
     token: undefined,
     user: undefined
@@ -76,28 +79,32 @@ export default function App() {
       });
     };
     getFood();
-  }, []);
-
+    let LSaddress = localStorage.getItem('user-address');
+    setAddress(LSaddress);
+  }, [address]);
+  console.log(typeof address);
   return (
     <>
       <Router>
-        <UserContext.Provider value={{ userData, setUserData }}>
-          <FoodContext.Provider value={{ foodData, setFoodData }}>
-            {address !== 'null' && <Header />}
-            <Container>
-              <Switch>
-                <Route exact path='/' component={Address} />
-                <Route exact path='/home' component={Home} />
-                <Route path='/SoupDetails' components={SoupDetails} />
-                <Route path='/login' component={Login} />
-                <Route path='/register' component={Register} />
-                <Route path='/profile' component={Profile} />
-                <Route path='/shoppingcart' component={ShoppingCart} />
-              </Switch>
-            </Container>
-            <Footer />
-          </FoodContext.Provider>
-        </UserContext.Provider>
+        <ThemeProvider theme={theme}>
+          <UserContext.Provider value={{ userData, setUserData }}>
+            <FoodContext.Provider value={{ foodData, setFoodData }}>
+              {address && <Header />}
+              <Container>
+                <Switch>
+                  <Route exact path='/' component={Address} />
+                  <Route exact path='/home' component={Home} />
+                  <Route path='/SoupDetails' components={SoupDetails} />
+                  <Route path='/login' component={Login} />
+                  <Route path='/register' component={Register} />
+                  <Route path='/profile' component={Profile} />
+                  <Route path='/shoppingcart' component={ShoppingCart} />
+                </Switch>
+              </Container>
+              {address && <Footer />}
+            </FoodContext.Provider>
+          </UserContext.Provider>
+        </ThemeProvider>
       </Router>
     </>
   );

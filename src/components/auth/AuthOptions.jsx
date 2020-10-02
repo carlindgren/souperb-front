@@ -10,7 +10,7 @@ const StyledNav = styled.nav`
 
   > button {
     padding: 0 1rem;
-    background-color: #ccafa5;
+    background-color: #bac964;
     color: white;
     font-size: 1.1 rem;
     &:hover {
