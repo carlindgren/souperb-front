@@ -67,16 +67,18 @@ const Form = styled.form`
 export default function Address() {
   const [address, setAddress] = useState();
   const history = useHistory();
-  const currentAddress = localStorage.getItem('user-address');
+  let currentAddress = localStorage.getItem('user-address');
+  currentAddress = localStorage.setItem('user-address', '')
 
   const submit = (e) => {
-    e.preventDefault();
-    localStorage.setItem('user-address', address);
-    history.push('/home');
-  };
-  if (currentAddress !== 'null') {
+    e.preventDefault(); 
+  if (currentAddress !== '') {
+    console.log(currentAddress)
     history.push('/home');
   }
+    localStorage.setItem('user-address', address);
+  };
+
   return (
     <Container>
       <Title>

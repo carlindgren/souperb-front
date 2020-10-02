@@ -53,12 +53,19 @@ export default function Home() {
     const clickedSoup = foodData.soups.find((soup) => soup._id === id);
     setSoup(clickedSoup);
   };
+
+  const goBack = () => {
+    setSoup(null)    
+  }
+
+
+
   let soups = foodData.soups;
 
   if (soup) {
     return (
       <div>
-        <SoupDetails soup={soup} />
+        <SoupDetails goBack={goBack} soup={soup} />
       </div>
     );
   }

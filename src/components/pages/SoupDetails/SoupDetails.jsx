@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined,LeftOutlined  } from '@ant-design/icons';
 import Axios from 'axios';
 import { message, Modal } from 'antd';
 import UserContext from '../../../context/UserContext';
@@ -8,9 +8,16 @@ import FoodContext from '../../../context/FoodContext';
 
 import Sides from '../../misc/Sides';
 
+const GoBackContainer = styled.div`
+position: fixed;
+top: 80px;
+left: 20px;
+`
+
+
 const Button = styled.button`
-  width: 120px;
-  height: 40px;
+width: 120px;
+height: 40px;
   background-color: green;
   border-radius: 8px;
 `;
@@ -28,7 +35,7 @@ const ImgContainer = styled.div`
 const Text = styled.section`
   padding: 10px;
 `;
-export default function Details({ soup }) {
+export default function Details({ soup, goBack }) {
   const { userData, setUserData } = useContext(UserContext);
   const { foodData, setFoodData } = useContext(FoodContext);
   const { user } = userData;
@@ -193,6 +200,9 @@ export default function Details({ soup }) {
   return (
     <Container>
       <ImgContainer>
+      <GoBackContainer>
+      <LeftOutlined onClick={goBack} />
+      </GoBackContainer>
         <img src={soup.imgUrl} />
       </ImgContainer>
       <Text>

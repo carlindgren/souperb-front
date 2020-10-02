@@ -33,9 +33,9 @@ const Nav = styled.div`
 
 export default function Footer() {
   const { userData, setUserData } = useContext(UserContext);
-  useEffect(() => {
+ /*  useEffect(() => {
     history.push('/home');
-  }, [userData]);
+  }, [userData]); */
 
   const checkUserAndPush = (route) => {
     const userLoggedIn = userData.user !== undefined;
