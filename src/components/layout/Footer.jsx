@@ -28,6 +28,9 @@ const Circle = styled.div`
   border-radius: 50%;
   background-color: ${(props) => props.theme.mainLinkColor};
 `;
+const WholeShoppingIcon = styled.div`
+  margin-bottom: 13px;
+`;
 
 const Nav = styled.div`
   display: flex;
@@ -81,11 +84,14 @@ export default function Footer() {
     const userLoggedIn = userData.user !== undefined;
     if (userLoggedIn) {
       history.push(route);
+      return;
     }
+    history.push('/login');
   };
   const profile = () => {
     checkUserAndPush('/profile');
   };
+
   const shoppingCart = () => {
     checkUserAndPush('/shoppingCart');
   };
@@ -94,7 +100,7 @@ export default function Footer() {
     <NavParent>
       <Nav>
         <HomeOutlined onClick={() => history.push('/home')} />
-        <div>
+        <WholeShoppingIcon>
           {amountInCart > 0 && (
             <Circle>
               <CartCount>{amountInCart}</CartCount>
@@ -102,7 +108,7 @@ export default function Footer() {
           )}
 
           <ShoppingCartOutlined onClick={shoppingCart} />
-        </div>
+        </WholeShoppingIcon>
         <UserOutlined onClick={profile} />
       </Nav>
     </NavParent>
