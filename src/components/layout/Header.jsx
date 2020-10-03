@@ -3,7 +3,8 @@ import AuthOption from '../auth/AuthOptions';
 import styled from 'styled-components';
 const StyledHeader = styled.header`
   height: 50px;
-  background-color: ${(props) => props.theme.secondaryBg};
+  background-color: ${(props) => props.theme.mainBg};
+  border-bottom: 1px solid black;
   display: flex;
   align-items: center;
   justify-content: space-between;

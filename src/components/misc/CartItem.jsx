@@ -32,7 +32,20 @@ const Li = styled.li`
   margin: 5px;
 `;
 
-export default function CartItem({ title, cart }) {
+const Span = styled.span`
+  .increase {
+  }
+  .decrease {
+  }
+`;
+
+export default function CartItem({
+  title,
+  cart,
+  removeItem,
+  increaseOrder,
+  decreaseOrder
+}) {
   return (
     <>
       {cart && (
@@ -46,8 +59,24 @@ export default function CartItem({ title, cart }) {
                   <h3 id='price'>{prod.price}Kr</h3>
                 </ListContainer>
                 <ListContainer>
-                  <h3 id='amount'>{prod.amount}</h3>
-                  <h3 id='trashCan'>trashcan</h3>
+                  <h3 id='amount'>
+                    <Span
+                      className='decrease'
+                      onClick={() => decreaseOrder(prod._id)}
+                    >
+                      -
+                    </Span>
+                    {prod.amount}
+                    <Span
+                      className='increase'
+                      onClick={() => increaseOrder(prod._id)}
+                    >
+                      +
+                    </Span>
+                  </h3>
+                  <h3 id='trashCan' onClick={() => removeItem(prod._id)}>
+                    trashcan
+                  </h3>
                 </ListContainer>
               </Li>
             ))}

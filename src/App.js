@@ -15,12 +15,19 @@ import UserContext from './context/UserContext';
 import FoodContext from './context/FoodContext';
 import './style.css';
 import styled, { ThemeProvider } from 'styled-components';
-const theme = {
+/* const theme = {
   mainBg: '#f7fbe1',
   secondaryBg: '#438A5E',
   mainLinkColor: '#BAC964',
   mainButtonBg: '#436F8A',
   mainButtonColor: '#f7fbe1?'
+}; */
+const theme = {
+  mainBg: '#f9f8eb',
+  secondaryBg: '#76b39d',
+  mainLinkColor: '#fd5f00',
+  mainButtonBg: '#05004e',
+  mainButtonColor: '#f9f8eb'
 };
 //header might not be needed as in this state.
 

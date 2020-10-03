@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import LOGO from '../../images/icon/souplogo.png';
 import { Link } from 'react-router-dom';
 const StyledP = styled.p`
-  color: #438a5e;
+  color: ${(props) => props.theme.mainLinkColor};
   margin: 0;
   .click {
     text-decoration: underline;
@@ -21,7 +21,7 @@ const Title = styled.section`
   flex-direction: column;
   align-items: center;
   * {
-    color: #436f8a;
+    color: ${(props) => props.theme.secondaryBg};
   }
   .souperb {
     font-size: 40px;
@@ -60,13 +60,13 @@ const Form = styled.form`
   justify-content: center;
   outline: none;
   input {
-    color: #f7fbe1;
+    color: ${(props) => props.theme.mainBg};
     outline: none;
     border: none;
     font-size: 20px;
     letter-spacing: 1.5px;
     padding-left: 10px;
-    background-color: #436f8a;
+    background-color: ${(props) => props.theme.secondaryBg};
     border-radius: 8px;
     width: 400px;
     height: 40px;

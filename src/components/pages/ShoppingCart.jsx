@@ -14,8 +14,15 @@ export default function ShoppingCart() {
   const [cartItems, setCartItems] = useState();
   const [cart, setCart] = useState({});
   const [user, setUser] = useState();
-
+  const [soupValue, setSoupValue] = useState(0);
+  const [sideValue, setSideValue] = useState(0);
+  const [totalCartValue, setTotalCartValue] = useState(0);
   /****************helper funcs*******************/
+
+  //counting total value of Cart.
+  const sumTotal = (arr) =>
+    arr.reduce((sum, { price, amount }) => sum + price * amount, 0);
+
   //checks whether object is empty or not.
   function isEmpty(obj) {
     for (let prop in obj) {
@@ -82,18 +89,47 @@ export default function ShoppingCart() {
         bread: newFoodObj(countOccurences(cartItems.bread), foodData.breads),
         drinks: newFoodObj(countOccurences(cartItems.drinks), foodData.drinks)
       };
+
+      //altogether price.
+      setTotalCartValue(
+        sumTotal(cartObj.soups) +
+          sumTotal(cartObj.drinks) +
+          sumTotal(cartObj.bread)
+      );
+      setSideValue(sumTotal(cartObj.drinks) + sumTotal(cartObj.bread));
+      setSoupValue(sumTotal(cartObj.soups));
       setCart(cartObj);
+
       //här finns grejerna. gör allt.
       return;
     }
     return;
   }, [cartItems, foodData]);
 
+  const removeItem = (prodID) => {
+    alert('du försökte ta bort ' + prodID);
+  };
+
+  const increaseOrder = (prodID) => {
+    alert('addera 1 av vara' + prodID);
+  };
+
+  const decreaseOrder = (prodID) => {
+    alert('minska 1 av vara' + prodID);
+  };
   return (
     <Container>
       {cart ? (
         <>
-          <Cart cart={cart} />
+          <Cart
+            increaseOrder={increaseOrder}
+            decreaseOrder={decreaseOrder}
+            removeItem={removeItem}
+            sideValue={sideValue}
+            soupValue={soupValue}
+            totalCartValue={totalCartValue}
+            cart={cart}
+          />
         </>
       ) : (
         'loading...'
