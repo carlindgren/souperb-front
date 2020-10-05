@@ -19,12 +19,20 @@ const Ul = styled.ul`
   flex-direction: column;
 `;
 const ListContainer = styled.div`
-  background-color: #438a5e;
+  box-shadow: 0px 3px 4px 1px rgba(0, 0, 0, 0.29);
+  height: 50px;
+  background-color: ${(props) => props.theme.cardBg};
   display: flex;
   justify-content: space-around;
+  align-items: center;
   > h3 {
-    color: ${(props) => props.theme.mainBg};
+    width: 150px;
+    text-align: center;
+    color: ${(props) => props.theme.cardColor};
   }
+`;
+const Subtitle = styled.h4`
+  padding: 5px 10px;
 `;
 const Li = styled.li`
   display: flex;
@@ -50,7 +58,7 @@ export default function CartItem({
     <>
       {cart && (
         <Container>
-          <div>{title}</div>
+          <Subtitle>{title}</Subtitle>
           <Ul>
             {cart.map((prod) => (
               <Li key={prod._id}>

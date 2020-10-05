@@ -230,7 +230,7 @@ export default function Details({ soup, goBack }) {
         Add To Cart
       </Button>
       <Modal
-        title='Sides'
+        title='Tillbehör'
         visible={visible}
         onOk={() => handleOk(user.id)}
         onCancel={handleCancel}

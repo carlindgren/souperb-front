@@ -6,6 +6,8 @@ import Cart from '../misc/Cart';
 import styled from 'styled-components';
 const Container = styled.div`
   background-color: ${(props) => props.theme.mainBg};
+  height: 86vh;
+  margin-bottom: 60px;
 `;
 
 export default function ShoppingCart() {

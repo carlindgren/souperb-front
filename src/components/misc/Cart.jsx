@@ -3,12 +3,19 @@ import CartItem from './CartItem';
 import UserContext from '../../context/UserContext';
 import Axios from 'axios';
 import styled from 'styled-components';
-
+import CartSum from './CartSum';
 const Container = styled.main`
-  height: 60vh;
-  overflow-y: scroll;
+  /*   
+  deside on this.
+  height: 60%;
+  overflow-y: scroll; */
 `;
-
+const CostContainer = styled.section`
+  margin-bottom: 60px;
+  padding-top: 10px;
+  /* background-color: #e3dfc8; */
+  box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.75);
+`;
 export default function Cart({
   increaseOrder,
   decreaseOrder,
@@ -18,35 +25,44 @@ export default function Cart({
   sideValue,
   removeItem
 }) {
-  return (
-    <>
-      <Container>
-        <CartItem
-          increaseOrder={increaseOrder}
-          decreaseOrder={decreaseOrder}
-          removeItem={removeItem}
-          title='Soppor'
-          cart={cart.soups}
-        />
-        <h2>Tillbehör</h2>
-        <CartItem
-          increaseOrder={increaseOrder}
-          decreaseOrder={decreaseOrder}
-          removeItem={removeItem}
-          title='Dryck'
-          cart={cart.drinks}
-        />
-        <CartItem
-          increaseOrder={increaseOrder}
-          decreaseOrder={decreaseOrder}
-          removeItem={removeItem}
-          title='Bröd'
-          cart={cart.bread}
-        />
-      </Container>
-      <div>total kostnad exklusive utkörning.{totalCartValue} kr</div>
-      <div>Kostnad för dina sides.{sideValue} kr</div>
-      <div>Kostnad för din soppa.{soupValue} kr</div>
-    </>
-  );
+  if (totalCartValue) {
+    return (
+      <>
+        <Container>
+          <h2 style={{ textAlign: 'center' }}>Soppor</h2>
+          <CartItem
+            increaseOrder={increaseOrder}
+            decreaseOrder={decreaseOrder}
+            removeItem={removeItem}
+            /* title='Soppor' */
+            cart={cart.soups}
+          />
+          <h2 style={{ textAlign: 'center' }}>Tillbehör</h2>
+          <CartItem
+            increaseOrder={increaseOrder}
+            decreaseOrder={decreaseOrder}
+            removeItem={removeItem}
+            title='Dryck'
+            cart={cart.drinks}
+          />
+          <CartItem
+            increaseOrder={increaseOrder}
+            decreaseOrder={decreaseOrder}
+            removeItem={removeItem}
+            title='Bröd'
+            cart={cart.bread}
+          />
+        </Container>
+        <CostContainer>
+          <CartSum
+            total={totalCartValue}
+            sideValue={sideValue}
+            soupValue={soupValue}
+            deliveryCost={39}
+          />
+        </CostContainer>
+      </>
+    );
+  }
+  return <div>Din varukorg är tom</div>;
 }

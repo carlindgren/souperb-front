@@ -23,6 +23,8 @@ import styled, { ThemeProvider } from 'styled-components';
   mainButtonColor: '#f7fbe1?'
 }; */
 const theme = {
+  cardBg: '#808C6C',
+  cardColor: '#F5F1DA',
   mainBg: '#f9f8eb',
   secondaryBg: '#76b39d',
   mainLinkColor: '#fd5f00',
