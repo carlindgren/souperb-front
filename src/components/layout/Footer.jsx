@@ -54,6 +54,8 @@ export default function Footer() {
   const { userData, setUserData } = useContext(UserContext);
   const [amountInCart, setAmountInCart] = useState(0);
 
+  //could be 'profile' or 'cart'
+  const [clicked, setClicked] = useState('home');
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
     try {
@@ -88,18 +90,29 @@ export default function Footer() {
     }
     history.push('/login');
   };
-  const profile = () => {
+  const goToProfile = () => {
     checkUserAndPush('/profile');
+    setClicked('profile');
   };
 
-  const shoppingCart = () => {
+  const goToShoppingCart = () => {
+    setClicked('cart');
     checkUserAndPush('/shoppingCart');
   };
+
+  const goToHome = () => {
+    setClicked('home');
+    history.push('/home');
+  };
+
   const history = useHistory();
   return (
     <NavParent>
       <Nav>
-        <HomeOutlined onClick={() => history.push('/home')} />
+        <HomeOutlined
+          style={{ color: clicked === 'home' && 'black' }}
+          onClick={goToHome}
+        />
         <WholeShoppingIcon>
           {amountInCart > 0 && (
             <Circle>
@@ -107,9 +120,15 @@ export default function Footer() {
             </Circle>
           )}
 
-          <ShoppingCartOutlined onClick={shoppingCart} />
+          <ShoppingCartOutlined
+            style={{ color: clicked === 'cart' && 'black' }}
+            onClick={goToShoppingCart}
+          />
         </WholeShoppingIcon>
-        <UserOutlined onClick={profile} />
+        <UserOutlined
+          style={{ color: clicked === 'profile' && 'black' }}
+          onClick={goToProfile}
+        />
       </Nav>
     </NavParent>
   );

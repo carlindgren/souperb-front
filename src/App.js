@@ -26,8 +26,8 @@ const theme = {
   mainBg: '#f9f8eb',
   secondaryBg: '#76b39d',
   mainLinkColor: '#fd5f00',
-  mainButtonBg: '#05004e',
-  mainButtonColor: '#f9f8eb'
+  mainButtonBg: '#FDAC61',
+  mainButtonColor: '#F5F1DA'
 };
 //header might not be needed as in this state.
 

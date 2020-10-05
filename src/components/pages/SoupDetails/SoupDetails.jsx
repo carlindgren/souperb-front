@@ -10,18 +10,28 @@ import Sides from '../../misc/Sides';
 
 const GoBackContainer = styled.div`
   position: fixed;
-  top: 80px;
+  background-color: ${(props) => props.theme.mainButtonBg};
+  border-radius: 10px;
+  top: 70px;
   left: 20px;
+  border: 0.3px solid white;
+  * {
+    top: 10px;
+    font-weight: bold;
+    font-size: 25px;
+    color: ${(props) => props.theme.mainButtonColor};
+  }
 `;
 
 const Button = styled.button`
   width: 120px;
   height: 40px;
+  background-color: ${(props) => props.theme.mainButtonBg};
+  color: ${(props) => props.theme.mainButtonColor};
+  border-radius: 8px;
   * {
     color: ${(props) => props.theme.mainButtonColor};
   }
-  background-color: ${(props) => props.theme.mainButtonBg};
-  border-radius: 8px;
 `;
 
 const Container = styled.div`

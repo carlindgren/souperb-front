@@ -72,14 +72,14 @@ export default function Home() {
       <>
         <Slider />
         <Container className='container'>
-          {soups.map((soup) => (
+          {soups.map(({ _id: id, imgUrl: url }) => (
             <SoupElem
               className='SoupElem'
-              onClick={() => onSoupClick(soup._id)}
-              key={soup._id}
+              onClick={() => onSoupClick(id)}
+              key={id}
             >
               <ImgWrapper>
-                <Img src={soup.imgUrl}></Img>
+                <Img src={url}></Img>
               </ImgWrapper>
             </SoupElem>
           ))}
