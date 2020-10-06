@@ -11,7 +11,6 @@ const Container = styled.div`
 `;
 
 export default function ShoppingCart() {
-  const { userData } = useContext(UserContext);
   const { foodData } = useContext(FoodContext);
   const [cartItems, setCartItems] = useState();
   const [cart, setCart] = useState({});
@@ -25,13 +24,6 @@ export default function ShoppingCart() {
   const sumTotal = (arr) =>
     arr.reduce((sum, { price, amount }) => sum + price * amount, 0);
 
-  //checks whether object is empty or not.
-  function isEmpty(obj) {
-    for (let prop in obj) {
-      if (obj.hasOwnProperty(prop)) return false;
-    }
-    return true;
-  }
   //counting occurences of ids in array.
   const countOccurences = (items) => {
     return items.reduce(function (acc, curr) {

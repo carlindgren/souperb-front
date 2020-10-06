@@ -1,33 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import FoodContext from '../../context/FoodContext';
 import Spinner from 'react-spinkit';
 import SoupDetails from './SoupDetails/SoupDetails.jsx';
 import Slider from '../misc/Slider';
-const ImgWrapper = styled.div`
-  & :hover {
-    cursor: pointer;
-    filter: grayscale(80%);
-  }
-
-  width: 25vw;
-  display: flex;
-  flex-direction: column;
-  margin: 10px 10px 10px 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  @media (max-width: 1200px) {
-    width: 40vw;
-  }
-  @media (max-width: 550px) {
-    width: 90vw;
-  }
-`;
-
-const Img = styled.img`
-  max-width: 100%;
-  max-height: auto;
-`;
-
+import Header from '../layout/Header';
+import SortMenu from '../misc/SortMenu';
+import Soups from '../misc/Soups';
 const Container = styled.div`
   display: flex;
   flex-flow: row wrap;
@@ -42,12 +21,27 @@ const SpinnerContainer = styled.div`
   justify-content: center;
 `;
 
-const SoupElem = styled.div``;
-
 export default function Home() {
   const { foodData } = useContext(FoodContext);
   const [soup, setSoup] = useState(null);
+  const [subs, setSubs] = useState();
+  const [searchTerm, setSearchTerm] = useState('');
+  /***********helper functions********* */
+  //gives back an array of unique sub properties.
+  const uniqueSub = (obj) => {
+    let arr = [];
 
+    obj.forEach((object) => arr.push(object.sub));
+    let flattened = [].concat.apply([], arr);
+    return [...new Set(flattened)];
+  };
+  useEffect(() => {
+    if (foodData.soups) {
+      setSubs(uniqueSub(foodData.soups));
+    }
+  }, [foodData.soups]);
+
+  /******************************** */
   const onSoupClick = (id) => {
     //find soup obj by id.from context.
     const clickedSoup = foodData.soups.find((soup) => soup._id === id);
@@ -57,21 +51,40 @@ export default function Home() {
   const goBack = () => {
     setSoup(null);
   };
+  const filterBtn = (term) => {
+    setSearchTerm(term);
+  };
 
   let soups = foodData.soups;
+  const filteredSoups = (arr, str) => {
+    if (str === '') {
+      return arr;
+    }
+    let filtered = [];
+    arr.forEach((obj) => obj.sub.includes(str) && filtered.push(obj));
+    return filtered;
+  };
+  // console.log(soups && filteredSoups(soups, 'Laktosfri')); // works.
 
   if (soup) {
     return (
-      <div>
+      <>
         <SoupDetails goBack={goBack} soup={soup} />
-      </div>
+      </>
     );
   }
   if (soups !== undefined) {
     return (
       <>
+        <Header />
         <Slider />
+        <SortMenu onClick={filterBtn} filterOptions={subs} />
         <Container className='container'>
+          <Soups
+            soups={filteredSoups(soups, searchTerm)}
+            onClick={onSoupClick}
+          />
+          {/* 
           {soups.map(({ _id: id, imgUrl: url }) => (
             <SoupElem
               className='SoupElem'
@@ -82,7 +95,7 @@ export default function Home() {
                 <Img src={url}></Img>
               </ImgWrapper>
             </SoupElem>
-          ))}
+          ))} */}
         </Container>
       </>
     );

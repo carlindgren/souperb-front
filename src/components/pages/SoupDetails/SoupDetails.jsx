@@ -12,7 +12,7 @@ const GoBackContainer = styled.div`
   position: fixed;
   background-color: ${(props) => props.theme.mainButtonBg};
   border-radius: 10px;
-  top: 70px;
+  top: 20px;
   left: 20px;
   border: 0.3px solid white;
   * {
@@ -24,6 +24,9 @@ const GoBackContainer = styled.div`
 `;
 
 const Button = styled.button`
+  position: absolute;
+  bottom: 70px;
+  right: 10px;
   width: 120px;
   height: 40px;
   background-color: ${(props) => props.theme.mainButtonBg};
@@ -35,11 +38,12 @@ const Button = styled.button`
 `;
 
 const Container = styled.div`
+  background-color: ${(props) => props.theme.mainBg};
   width: 100%;
 `;
 const ImgContainer = styled.div`
   width: 100vw;
-  height: 30vh;
+  height: 50vh;
   overflow: hidden;
   > img  {
     width: 100%;
@@ -91,10 +95,10 @@ export default function Details({ soup, goBack }) {
     console.log('remove 1 of kind:' + kind + ' with id of: ' + id);
     console.log(id + ' id');
 
-    if (kind === 'bread') {
+    if (kind === 'bread' && breadOrder.length > 0) {
       removeFromArr(breadOrder, id);
       setAmount((cs) => ({ ...cs, [id]: cs[id] - 1 }));
-    } else {
+    } else if (drinksOrder.length > 0) {
       removeFromArr(drinksOrder, id);
       setAmount((cs) => ({ ...cs, [id]: cs[id] - 1 }));
     }

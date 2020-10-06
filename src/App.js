@@ -15,6 +15,10 @@ import UserContext from './context/UserContext';
 import FoodContext from './context/FoodContext';
 import './style.css';
 import styled, { ThemeProvider } from 'styled-components';
+const AppContainer = styled.div`
+  height: 100vh;
+  padding-bottom: 60px;
+`;
 /* const theme = {
   mainBg: '#f7fbe1',
   secondaryBg: '#438A5E',
@@ -92,13 +96,15 @@ export default function App() {
     setAddress(LSaddress);
   }, [address]);
   console.log(typeof address);
+
+  //header layout? perhaps move header into homecomponent.
   return (
-    <>
+    <AppContainer>
       <Router>
         <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ userData, setUserData }}>
             <FoodContext.Provider value={{ foodData, setFoodData }}>
-              {address && <Header />}
+              {/*address && <Header />*/}
               <Container>
                 <Switch>
                   <Route exact path='/' component={Address} />
@@ -115,6 +121,6 @@ export default function App() {
           </UserContext.Provider>
         </ThemeProvider>
       </Router>
-    </>
+    </AppContainer>
   );
 }

@@ -13,7 +13,7 @@ const Container = styled.main`
 const CostContainer = styled.section`
   margin-bottom: 60px;
   padding-top: 10px;
-  /* background-color: #e3dfc8; */
+  background-color: #e3dfc8;
   box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.75);
 `;
 export default function Cart({
