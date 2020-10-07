@@ -27,7 +27,7 @@ const SubContainer = styled.div`
 export default function Profile() {
   const { userData, setUserData } = useContext(UserContext);
   const [user, setUser] = useState();
-  const [paymentMethod, setPaymentMethod] = useState('Swish');
+  const [paymentMethod, setPaymentMethod] = useState();
   const [changePayment, setChangePayment] = useState(false);
   const [changeAddress, setChangeAddress] = useState(false);
   const payment = null;

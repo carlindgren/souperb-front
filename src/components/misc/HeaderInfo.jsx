@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { LeftOutlined } from '@ant-design/icons';
 const Title = styled.h1`
   text-align: center;
   margin-top: 2px;
@@ -10,6 +10,7 @@ const Title = styled.h1`
 `;
 const BackArrow = styled.span`
   position: absolute;
+  padding: 5px;
   top: 15px;
   left: 18px;
 `;
@@ -20,7 +21,9 @@ const Container = styled.div`
 export default function HeaderInfo({ title, goBack }) {
   return (
     <Container>
-      <BackArrow onClick={goBack}>Go Back</BackArrow>
+      <BackArrow>
+        <LeftOutlined onClick={goBack} />
+      </BackArrow>
       <Title>{title}</Title>
     </Container>
   );
