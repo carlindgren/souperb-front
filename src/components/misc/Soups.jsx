@@ -27,7 +27,6 @@ const Img = styled.img`
 const SoupElem = styled.div``;
 
 export default function Soups({ soups, onClick }) {
-  console.log(soups);
   return (
     <>
       {soups.map(({ _id: id, imgUrl: url }) => (

@@ -3,6 +3,10 @@ import UserContext from '../../context/UserContext';
 import Axios from 'axios';
 import styled from 'styled-components';
 import { CreditCardOutlined, HomeOutlined } from '@ant-design/icons';
+
+import AddressDetails from '../misc/AddressDetails';
+import PaymentMethod from '../misc/PaymentMethod';
+
 const Title = styled.h1`
   text-align: center;
   margin: 0;
@@ -23,7 +27,9 @@ const SubContainer = styled.div`
 export default function Profile() {
   const { userData, setUserData } = useContext(UserContext);
   const [user, setUser] = useState();
-
+  const [paymentMethod, setPaymentMethod] = useState('Swish');
+  const [changePayment, setChangePayment] = useState(false);
+  const [changeAddress, setChangeAddress] = useState(false);
   const payment = null;
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
@@ -42,8 +48,22 @@ export default function Profile() {
   useEffect(() => {
     getUser(); // works
   }, []);
-  console.log(user);
 
+  const goBack = () => {
+    if (changePayment) {
+      setChangePayment(!changePayment);
+    }
+    if (changeAddress) {
+      setChangeAddress(!changeAddress);
+    }
+  };
+
+  if (user && changePayment) {
+    return <PaymentMethod paymentMethod={paymentMethod} goBack={goBack} />;
+  }
+  if (user && changeAddress) {
+    return <AddressDetails goBack={goBack} />;
+  }
   return (
     <div>
       {user ? (
@@ -55,9 +75,12 @@ export default function Profile() {
               <CreditCardOutlined className='icon' />{' '}
               <span className='text'>
                 {' '}
-                {payment ? 'paymentComp' : 'ingen betalmetod inlagd'}
+                {paymentMethod ? paymentMethod : 'ingen betalmetod inlagd'}
               </span>
-              <span onClick={() => console.log('clicked')} className='change'>
+              <span
+                onClick={() => setChangePayment(!changePayment)}
+                className='change'
+              >
                 CHANGE
               </span>
             </Content>
@@ -66,6 +89,13 @@ export default function Profile() {
             <Subtitle>Leveransadress</Subtitle>
             <Content>
               <HomeOutlined />
+              <span className='text'>Leveransadress</span>
+              <span
+                onClick={() => setChangeAddress(!changeAddress)}
+                className='change'
+              >
+                CHANGE
+              </span>
             </Content>
           </SubContainer>
         </>

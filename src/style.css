@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import '~antd/dist/antd.css';
+@import '~antd-mobile/dist/antd-mobile.css';
 
 /* reset */
 * {

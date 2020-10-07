@@ -16,20 +16,27 @@ const Li = styled.li`
   padding: 8px;
   border-radius: 30px;
   cursor: pointer;
-  background: ${(props) => props.theme.mainButtonBg};
+  background: ${(props) =>
+    props.clicked ? props.theme.secondaryBg : props.theme.mainButtonBg};
   color: ${(props) => props.theme.mainButtonColor};
 `;
 
-export default function SortMenu({ filterOptions, onClick }) {
+export default function SortMenu({ filterOptions, onClick, searchTerm }) {
   //properties would be an array of all existing sub menus.
   //on sourt filter out them.
   return (
     <Container>
       <Ul>
-        <Li onClick={() => onClick('')}>Alla Soppor</Li>
+        <Li clicked={searchTerm === '' && true} onClick={() => onClick('')}>
+          Alla Soppor
+        </Li>
         {filterOptions &&
           filterOptions.map((elem, id) => (
-            <Li onClick={() => onClick(elem)} key={id}>
+            <Li
+              clicked={searchTerm === elem ? true : false}
+              onClick={() => onClick(elem)}
+              key={id}
+            >
               {elem}
             </Li>
           ))}

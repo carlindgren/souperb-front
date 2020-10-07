@@ -78,7 +78,11 @@ export default function Home() {
       <>
         <Header />
         <Slider />
-        <SortMenu onClick={filterBtn} filterOptions={subs} />
+        <SortMenu
+          searchTerm={searchTerm}
+          onClick={filterBtn}
+          filterOptions={subs}
+        />
         <Container className='container'>
           <Soups
             soups={filteredSoups(soups, searchTerm)}

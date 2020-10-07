@@ -5,7 +5,7 @@ import Axios from 'axios';
 import { message, Modal } from 'antd';
 import UserContext from '../../../context/UserContext';
 import FoodContext from '../../../context/FoodContext';
-
+import { useHistory } from 'react-router-dom';
 import Sides from '../../misc/Sides';
 
 const GoBackContainer = styled.div`
@@ -56,7 +56,6 @@ export default function Details({ soup, goBack }) {
   const { userData, setUserData } = useContext(UserContext);
   const { foodData, setFoodData } = useContext(FoodContext);
   const { user } = userData;
-
   //modal
   const [visible, setVisible] = useState();
 
@@ -64,6 +63,7 @@ export default function Details({ soup, goBack }) {
   const [drinksOrder, setDrinksOrder] = useState([]);
   const [breadOrder, setBreadOrder] = useState([]);
 
+  const history = useHistory();
   const createObject = (arr1, arr2) => {
     let arr = [...arr1, ...arr2];
     const obj = {};
@@ -175,21 +175,22 @@ export default function Details({ soup, goBack }) {
     );
     setBreadOrder([]);
     setDrinksOrder([]);
-
     setVisible(false);
+    history.push('/shoppingcart');
   };
   //close modal on cancel
   const handleCancel = () => {
     setVisible(false);
   };
 
-  const addSoup = async (userID) => {
+  const addSoup = async (user) => {
     try {
+      const { id } = user;
       const authToken = localStorage.getItem('auth-token');
       const soupID = soup._id;
       const addSoupObj = {
         soupID,
-        userID
+        id
       };
       const updatedUser = await Axios.post(
         'http://localhost:5000/users/addsoup',
@@ -201,13 +202,12 @@ export default function Details({ soup, goBack }) {
     }
   };
 
-  const addToCart = async (userID) => {
-    if (userID) {
-      addSoup(userID);
+  const addToCart = async (user) => {
+    if (user) {
+      addSoup(user.id);
       success('added soup to cart');
     } else {
-      localStorage.setItem('soup', soup._id);
-      success('added soup localstorage - no user found');
+      history.push('/login');
     }
     //open modal for beverage and bread here
     showModal();
@@ -228,7 +228,7 @@ export default function Details({ soup, goBack }) {
         <p>{soup.description}</p>
       </Text>
 
-      <Button onClick={() => addToCart(user.id)}>
+      <Button onClick={() => addToCart(user)}>
         {' '}
         <ShoppingCartOutlined />
         Add To Cart
@@ -236,7 +236,7 @@ export default function Details({ soup, goBack }) {
       <Modal
         title='Tillbehör'
         visible={visible}
-        onOk={() => handleOk(user.id)}
+        onOk={() => handleOk(user)}
         onCancel={handleCancel}
       >
         <Sides

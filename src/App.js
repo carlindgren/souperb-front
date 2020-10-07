@@ -59,7 +59,7 @@ export default function App() {
         localStorage.setItem('auth-token', '');
         token = '';
       }
-      console.log(token);
+
       const tokenRes = await Axios.post(
         'http://localhost:5000/users/tokenIsValid',
         null,
@@ -95,7 +95,6 @@ export default function App() {
     let LSaddress = localStorage.getItem('user-address');
     setAddress(LSaddress);
   }, [address]);
-  console.log(typeof address);
 
   //header layout? perhaps move header into homecomponent.
   return (

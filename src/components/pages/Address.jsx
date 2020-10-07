@@ -87,7 +87,6 @@ export default function Address() {
     e.preventDefault();
     setAddress(currentAddress);
     if (address !== '') {
-      console.log(currentAddress);
       history.push('/home');
     }
     localStorage.setItem('user-address', address);
