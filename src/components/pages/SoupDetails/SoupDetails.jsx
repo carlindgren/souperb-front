@@ -124,9 +124,11 @@ export default function Details({ soup, goBack }) {
     setVisible(true);
   };
 
-  const addSides = async (userID) => {
+  const addSides = async (user) => {
     try {
+      const { id: userID } = user;
       const authToken = localStorage.getItem('auth-token');
+
       //first add drinks to drinks array,
 
       const drinksArray = drinksOrder;
@@ -183,14 +185,13 @@ export default function Details({ soup, goBack }) {
     setVisible(false);
   };
 
-  const addSoup = async (user) => {
+  const addSoup = async (userID) => {
     try {
-      const { id } = user;
       const authToken = localStorage.getItem('auth-token');
       const soupID = soup._id;
       const addSoupObj = {
         soupID,
-        id
+        userID
       };
       const updatedUser = await Axios.post(
         'http://localhost:5000/users/addsoup',
