@@ -3,7 +3,6 @@ import UserContext from '../../context/UserContext';
 import Axios from 'axios';
 import styled from 'styled-components';
 import { CreditCardOutlined, HomeOutlined } from '@ant-design/icons';
-
 import AddressDetails from '../misc/AddressDetails';
 import PaymentMethod from '../misc/PaymentMethod';
 
@@ -27,20 +26,32 @@ const SubContainer = styled.div`
 export default function Profile() {
   const { userData, setUserData } = useContext(UserContext);
   const [user, setUser] = useState();
+
+  //should set prefered payment method.
+  //use useeffect for this to update in db.
   const [paymentMethod, setPaymentMethod] = useState();
-  const [changePayment, setChangePayment] = useState(false);
-  const [changeAddress, setChangeAddress] = useState(false);
-  const payment = null;
+
+  //checks wheter user clicked link
+  const [changePaymentPage, setChangePaymentPage] = useState(false);
+  const [changeAddressPage, setChangeAddressPage] = useState(false);
+
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
     try {
-      const user = await Axios.get(
+      const userObj = await Axios.get(
         'http://localhost:5000/users/getUserInformation',
         {
           headers: { 'x-auth-token': authToken }
         }
       );
-      setUser(user.data.user);
+      const { user } = userObj.data;
+      setUser(user);
+      const { preferedPayment } = user;
+      console.log(preferedPayment);
+      if (user.preferedPayment) {
+        console.log('reached');
+        setPaymentMethod(user.preferedPayment);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -49,19 +60,60 @@ export default function Profile() {
     getUser(); // works
   }, []);
 
-  const goBack = () => {
-    if (changePayment) {
-      setChangePayment(!changePayment);
+  /****** */
+  const addPreferedPayment = async (userID) => {
+    try {
+      const id = userID;
+      const authToken = localStorage.getItem('auth-token');
+      const preferedPayment = paymentMethod;
+
+      const paymentObj = {
+        preferedPayment,
+        id
+      };
+      const updatedUser = await Axios.post(
+        'http://localhost:5000/users/addPreferedPayment',
+        paymentObj,
+        { headers: { 'x-auth-token': authToken } }
+      );
+    } catch (err) {
+      console.log(err);
     }
-    if (changeAddress) {
-      setChangeAddress(!changeAddress);
+  };
+  /********* */
+  useEffect(() => {
+    //if paymentmethod changed, update db.
+
+    if (userData.user) {
+      //get id from context instead.
+      addPreferedPayment(userData.user.id);
+    }
+  }, [paymentMethod]);
+
+  const goBack = () => {
+    if (changePaymentPage) {
+      setChangePaymentPage(!changePaymentPage);
+    }
+    if (changeAddressPage) {
+      setChangeAddressPage(!changeAddressPage);
     }
   };
 
-  if (user && changePayment) {
-    return <PaymentMethod paymentMethod={paymentMethod} goBack={goBack} />;
+  const onChangePayment = (label) => {
+    setPaymentMethod(label);
+  };
+
+  if (user && changePaymentPage) {
+    return (
+      <PaymentMethod
+        paymentMethod={paymentMethod}
+        onChangePayment={onChangePayment}
+        paymentMethod={paymentMethod}
+        goBack={goBack}
+      />
+    );
   }
-  if (user && changeAddress) {
+  if (user && changeAddressPage) {
     return <AddressDetails goBack={goBack} />;
   }
   return (
@@ -78,7 +130,7 @@ export default function Profile() {
                 {paymentMethod ? paymentMethod : 'ingen betalmetod inlagd'}
               </span>
               <span
-                onClick={() => setChangePayment(!changePayment)}
+                onClick={() => setChangePaymentPage(!changePaymentPage)}
                 className='change'
               >
                 CHANGE
@@ -91,7 +143,7 @@ export default function Profile() {
               <HomeOutlined />
               <span className='text'>Leveransadress</span>
               <span
-                onClick={() => setChangeAddress(!changeAddress)}
+                onClick={() => setChangeAddressPage(!changeAddressPage)}
                 className='change'
               >
                 CHANGE

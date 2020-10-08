@@ -25,15 +25,12 @@ const data = [
   { value: 2, label: 'Klarna' }
 ];
 
-export default function PaymentMethod({ goBack, PaymentMethod /*onChange*/ }) {
-  const [value, setValue] = useState(0);
+export default function PaymentMethod({
+  goBack,
+  onChangePayment,
+  paymentMethod
+}) {
   const RadioItem = Radio.RadioItem;
-
-  const onChange = (value) => {
-    console.log('checkbox');
-    setValue(value);
-  };
-
   return (
     <Container>
       <Header title={'Betalmetoder'} goBack={goBack} />
@@ -43,8 +40,8 @@ export default function PaymentMethod({ goBack, PaymentMethod /*onChange*/ }) {
         {data.map((i) => (
           <RadioItem
             key={i.value}
-            checked={value === i.value}
-            onChange={() => onChange(i.value)}
+            checked={paymentMethod === i.label}
+            onChange={() => onChangePayment(i.label)}
           >
             {i.label}
           </RadioItem>
