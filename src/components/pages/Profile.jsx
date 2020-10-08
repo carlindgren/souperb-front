@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { CreditCardOutlined, HomeOutlined } from '@ant-design/icons';
 import AddressDetails from '../misc/AddressDetails';
 import PaymentMethod from '../misc/PaymentMethod';
-
+//import Change from '../misc/Change';
 const Title = styled.h1`
   text-align: center;
   margin: 0;
@@ -129,6 +129,10 @@ export default function Profile() {
                 {' '}
                 {paymentMethod ? paymentMethod : 'ingen betalmetod inlagd'}
               </span>
+              {/*   <Change
+                onClick={setChangePaymentPage(!changePaymentPage)}
+                title={'Change'}
+              /> */}
               <span
                 onClick={() => setChangePaymentPage(!changePaymentPage)}
                 className='change'
