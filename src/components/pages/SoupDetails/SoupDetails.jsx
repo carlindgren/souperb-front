@@ -60,11 +60,12 @@ export default function Details({ soup, goBack }) {
   const [visible, setVisible] = useState();
 
   const [amount, setAmount] = useState({});
-  const [drinksOrder, setDrinksOrder] = useState([]);
-  const [breadOrder, setBreadOrder] = useState([]);
+  //const [drinksOrder, setDrinksOrder] = useState([]);
+  //const [breadOrder, setBreadOrder] = useState([]);
 
   const history = useHistory();
-  const createObject = (arr1, arr2) => {
+
+  /*   const createObject = (arr1, arr2) => {
     let arr = [...arr1, ...arr2];
     const obj = {};
 
@@ -72,6 +73,19 @@ export default function Details({ soup, goBack }) {
       obj[key] = 0;
     }
     return obj;
+  }; */
+  const createObject = (arr1, arr2) => {
+    //let arr = [...arr1, ...arr2];
+    const arrOfObj = [];
+
+    arr1.map((elem, i) => {
+      console.log(arr1[i]);
+      arrOfObj.push({ id: arr1[i], amount: 0, typeOfProd: 'drinks' });
+    });
+    arr2.map((elem, i) => {
+      arrOfObj.push({ id: arr2[i], amount: 0, typeOfProd: 'bread' });
+    });
+    return arrOfObj;
   };
 
   //setting up amount to an object of side IDs.
@@ -92,28 +106,23 @@ export default function Details({ soup, goBack }) {
   };
   //handling decrease in sides to the order.
   const handleDecrement = (id, kind) => {
-    console.log('remove 1 of kind:' + kind + ' with id of: ' + id);
-    console.log(id + ' id');
+    let obj = amount;
+    var foundIndex = amount.findIndex((x) => x.id == id);
 
-    if (kind === 'bread' && breadOrder.length > 0) {
-      removeFromArr(breadOrder, id);
-      setAmount((cs) => ({ ...cs, [id]: cs[id] - 1 }));
-    } else if (drinksOrder.length > 0) {
-      removeFromArr(drinksOrder, id);
-      setAmount((cs) => ({ ...cs, [id]: cs[id] - 1 }));
+    if (obj[foundIndex].amount > 0) {
+      obj[foundIndex].amount = obj[foundIndex].amount - 1;
+      //works
+      setAmount((cs) => [...obj]);
     }
   };
+
   //handling increas in sides to order.
   const handleIncrement = (id, kind) => {
-    console.log('add 1 of kind:' + kind + ' with id of: ' + id);
-
-    if (kind === 'bread') {
-      setBreadOrder(breadOrder.concat(id));
-      setAmount((cs) => ({ ...cs, [id]: cs[id] + 1 }));
-    } else {
-      setDrinksOrder(drinksOrder.concat(id));
-      setAmount((cs) => ({ ...cs, [id]: cs[id] + 1 }));
-    }
+    let obj = amount;
+    var foundIndex = amount.findIndex((x) => x.id == id);
+    obj[foundIndex].amount = obj[foundIndex].amount + 1;
+    //works
+    setAmount((cs) => [...obj]);
   };
   //popup when adding soup
   const success = (prompt) => {
@@ -131,17 +140,17 @@ export default function Details({ soup, goBack }) {
 
       //first add drinks to drinks array,
 
-      const drinksArray = drinksOrder;
-      const breadArray = breadOrder;
+      //const drinksArray = drinksOrder;
+      //  const breadArray = breadOrder;
 
       const addDrinkObj = {
-        userID,
-        drinksArray
+        userID
+        //        drinksArray
       };
 
       const addBreadObj = {
-        userID,
-        breadArray
+        userID
+        //      breadArray
       };
       //second add bread to breads array,
       const res = await Axios.post(
@@ -166,7 +175,7 @@ export default function Details({ soup, goBack }) {
   };
   //close modal on ok click
   const handleOk = async (userID) => {
-    addSides(userID);
+    await addSides(userID);
     //push to cart, if logged in else, register
     //reset state.
     setAmount(
@@ -175,8 +184,8 @@ export default function Details({ soup, goBack }) {
         foodData.breads.map((elem) => elem._id)
       )
     );
-    setBreadOrder([]);
-    setDrinksOrder([]);
+    //setBreadOrder([]);
+    //setDrinksOrder([]);
     setVisible(false);
     history.push('/shoppingcart');
   };
@@ -184,7 +193,31 @@ export default function Details({ soup, goBack }) {
   const handleCancel = () => {
     setVisible(false);
   };
+  //new way of adding soup to users individual Cart.
+  const addSoup = async (userId) => {
+    try {
+      const authToken = localStorage.getItem('auth-token');
 
+      //verbose, works for now.
+      const payload = {
+        userId: userId,
+        productId: soup._id,
+        quantity: 1,
+        typeOfProd: 'Soup',
+        name: soup.name,
+        price: soup.price
+      };
+
+      const cart = await Axios.post(
+        'http://localhost:5000/users/cart',
+        payload,
+        { headers: { 'x-auth-token': authToken } }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  /* 
   const addSoup = async (userID) => {
     try {
       const authToken = localStorage.getItem('auth-token');
@@ -201,7 +234,7 @@ export default function Details({ soup, goBack }) {
     } catch (err) {
       console.log(err);
     }
-  };
+  }; */
 
   const addToCart = async (user) => {
     if (user) {

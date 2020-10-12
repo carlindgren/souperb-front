@@ -59,11 +59,11 @@ export default function ShoppingCart() {
         }
       );
       setUser(user.data.user);
-      const { soup, drinks, bread } = user.data.user;
     } catch (err) {
       console.log(err);
     }
   };
+
   //effect for getting user.
   useEffect(() => {
     getUser();
@@ -100,17 +100,100 @@ export default function ShoppingCart() {
     return;
   }, [cartItems, foodData]);
 
-  const removeItem = (prodID) => {
-    alert('du försökte ta bort ' + prodID);
+  const increase = async (userID, id, type) => {
+    console.log(type);
+    const authToken = localStorage.getItem('auth-token');
+    const payload = {
+      id,
+      userID
+    };
+
+    if (type === 'soup') {
+      try {
+        let soupID = id;
+        const payload = {
+          soupID,
+          userID
+        };
+        const awaited = await Axios.post(
+          'http://localhost:5000/users/addsoup',
+          payload,
+          {
+            headers: { 'x-auth-token': authToken }
+          }
+        );
+        //fix this
+        //setCartItems(cartItems.soup.concat(soupID));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    if (type === 'drink') {
+      try {
+        let drinksArray = [id];
+        const payload = {
+          drinksArray,
+          userID
+        };
+        const awaited = await Axios.post(
+          'http://localhost:5000/users/addDrinks',
+          payload,
+          {
+            headers: { 'x-auth-token': authToken }
+          }
+        );
+        //setCartItems(cartItems.drinks.concat(id));
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        let breadArray = [id];
+
+        const payload = {
+          breadArray,
+          userID
+        };
+        const awaited = await Axios.post(
+          'http://localhost:5000/users/addBread',
+          payload,
+          {
+            headers: { 'x-auth-token': authToken }
+          }
+        );
+
+        //cant set cartitems here..
+        //setCartItems(cartItems.bread.concat(id));
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
-  const increaseOrder = (prodID) => {
-    alert('addera 1 av vara' + prodID);
+  const remove = (userID, id, type) => {
+    try {
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const removeItem = (userID, prod, type) => {
+    //remove(userID, prod._id, type);
+  };
+  const increaseOrder = async (userID, prod, type) => {
+    //works, doesnt rerender page.
+    increase(userID, prod._id, type);
+    //rerender here
   };
 
-  const decreaseOrder = (prodID) => {
-    alert('minska 1 av vara' + prodID);
+  const decrease = () => {
+    console.log('hello World');
   };
+
+  const decreaseOrder = (userID, prod, type) => {
+    decrease(prod, type);
+    console.log('decreased' + prod._id + 'by 1');
+  };
+
   return (
     <Container>
       {cart ? (

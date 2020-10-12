@@ -17,8 +17,10 @@ const Container = styled.div`
 `;
 
 const SpinnerContainer = styled.div`
+  height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 export default function Home() {
@@ -88,18 +90,6 @@ export default function Home() {
             soups={filteredSoups(soups, searchTerm)}
             onClick={onSoupClick}
           />
-          {/* 
-          {soups.map(({ _id: id, imgUrl: url }) => (
-            <SoupElem
-              className='SoupElem'
-              onClick={() => onSoupClick(id)}
-              key={id}
-            >
-              <ImgWrapper>
-                <Img src={url}></Img>
-              </ImgWrapper>
-            </SoupElem>
-          ))} */}
         </Container>
       </>
     );

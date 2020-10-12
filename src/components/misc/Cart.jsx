@@ -34,7 +34,7 @@ export default function Cart({
             increaseOrder={increaseOrder}
             decreaseOrder={decreaseOrder}
             removeItem={removeItem}
-            /* title='Soppor' */
+            type={'soup'}
             cart={cart.soups}
           />
           <h2 style={{ textAlign: 'center' }}>Tillbehör</h2>
@@ -42,6 +42,7 @@ export default function Cart({
             increaseOrder={increaseOrder}
             decreaseOrder={decreaseOrder}
             removeItem={removeItem}
+            type={'drink'}
             title='Dryck'
             cart={cart.drinks}
           />
@@ -49,6 +50,7 @@ export default function Cart({
             increaseOrder={increaseOrder}
             decreaseOrder={decreaseOrder}
             removeItem={removeItem}
+            type={'bread'}
             title='Bröd'
             cart={cart.bread}
           />

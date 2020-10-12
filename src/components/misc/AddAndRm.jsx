@@ -15,15 +15,19 @@ export default function AddandRm({
   handleIncrement,
   amount
 }) {
-  return (
-    <Container>
-      <span className='minus' onClick={() => handleDecrement(id, kind)}>
-        -
-      </span>
-      <span id={id}>{amount[id]}</span>
-      <span className='plus' onClick={() => handleIncrement(id, kind)}>
-        +
-      </span>
-    </Container>
-  );
+  if (amount && id) {
+    let num = amount.find((elem) => elem.id === id).amount;
+
+    return (
+      <Container>
+        <span className='minus' onClick={() => handleDecrement(id, kind)}>
+          -
+        </span>
+        <span id={id}>{num}</span>
+        <span className='plus' onClick={() => handleIncrement(id, kind)}>
+          +
+        </span>
+      </Container>
+    );
+  }
 }

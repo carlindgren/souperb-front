@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import FoodContext from '../../context/FoodContext';
 import styled from 'styled-components';
-
+import UserData from '../../context/UserContext';
 const Button = styled.button`
   position: fixed;
   bottom: 100px;
@@ -52,8 +52,11 @@ export default function CartItem({
   cart,
   removeItem,
   increaseOrder,
-  decreaseOrder
+  decreaseOrder,
+  type
 }) {
+  const { userData } = useContext(UserData);
+
   return (
     <>
       {cart && (
@@ -70,19 +73,21 @@ export default function CartItem({
                   <h3 id='amount'>
                     <Span
                       className='decrease'
-                      onClick={() => decreaseOrder(prod._id)}
+                      onClick={() => decreaseOrder(prod, type)}
                     >
                       -
                     </Span>
                     {prod.amount}
                     <Span
                       className='increase'
-                      onClick={() => increaseOrder(prod._id)}
+                      onClick={() =>
+                        increaseOrder(userData.user.id, prod, type)
+                      }
                     >
                       +
                     </Span>
                   </h3>
-                  <h3 id='trashCan' onClick={() => removeItem(prod._id)}>
+                  <h3 id='trashCan' onClick={() => removeItem(prod, type)}>
                     trashcan
                   </h3>
                 </ListContainer>
