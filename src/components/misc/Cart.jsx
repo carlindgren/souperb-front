@@ -25,6 +25,7 @@ export default function Cart({
   sideValue,
   removeItem
 }) {
+  console.log(totalCartValue);
   if (totalCartValue) {
     return (
       <>
@@ -35,7 +36,7 @@ export default function Cart({
             decreaseOrder={decreaseOrder}
             removeItem={removeItem}
             type={'soup'}
-            cart={cart.soups}
+            cart={cart.filter((elem) => elem.typeOfProd === 'soup')}
           />
           <h2 style={{ textAlign: 'center' }}>Tillbehör</h2>
           <CartItem
@@ -44,7 +45,7 @@ export default function Cart({
             removeItem={removeItem}
             type={'drink'}
             title='Dryck'
-            cart={cart.drinks}
+            cart={cart.filter((elem) => elem.typeOfProd === 'drink')}
           />
           <CartItem
             increaseOrder={increaseOrder}
@@ -52,7 +53,7 @@ export default function Cart({
             removeItem={removeItem}
             type={'bread'}
             title='Bröd'
-            cart={cart.bread}
+            cart={cart.filter((elem) => elem.typeOfProd === 'bread')}
           />
         </Container>
         <CostContainer>

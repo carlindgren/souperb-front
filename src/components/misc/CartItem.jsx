@@ -56,7 +56,6 @@ export default function CartItem({
   type
 }) {
   const { userData } = useContext(UserData);
-
   return (
     <>
       {cart && (
@@ -77,7 +76,7 @@ export default function CartItem({
                     >
                       -
                     </Span>
-                    {prod.amount}
+                    {prod.quantity}
                     <Span
                       className='increase'
                       onClick={() =>

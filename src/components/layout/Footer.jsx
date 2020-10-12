@@ -97,7 +97,7 @@ export default function Footer() {
 
   const goToShoppingCart = () => {
     setClicked('cart');
-    checkUserAndPush('/shoppingCart');
+    checkUserAndPush('/CartPage');
   };
 
   const goToHome = () => {

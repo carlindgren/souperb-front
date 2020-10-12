@@ -1,6 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ShoppingCartOutlined, LeftOutlined } from '@ant-design/icons';
+import {
+  ShoppingCartOutlined,
+  LeftOutlined,
+  CodeSandboxCircleFilled
+} from '@ant-design/icons';
 import Axios from 'axios';
 import { message, Modal } from 'antd';
 import UserContext from '../../../context/UserContext';
@@ -60,26 +64,14 @@ export default function Details({ soup, goBack }) {
   const [visible, setVisible] = useState();
 
   const [amount, setAmount] = useState({});
-  //const [drinksOrder, setDrinksOrder] = useState([]);
-  //const [breadOrder, setBreadOrder] = useState([]);
 
   const history = useHistory();
 
-  /*   const createObject = (arr1, arr2) => {
-    let arr = [...arr1, ...arr2];
-    const obj = {};
-
-    for (const key of arr) {
-      obj[key] = 0;
-    }
-    return obj;
-  }; */
   const createObject = (arr1, arr2) => {
     //let arr = [...arr1, ...arr2];
     const arrOfObj = [];
 
     arr1.map((elem, i) => {
-      console.log(arr1[i]);
       arrOfObj.push({ id: arr1[i], amount: 0, typeOfProd: 'drinks' });
     });
     arr2.map((elem, i) => {
@@ -97,30 +89,55 @@ export default function Details({ soup, goBack }) {
       )
     );
   }, [foodData]);
-  //functionality for removing specific key from an array of keys,
-  const removeFromArr = (arr, id) => {
-    const index = arr.indexOf(id);
-    if (index > -1) {
-      arr.splice(index, 1);
-    }
-  };
+
   //handling decrease in sides to the order.
   const handleDecrement = (id, kind) => {
     let obj = amount;
     var foundIndex = amount.findIndex((x) => x.id == id);
-
     if (obj[foundIndex].amount > 0) {
       obj[foundIndex].amount = obj[foundIndex].amount - 1;
-      //works
+      let quantity = obj[foundIndex].amount;
+
       setAmount((cs) => [...obj]);
+
+      if (kind === 'drink') {
+        const found = foodData.drinks.find((elem) => elem._id == id);
+        let sideName = found.name;
+        let sidePrice = found.price;
+        removeSide(user.id, id, kind, sideName, sidePrice, quantity);
+      }
+
+      if (kind == 'bread') {
+        const found = foodData.breads.find((elem) => elem._id == id);
+        let sideName = found.name;
+        let sidePrice = found.price;
+        removeSide(user.id, id, kind, sideName, sidePrice, quantity);
+      }
     }
   };
 
   //handling increas in sides to order.
   const handleIncrement = (id, kind) => {
+    //find name and price send to addSide
+    if (kind === 'drink') {
+      const found = foodData.drinks.find((elem) => elem._id == id);
+      let sideName = found.name;
+      let sidePrice = found.price;
+
+      addSide(user.id, id, kind, sideName, sidePrice);
+    }
+    if (kind == 'bread') {
+      const found = foodData.breads.find((elem) => elem._id == id);
+      let sideName = found.name;
+      let sidePrice = found.price;
+
+      addSide(user.id, id, kind, sideName, sidePrice);
+    }
     let obj = amount;
-    var foundIndex = amount.findIndex((x) => x.id == id);
+    let foundIndex = amount.findIndex((x) => x.id == id);
     obj[foundIndex].amount = obj[foundIndex].amount + 1;
+    //add to db here
+
     //works
     setAmount((cs) => [...obj]);
   };
@@ -132,50 +149,65 @@ export default function Details({ soup, goBack }) {
   const showModal = () => {
     setVisible(true);
   };
+  const removeSide = async (
+    userId,
+    productId,
+    typeOfProd,
+    name,
+    price,
+    quantity
+  ) => {
+    const authToken = localStorage.getItem('auth-token');
 
-  const addSides = async (user) => {
+    const payload = {
+      userId,
+      productId,
+      typeOfProd,
+      quantity,
+      name,
+      price
+    };
     try {
-      const { id: userID } = user;
-      const authToken = localStorage.getItem('auth-token');
-
-      //first add drinks to drinks array,
-
-      //const drinksArray = drinksOrder;
-      //  const breadArray = breadOrder;
-
-      const addDrinkObj = {
-        userID
-        //        drinksArray
-      };
-
-      const addBreadObj = {
-        userID
-        //      breadArray
-      };
-      //second add bread to breads array,
       const res = await Axios.post(
-        'http://localhost:5000/users/addBread',
-        addBreadObj,
+        'http://localhost:5000/users/removeFromCart',
+        payload,
         {
           headers: { 'x-auth-token': authToken }
         }
       );
       console.log(res);
-      const res2 = await Axios.post(
-        'http://localhost:5000/users/addDrinks',
-        addDrinkObj,
-        {
-          headers: { 'x-auth-token': authToken }
-        }
-      );
-      console.log(res2);
     } catch (err) {
       console.log(err);
     }
   };
+  const addSide = async (userId, productId, typeOfProd, name, price) => {
+    const authToken = localStorage.getItem('auth-token');
+
+    const payload = {
+      userId,
+      productId,
+      typeOfProd,
+      quantity: 1,
+      name,
+      price
+    };
+    try {
+      const res = await Axios.post(
+        'http://localhost:5000/users/cart',
+        payload,
+        {
+          headers: { 'x-auth-token': authToken }
+        }
+      );
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   //close modal on ok click
   const handleOk = async (userID) => {
-    await addSides(userID);
+    //await addSides(userID);
     //push to cart, if logged in else, register
     //reset state.
     setAmount(
@@ -217,24 +249,6 @@ export default function Details({ soup, goBack }) {
       console.log(err);
     }
   };
-  /* 
-  const addSoup = async (userID) => {
-    try {
-      const authToken = localStorage.getItem('auth-token');
-      const soupID = soup._id;
-      const addSoupObj = {
-        soupID,
-        userID
-      };
-      const updatedUser = await Axios.post(
-        'http://localhost:5000/users/addsoup',
-        addSoupObj,
-        { headers: { 'x-auth-token': authToken } }
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  }; */
 
   const addToCart = async (user) => {
     if (user) {

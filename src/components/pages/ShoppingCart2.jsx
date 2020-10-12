@@ -17,7 +17,7 @@ export default function ShoppingCart() {
   const [user, setUser] = useState();
   const [soupValue, setSoupValue] = useState(0);
   const [sideValue, setSideValue] = useState(0);
-  const [totalCartValue, setTotalCartValue] = useState(0);
+  const [totalCartValue, setTotalCartValue] = useState(100);
   /****************helper funcs*******************/
 
   //counting total value of Cart.

@@ -7,7 +7,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Address from './components/pages/Address';
 import Profile from './components/pages/Profile';
-import ShoppingCart from './components/pages/ShoppingCart';
+import CartPage from './components/pages/CartPage';
 
 import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
@@ -112,7 +112,7 @@ export default function App() {
                   <Route path='/login' component={Login} />
                   <Route path='/register' component={Register} />
                   <Route path='/profile' component={Profile} />
-                  <Route path='/shoppingcart' component={ShoppingCart} />
+                  <Route path='/CartPage' component={CartPage} />
                 </Switch>
               </Container>
               {address && <Footer />}
