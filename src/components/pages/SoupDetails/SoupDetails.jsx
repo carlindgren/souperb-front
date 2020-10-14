@@ -219,7 +219,7 @@ export default function Details({ soup, goBack }) {
     //setBreadOrder([]);
     //setDrinksOrder([]);
     setVisible(false);
-    history.push('/shoppingcart');
+    history.push('/cartpage');
   };
   //close modal on cancel
   const handleCancel = () => {

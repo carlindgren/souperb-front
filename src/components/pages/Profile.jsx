@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { CreditCardOutlined, HomeOutlined } from '@ant-design/icons';
 import AddressDetails from '../misc/AddressDetails';
 import PaymentMethod from '../misc/PaymentMethod';
+import FAQ from './FAQ';
 //import Change from '../misc/Change';
 const Title = styled.h1`
   text-align: center;
@@ -18,8 +19,18 @@ const Content = styled.div`
     padding-left: 10px;
     font-size: 20px;
   }
+  .change {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    color: ${(props) => props.theme.secondaryBg};
+    cursor: pointer;
+    font-size: 15px;
+  }
 `;
 
+const Button = styled.button``;
+const FAQContainer = styled.section``;
 const SubContainer = styled.div`
   position: relative;
 `;
@@ -29,11 +40,13 @@ export default function Profile() {
 
   //should set prefered payment method.
   //use useeffect for this to update in db.
+
   const [paymentMethod, setPaymentMethod] = useState();
 
   //checks wheter user clicked link
   const [changePaymentPage, setChangePaymentPage] = useState(false);
   const [changeAddressPage, setChangeAddressPage] = useState(false);
+  const [FAQPage, setFAQPage] = useState(false);
 
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
@@ -47,9 +60,7 @@ export default function Profile() {
       const { user } = userObj.data;
       setUser(user);
       const { preferedPayment } = user;
-      console.log(preferedPayment);
-      if (user.preferedPayment) {
-        console.log('reached');
+      if (preferedPayment !== null) {
         setPaymentMethod(user.preferedPayment);
       }
     } catch (err) {
@@ -57,35 +68,33 @@ export default function Profile() {
     }
   };
   useEffect(() => {
-    getUser(); // works
+    getUser();
   }, []);
 
-  /****** */
   const addPreferedPayment = async (userID) => {
     try {
       const id = userID;
       const authToken = localStorage.getItem('auth-token');
       const preferedPayment = paymentMethod;
-
-      const paymentObj = {
-        preferedPayment,
-        id
-      };
-      const updatedUser = await Axios.post(
-        'http://localhost:5000/users/addPreferedPayment',
-        paymentObj,
-        { headers: { 'x-auth-token': authToken } }
-      );
+      console.log(preferedPayment);
+      if (preferedPayment !== undefined) {
+        const paymentObj = {
+          preferedPayment,
+          id
+        };
+        const updatedUser = await Axios.post(
+          'http://localhost:5000/users/addPreferedPayment',
+          paymentObj,
+          { headers: { 'x-auth-token': authToken } }
+        );
+      }
     } catch (err) {
       console.log(err);
     }
   };
-  /********* */
-  useEffect(() => {
-    //if paymentmethod changed, update db.
 
+  useEffect(() => {
     if (userData.user) {
-      //get id from context instead.
       addPreferedPayment(userData.user.id);
     }
   }, [paymentMethod]);
@@ -96,6 +105,9 @@ export default function Profile() {
     }
     if (changeAddressPage) {
       setChangeAddressPage(!changeAddressPage);
+    }
+    if (FAQPage) {
+      setFAQPage(!FAQPage);
     }
   };
 
@@ -116,6 +128,9 @@ export default function Profile() {
   if (user && changeAddressPage) {
     return <AddressDetails goBack={goBack} />;
   }
+  if (user && FAQPage) {
+    return <FAQ goBack={goBack} />;
+  }
   return (
     <div>
       {user ? (
@@ -129,10 +144,6 @@ export default function Profile() {
                 {' '}
                 {paymentMethod ? paymentMethod : 'ingen betalmetod inlagd'}
               </span>
-              {/*   <Change
-                onClick={setChangePaymentPage(!changePaymentPage)}
-                title={'Change'}
-              /> */}
               <span
                 onClick={() => setChangePaymentPage(!changePaymentPage)}
                 className='change'
@@ -140,6 +151,7 @@ export default function Profile() {
                 CHANGE
               </span>
             </Content>
+            <Content> </Content>
           </SubContainer>
           <SubContainer>
             <Subtitle>Leveransadress</Subtitle>
@@ -154,6 +166,9 @@ export default function Profile() {
               </span>
             </Content>
           </SubContainer>
+          <FAQContainer>
+            <Button onClick={() => setFAQPage(!FAQPage)}>FAQ</Button>
+          </FAQContainer>
         </>
       ) : (
         <h1>Loading ...</h1>

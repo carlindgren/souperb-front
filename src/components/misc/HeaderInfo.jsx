@@ -18,12 +18,16 @@ const BackArrow = styled.span`
 const Container = styled.div`
   height: 50px;
 `;
-export default function HeaderInfo({ title, goBack }) {
+export default function HeaderInfo({ title, goBack, noBackArrow }) {
   return (
     <Container>
-      <BackArrow>
-        <LeftOutlined onClick={goBack} />
-      </BackArrow>
+      {noBackArrow ? (
+        ''
+      ) : (
+        <BackArrow>
+          <LeftOutlined onClick={goBack} />
+        </BackArrow>
+      )}
       <Title>{title}</Title>
     </Container>
   );

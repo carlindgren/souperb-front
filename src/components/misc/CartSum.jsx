@@ -13,6 +13,7 @@ const Title = styled.h1`
   text-align: center;
   padding: 27px 0;
 `;
+
 export default function CartSum({ total, sideValue, soupValue, deliveryCost }) {
   return (
     <>
@@ -29,7 +30,6 @@ export default function CartSum({ total, sideValue, soupValue, deliveryCost }) {
         <span>Leverans</span>
         <span>{deliveryCost}kr</span>
       </H2>
-      <hr />
       <H2>
         <span>Totalt</span>
         <span>{total}kr</span>

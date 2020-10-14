@@ -38,6 +38,8 @@ const Nav = styled.div`
   align-items: center;
   bottom: 0;
   background-color: ${(props) => props.theme.secondaryBg};
+  background-image: linear-gradient(to right, #436f8a, #438a5e);
+
   height: 60px;
   > * {
     font-size: 2rem;
@@ -51,11 +53,13 @@ const Nav = styled.div`
 `;
 
 export default function Footer() {
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const [amountInCart, setAmountInCart] = useState(0);
 
+  const history = useHistory();
+
   //could be 'profile' or 'cart'
-  const [clicked, setClicked] = useState('home');
+  const [clicked, setClicked] = useState(history.location.pathname);
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
     try {
@@ -74,13 +78,8 @@ export default function Footer() {
   };
 
   useEffect(() => {
-    //only works when reloading page, need something that knows change
     getUser();
-  }, []); //something in here.
-
-  /*  useEffect(() => {
-    history.push('/home');
-  }, [userData]); */
+  }, []);
 
   const checkUserAndPush = (route) => {
     const userLoggedIn = userData.user !== undefined;
@@ -92,25 +91,24 @@ export default function Footer() {
   };
   const goToProfile = () => {
     checkUserAndPush('/profile');
-    setClicked('profile');
+    setClicked('/profile');
   };
 
   const goToShoppingCart = () => {
-    setClicked('cart');
+    setClicked('/CartPage');
     checkUserAndPush('/CartPage');
   };
 
   const goToHome = () => {
-    setClicked('home');
+    setClicked('/home');
     history.push('/home');
   };
 
-  const history = useHistory();
   return (
     <NavParent>
       <Nav>
         <HomeOutlined
-          style={{ color: clicked === 'home' && 'black' }}
+          style={{ color: clicked === '/home' && 'black' }}
           onClick={goToHome}
         />
         <WholeShoppingIcon>
@@ -121,12 +119,12 @@ export default function Footer() {
           )}
 
           <ShoppingCartOutlined
-            style={{ color: clicked === 'cart' && 'black' }}
+            style={{ color: clicked === '/CartPage' && 'black' }}
             onClick={goToShoppingCart}
           />
         </WholeShoppingIcon>
         <UserOutlined
-          style={{ color: clicked === 'profile' && 'black' }}
+          style={{ color: clicked === '/profile' && 'black' }}
           onClick={goToProfile}
         />
       </Nav>

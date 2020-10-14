@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import FoodContext from '../../context/FoodContext';
 import styled from 'styled-components';
 import UserData from '../../context/UserContext';
+import Header from '../misc/HeaderInfo';
+import { DeleteOutlined } from '@ant-design/icons';
 const Button = styled.button`
   position: fixed;
   bottom: 100px;
@@ -20,13 +22,16 @@ const Ul = styled.ul`
 `;
 const ListContainer = styled.div`
   box-shadow: 0px 3px 4px 1px rgba(0, 0, 0, 0.29);
-  height: 50px;
-  background-color: ${(props) => props.theme.cardBg};
+  height: 150px;
+  background-color: #438a5e;
+  //background-color: ${(props) => props.theme.secondaryBg};
   display: flex;
   justify-content: space-around;
+  flex-flow: row wrap;
   align-items: center;
+  border-radius: 9px;
   > h3 {
-    width: 150px;
+    width: 49%;
     text-align: center;
     color: ${(props) => props.theme.cardColor};
   }
@@ -67,12 +72,13 @@ export default function CartItem({
                 <ListContainer>
                   <h3 id='name'>{prod.name}</h3>
                   <h3 id='price'>{prod.price}Kr</h3>
-                </ListContainer>
-                <ListContainer>
+
                   <h3 id='amount'>
                     <Span
                       className='decrease'
-                      onClick={() => decreaseOrder(prod, type)}
+                      onClick={() =>
+                        decreaseOrder(userData.user.id, prod, type)
+                      }
                     >
                       -
                     </Span>
@@ -86,8 +92,11 @@ export default function CartItem({
                       +
                     </Span>
                   </h3>
-                  <h3 id='trashCan' onClick={() => removeItem(prod, type)}>
-                    trashcan
+                  <h3
+                    id='trashCan'
+                    onClick={() => removeItem(userData.user.id, prod, type)}
+                  >
+                    <DeleteOutlined style={{ fontSize: '25px' }} />
                   </h3>
                 </ListContainer>
               </Li>
