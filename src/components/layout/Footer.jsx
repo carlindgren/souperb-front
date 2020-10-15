@@ -108,7 +108,7 @@ export default function Footer() {
     <NavParent>
       <Nav>
         <HomeOutlined
-          style={{ color: clicked === '/home' && 'black' }}
+          style={{ color: clicked === '/home' && '#FDAC61' }}
           onClick={goToHome}
         />
         <WholeShoppingIcon>
@@ -119,12 +119,12 @@ export default function Footer() {
           )}
 
           <ShoppingCartOutlined
-            style={{ color: clicked === '/CartPage' && 'black' }}
+            style={{ color: clicked === '/CartPage' && '#FDAC61' }}
             onClick={goToShoppingCart}
           />
         </WholeShoppingIcon>
         <UserOutlined
-          style={{ color: clicked === '/profile' && 'black' }}
+          style={{ color: clicked === '/profile' && '#FDAC61' }}
           onClick={goToProfile}
         />
       </Nav>

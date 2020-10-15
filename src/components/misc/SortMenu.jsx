@@ -6,7 +6,7 @@ const Container = styled.div`
 const Ul = styled.ul`
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: center;
   background-color: ${(props) => props.theme.mainBg};
   margin: 0;
   padding: 10px;
@@ -14,7 +14,8 @@ const Ul = styled.ul`
 
 const Li = styled.li`
   padding: 8px;
-  border-radius: 30px;
+  border-radius: 10px;
+  margin-left: 10px;
   cursor: pointer;
   background: ${(props) =>
     props.clicked ? props.theme.secondaryBg : props.theme.mainButtonBg};

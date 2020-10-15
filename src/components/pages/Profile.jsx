@@ -7,6 +7,13 @@ import AddressDetails from '../misc/AddressDetails';
 import PaymentMethod from '../misc/PaymentMethod';
 import FAQ from './FAQ';
 //import Change from '../misc/Change';
+const Container = styled.main`
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  max-width: 800px;
+  background-color: ${(props) => props.theme.mainBg};
+`;
 const Title = styled.h1`
   text-align: center;
   margin: 0;
@@ -15,6 +22,7 @@ const Subtitle = styled.h2`
   padding: 0 5px;
 `;
 const Content = styled.div`
+  margin-bottom: 15px;
   > span {
     padding-left: 10px;
     font-size: 20px;
@@ -126,7 +134,7 @@ export default function Profile() {
     );
   }
   if (user && changeAddressPage) {
-    return <AddressDetails goBack={goBack} />;
+    return <AddressDetails userDetails={user.adress} goBack={goBack} />;
   }
   if (user && FAQPage) {
     return <FAQ goBack={goBack} />;
@@ -134,7 +142,7 @@ export default function Profile() {
   return (
     <div>
       {user ? (
-        <>
+        <Container>
           <Title>{user.displayName}</Title>
           <SubContainer>
             <Subtitle>Betalmetod</Subtitle>
@@ -151,7 +159,6 @@ export default function Profile() {
                 CHANGE
               </span>
             </Content>
-            <Content> </Content>
           </SubContainer>
           <SubContainer>
             <Subtitle>Leveransadress</Subtitle>
@@ -169,7 +176,7 @@ export default function Profile() {
           <FAQContainer>
             <Button onClick={() => setFAQPage(!FAQPage)}>FAQ</Button>
           </FAQContainer>
-        </>
+        </Container>
       ) : (
         <h1>Loading ...</h1>
       )}

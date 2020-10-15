@@ -5,7 +5,13 @@ import { Accordion, WhiteSpace } from 'antd-mobile';
 import Header from '../misc/HeaderInfo';
 import styled from 'styled-components';
 
-const Container = styled.main``;
+const Container = styled.main`
+  background-color: ${(props) => props.theme.mainBg};
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+`;
 const Content = styled.section`
   display: flex;
   justify-content: center;

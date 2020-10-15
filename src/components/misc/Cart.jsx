@@ -5,12 +5,26 @@ import Axios from 'axios';
 import styled from 'styled-components';
 import CartSum from './CartSum';
 import Header from './HeaderInfo';
+
+import { ShoppingCartOutlined } from '@ant-design/icons';
 const Container = styled.main`
   display: flex;
   margin: 0 auto;
   flex-direction: column;
   max-width: 800px;
   background-color: ${(props) => props.theme.mainBg};
+`;
+
+const EmptyCart = styled.main`
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 22px;
+  > :first-child {
+    font-size: 80px;
+  }
 `;
 const CostContainer = styled.section`
   margin: 0 10px 10px 10px;
@@ -47,7 +61,8 @@ export default function Cart({
   totalCartValue,
   soupValue,
   sideValue,
-  removeItem
+  removeItem,
+  goToPayment
 }) {
   if (totalCartValue) {
     return (
@@ -86,11 +101,10 @@ export default function Cart({
               total={totalCartValue}
               sideValue={sideValue}
               soupValue={soupValue}
-              deliveryCost={39}
             />
           </CostContainer>
           <Continue>
-            <button onClick={() => console.log('continue to payment')}>
+            <button onClick={() => goToPayment()}>
               Fortsätt till betalning.
             </button>
           </Continue>
@@ -98,5 +112,10 @@ export default function Cart({
       </>
     );
   }
-  return <div>Din varukorg är tom</div>;
+  return (
+    <EmptyCart>
+      <ShoppingCartOutlined />
+      <span>Ooops.. Det verkar som att din varukorg är tom.</span>
+    </EmptyCart>
+  );
 }

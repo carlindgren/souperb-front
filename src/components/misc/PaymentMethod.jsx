@@ -11,6 +11,10 @@ const header = styled.header`
 `;
 
 const Container = styled.div`
+  background-color: ${(props) => props.theme.mainBg};
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
   padding: 0 20px;
 `;
 const radioStyle = {

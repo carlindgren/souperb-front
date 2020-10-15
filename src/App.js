@@ -15,17 +15,6 @@ import UserContext from './context/UserContext';
 import FoodContext from './context/FoodContext';
 import './style.css';
 import styled, { ThemeProvider } from 'styled-components';
-const AppContainer = styled.div`
-  height: 100vh;
-  padding-bottom: 60px;
-`;
-/* const theme = {
-  mainBg: '#f7fbe1',
-  secondaryBg: '#438A5E',
-  mainLinkColor: '#BAC964',
-  mainButtonBg: '#436F8A',
-  mainButtonColor: '#f7fbe1?'
-}; */
 const theme = {
   cardBg: '#808C6C',
   cardColor: '#F5F1DA',
@@ -35,6 +24,20 @@ const theme = {
   mainButtonBg: '#FDAC61',
   mainButtonColor: '#F5F1DA'
 };
+
+const AppContainer = styled.div`
+  height: 100vh;
+  padding-bottom: 60px;
+  background-color: #f9f8eb;
+`;
+/* const theme = {
+  mainBg: '#f7fbe1',
+  secondaryBg: '#438A5E',
+  mainLinkColor: '#BAC964',
+  mainButtonBg: '#436F8A',
+  mainButtonColor: '#f7fbe1?'
+}; */
+
 //header might not be needed as in this state.
 
 const Container = styled.div``;
@@ -98,7 +101,7 @@ export default function App() {
 
   //header layout? perhaps move header into homecomponent.
   return (
-    <AppContainer>
+    <AppContainer className='AppContainer'>
       <Router>
         <ThemeProvider theme={theme}>
           <UserContext.Provider value={{ userData, setUserData }}>

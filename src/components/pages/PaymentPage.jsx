@@ -2,10 +2,16 @@ import React, { useState, useContext, useEffect } from 'react';
 import Axios from 'axios';
 import styled from 'styled-components';
 import Header from '../misc/HeaderInfo';
-const Container = styled.main``;
+const Container = styled.main`
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  max-width: 800px;
+  background-color: ${(props) => props.theme.mainBg};
+`;
 const Title = styled.h1``;
 const Content = styled.section``;
-export default function PaymentPage() {
+export default function PaymentPage({ goBack, totalCartValue }) {
   const [user, setUser] = useState();
 
   const getUser = async () => {
@@ -26,18 +32,17 @@ export default function PaymentPage() {
     //need paymentinformation, how much to pay and so on.
     getUser();
   }, []);
-  const goBack = () => {
-    console.log('gå tillbaka till översikten.');
-  };
+
   return (
     <Container>
-      <Header title='Checkout' goBack={goback}></Header>
+      <Header title='Checkout' goBack={goBack}></Header>
       <Content>{/* preffered payment method, change available. */}</Content>
       <Content>{/* userAddress. if none, set userAddress */}</Content>
       <Content>{/* userAddress. if none, set userAddress */}</Content>
       <Content>
         {/*delivery alternative. takeaway och delivery. change in cost if takeaway.  */}
       </Content>
+      <Content>{totalCartValue}</Content>
     </Container>
   );
 }

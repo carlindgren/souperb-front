@@ -3,6 +3,7 @@ import Axios from 'axios';
 import UserContext from '../../context/UserContext';
 import FoodContext from '../../context/FoodContext';
 import Cart from '../misc/Cart';
+import PaymentPage from './PaymentPage';
 import styled from 'styled-components';
 const Container = styled.div`
   background-color: ${(props) => props.theme.mainBg};
@@ -13,9 +14,9 @@ export default function ShoppingCart() {
   const { foodData } = useContext(FoodContext);
   const { userData } = useContext(UserContext);
   const [cart, setCart] = useState();
-
+  const [isPayment, setIsPayment] = useState(false);
   //counting...
-  const [totalValue, setTotalValue] = useState(100);
+  const [totalValue, setTotalValue] = useState();
   const [soupValue, setSoupValue] = useState(0);
   const [sideValue, setSideValue] = useState(0);
 
@@ -193,6 +194,21 @@ export default function ShoppingCart() {
     /************************ */
   };
 
+  const goToPayment = () => {
+    setIsPayment(true);
+  };
+  const goBack = () => {
+    setIsPayment(false);
+  };
+
+  if (isPayment) {
+    return (
+      <Container>
+        <PaymentPage totalCartValue={totalValue} goBack={goBack} />;
+      </Container>
+    );
+  }
+
   return (
     <Container className='topContainer'>
       {cart ? (
@@ -205,6 +221,7 @@ export default function ShoppingCart() {
             soupValue={soupValue}
             totalCartValue={totalValue}
             cart={cart}
+            goToPayment={goToPayment}
           />
         </>
       ) : (
