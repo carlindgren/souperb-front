@@ -11,19 +11,16 @@ const Button = styled.button`
   background-color: lightskyblue;
   border-radius: 8px;
 `;
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
+
 const Container = styled.div``;
 const Ul = styled.ul`
   display: flex;
   flex-direction: column;
 `;
 const ListContainer = styled.div`
-  box-shadow: 0px 3px 4px 1px rgba(0, 0, 0, 0.29);
+  box-shadow: ${(props) => props.theme.shadow};
   height: 150px;
-  background-color: #438a5e;
+  background-color: ${(props) => props.theme.mainCardBg};
   //background-color: ${(props) => props.theme.secondaryBg};
   display: flex;
   justify-content: space-around;

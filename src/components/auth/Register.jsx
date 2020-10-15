@@ -3,10 +3,16 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Axios from 'axios';
 import UserContext from '../../context/UserContext';
-import { Form } from './auth.styled';
-
+import { Form, Button } from './auth.styled';
 import ErrorNotice from '../misc/ErrorNotice';
-const RegisterPage = styled.div``;
+const RegisterButton = styled(Button)``;
+
+const RegisterPage = styled.div`
+  padding: 10px;
+`;
+const Title = styled.h2`
+  text-align: center;
+`;
 export default function Register() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -49,22 +55,22 @@ export default function Register() {
 
   return (
     <RegisterPage>
-      <h2>Register</h2>
+      <Title>Registrera dig</Title>
       {error && (
         <ErrorNotice message={error} clearError={() => setError(undefined)} />
       )}
       <Form onSubmit={submit}>
-        <label htmlFor='register-email'>Email</label>
-        <input
-          id='register-email'
-          type='email'
-          onChange={(e) => setEmail(e.target.value)}
-        />
         <label htmlFor='register-phoneNumber'>Telefonummer</label>
         <input
           id='register-phoneNumber'
           type='text'
           onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+        <label htmlFor='register-email'>Email</label>
+        <input
+          id='register-email'
+          type='email'
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <label htmlFor='register-password'>Lösenord</label>
@@ -74,7 +80,7 @@ export default function Register() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
-          placeholder='Verify password'
+          placeholder='Verifiera lösenord'
           type='password'
           onChange={(e) => setPasswordCheck(e.target.value)}
         />
@@ -86,7 +92,7 @@ export default function Register() {
           onChange={(e) => setDisplayName(e.target.value)}
         />
 
-        <input type='submit' value='register' />
+        <RegisterButton type='submit' value='register' />
       </Form>
     </RegisterPage>
   );

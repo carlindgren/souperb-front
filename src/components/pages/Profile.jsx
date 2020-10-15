@@ -6,6 +6,7 @@ import { CreditCardOutlined, HomeOutlined } from '@ant-design/icons';
 import AddressDetails from '../misc/AddressDetails';
 import PaymentMethod from '../misc/PaymentMethod';
 import FAQ from './FAQ';
+
 //import Change from '../misc/Change';
 const Container = styled.main`
   display: flex;
@@ -20,6 +21,7 @@ const Title = styled.h1`
 `;
 const Subtitle = styled.h2`
   padding: 0 5px;
+  color: ${(props) => props.theme.mainButtonColor};
 `;
 const Content = styled.div`
   margin-bottom: 15px;
@@ -31,16 +33,44 @@ const Content = styled.div`
     position: absolute;
     right: 20px;
     top: 10px;
-    color: ${(props) => props.theme.secondaryBg};
+    color: ${(props) => props.theme.mainButtonBg};
     cursor: pointer;
     font-size: 15px;
   }
+  .text {
+    color: ${(props) => props.theme.mainButtonColor};
+  }
 `;
 
-const Button = styled.button``;
+const Button = styled.button`
+  display: block;
+  padding: 10px;
+  float: right;
+  margin-right: 10px;
+  font-size: 25px;
+  border-radius: 8px;
+  box-shadow: ${(props) => props.theme.shadow};
+  background-color: ${(props) => props.theme.mainButtonBg};
+  color: ${(props) => props.theme.mainButtonColor};
+`;
 const FAQContainer = styled.section``;
 const SubContainer = styled.div`
   position: relative;
+
+  margin: 10px 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: ${(props) => props.theme.mainCardBg};
+`;
+const Name = styled.span`
+  position: absolute;
+  top: 40px;
+  left: 50px;
+`;
+const Adress = styled.span`
+  position: absolute;
+  top: 65px;
+  left: 50px;
 `;
 export default function Profile() {
   const { userData, setUserData } = useContext(UserContext);
@@ -122,7 +152,6 @@ export default function Profile() {
   const onChangePayment = (label) => {
     setPaymentMethod(label);
   };
-
   if (user && changePaymentPage) {
     return (
       <PaymentMethod
@@ -147,29 +176,38 @@ export default function Profile() {
           <SubContainer>
             <Subtitle>Betalmetod</Subtitle>
             <Content>
-              <CreditCardOutlined className='icon' />{' '}
+              <CreditCardOutlined style={{ color: '#F5F1DA' }} />
               <span className='text'>
-                {' '}
                 {paymentMethod ? paymentMethod : 'ingen betalmetod inlagd'}
               </span>
               <span
                 onClick={() => setChangePaymentPage(!changePaymentPage)}
                 className='change'
               >
-                CHANGE
+                ÄNDRA
               </span>
             </Content>
           </SubContainer>
           <SubContainer>
             <Subtitle>Leveransadress</Subtitle>
             <Content>
-              <HomeOutlined />
-              <span className='text'>Leveransadress</span>
+              <HomeOutlined style={{ color: '#F5F1DA' }} />
+              <span className='text'>
+                {user.adress.name ? (
+                  <>
+                    <Name>{user.adress.name}</Name>
+                    <Adress>{user.adress.street}</Adress>
+                  </>
+                ) : (
+                  <Name>Inga inställningar</Name>
+                )}
+              </span>
+
               <span
                 onClick={() => setChangeAddressPage(!changeAddressPage)}
                 className='change'
               >
-                CHANGE
+                ÄNDRA
               </span>
             </Content>
           </SubContainer>

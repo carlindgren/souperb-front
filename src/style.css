@@ -19,8 +19,7 @@ ul {
     list-style: none;
 }
 
-button,
-input[type='submit'] {
+button {
     border: none;
     background: none;
     color: unset;

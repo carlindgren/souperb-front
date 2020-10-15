@@ -5,6 +5,25 @@ import Axios from 'axios';
 import UserContext from '../../context/UserContext';
 import { Form } from './auth.styled';
 import ErrorNotice from '../misc/ErrorNotice';
+import { Button } from './auth.styled';
+const Container = styled.main`
+  padding: 10px;
+`;
+const Title = styled.h2`
+  text-align: center;
+`;
+const LoginButton = styled(Button)``;
+
+const NoAccount = styled.section`
+  text-align: center;
+  margin-top: 90px;
+  > p {
+    margin-bottom: 0;
+    font-size: 17px;
+    color: ${(props) => props.theme.mainButtonBg};
+    text-decoration: underline;
+  }
+`;
 
 export default function Login() {
   const [email, setEmail] = useState();
@@ -39,9 +58,12 @@ export default function Login() {
     }
   };
 
+  const goToRegister = () => {
+    history.push('/register');
+  };
   return (
-    <div>
-      <h2>Logga in</h2>
+    <Container>
+      <Title>Logga in</Title>
       {error && (
         <ErrorNotice message={error} clearError={() => setError(undefined)} />
       )}
@@ -60,8 +82,12 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <input type='submit' value='Logga in' />
+        <LoginButton type='submit' value='Logga in' />
       </Form>
-    </div>
+      <NoAccount onClick={() => goToRegister()}>
+        <p>Har du inget konto?</p>
+        <p>Registrera Dig</p>
+      </NoAccount>
+    </Container>
   );
 }

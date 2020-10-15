@@ -22,7 +22,9 @@ const theme = {
   secondaryBg: '#76b39d',
   mainLinkColor: '#fd5f00',
   mainButtonBg: '#FDAC61',
-  mainButtonColor: '#F5F1DA'
+  mainButtonColor: '#F5F1DA',
+  mainCardBg: '#438a5e',
+  shadow: '0px 3px 4px 1px rgba(0, 0, 0, 0.29)'
 };
 
 const AppContainer = styled.div`
