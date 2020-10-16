@@ -16,9 +16,7 @@ const StyledCarousel = styled(Carousel)`
   }
 `;
 export default function Slider() {
-  function onChange(a, b, c) {
-    console.log(a, b, c);
-  }
+  const onChange = () => {};
   const handleClick = () => {
     alert('clicked carousel');
   };

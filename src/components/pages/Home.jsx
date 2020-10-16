@@ -66,7 +66,6 @@ export default function Home() {
     arr.forEach((obj) => obj.sub.includes(str) && filtered.push(obj));
     return filtered;
   };
-  // console.log(soups && filteredSoups(soups, 'Laktosfri')); // works.
 
   if (soup) {
     return (

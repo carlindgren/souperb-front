@@ -5,9 +5,22 @@ import FoodContext from '../../context/FoodContext';
 import Cart from '../misc/Cart';
 import PaymentPage from './PaymentPage';
 import styled from 'styled-components';
+import { ShoppingCartOutlined } from '@ant-design/icons';
+
 const Container = styled.div`
   background-color: ${(props) => props.theme.mainBg};
   margin-bottom: 60px;
+`;
+const EmptyCart = styled.main`
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 22px;
+  > :first-child {
+    font-size: 80px;
+  }
 `;
 
 export default function ShoppingCart() {
@@ -30,8 +43,9 @@ export default function ShoppingCart() {
         payload,
         headers: { 'x-auth-token': authToken }
       });
-
-      setCart(cart.data.cart[0].products);
+      if (cart.data.cart.length !== 0) {
+        setCart(cart.data.cart[0].products);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -163,7 +177,6 @@ export default function ShoppingCart() {
       name,
       price
     };
-    console.log(payload);
     try {
       const res = await Axios.post(
         'http://localhost:5000/users/removeFromCart',
@@ -183,7 +196,6 @@ export default function ShoppingCart() {
 
     let obj = cart;
     let foundIndex = obj.findIndex((x) => x.productId == prod.productId);
-    console.log(foundIndex);
 
     if (obj[foundIndex].quantity > 1) {
       obj[foundIndex].quantity = obj[foundIndex].quantity - 1;
@@ -225,7 +237,10 @@ export default function ShoppingCart() {
           />
         </>
       ) : (
-        'loading...'
+        <EmptyCart>
+          <ShoppingCartOutlined />
+          <span>Ooops.. Det verkar som att din varukorg är tom.</span>
+        </EmptyCart>
       )}
     </Container>
   );

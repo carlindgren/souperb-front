@@ -101,7 +101,6 @@ export default function ShoppingCart() {
   }, [cartItems, foodData]);
 
   const increase = async (userID, id, type) => {
-    console.log(type);
     const authToken = localStorage.getItem('auth-token');
     const payload = {
       id,

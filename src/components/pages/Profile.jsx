@@ -107,14 +107,14 @@ export default function Profile() {
   };
   useEffect(() => {
     getUser();
-  }, []);
+  }, [changeAddressPage]);
 
   const addPreferedPayment = async (userID) => {
     try {
       const id = userID;
       const authToken = localStorage.getItem('auth-token');
       const preferedPayment = paymentMethod;
-      console.log(preferedPayment);
+
       if (preferedPayment !== undefined) {
         const paymentObj = {
           preferedPayment,
@@ -162,6 +162,7 @@ export default function Profile() {
       />
     );
   }
+
   if (user && changeAddressPage) {
     return <AddressDetails userDetails={user.adress} goBack={goBack} />;
   }
@@ -193,7 +194,7 @@ export default function Profile() {
             <Content>
               <HomeOutlined style={{ color: '#F5F1DA' }} />
               <span className='text'>
-                {user.adress.name ? (
+                {user.adress && user.adress.name !== '' ? (
                   <>
                     <Name>{user.adress.name}</Name>
                     <Adress>{user.adress.street}</Adress>

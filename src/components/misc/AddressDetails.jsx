@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Header from '../misc/HeaderInfo';
 import Axios from 'axios';
 import { Switch, List, InputItem, WhiteSpace } from 'antd-mobile';
-
+import { message } from 'antd';
 const Container = styled.div`
   background-color: ${(props) => props.theme.mainBg};
   justify-content: center;
@@ -65,15 +65,19 @@ export default function AddressDetails({ title, goBack, userDetails }) {
     };
 
     try {
-      await Axios.post(
+      let details = await Axios.post(
         'http://localhost:5000/users/addAdressDetails',
         payload,
         {
           headers: { 'x-auth-token': authToken }
         }
       );
+
+      message.success('Dina inställningar är sparade');
+      goBack();
     } catch (err) {
       console.log(err);
+      message.error('Vi kunde inte spara dina inställningar');
     }
   };
   return (
