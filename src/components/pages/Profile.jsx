@@ -6,7 +6,7 @@ import { CreditCardOutlined, HomeOutlined } from '@ant-design/icons';
 import AddressDetails from '../misc/AddressDetails';
 import PaymentMethod from '../misc/PaymentMethod';
 import FAQ from './FAQ';
-
+import BoughtSoups from '../misc/BoughtSoups';
 //import Change from '../misc/Change';
 const Container = styled.main`
   display: flex;
@@ -71,6 +71,9 @@ const Adress = styled.span`
   position: absolute;
   top: 65px;
   left: 50px;
+`;
+const BoughtSoupsContainer = styled.section`
+  margin: 0 auto;
 `;
 export default function Profile() {
   const { userData, setUserData } = useContext(UserContext);
@@ -163,6 +166,7 @@ export default function Profile() {
     );
   }
 
+  let number = 5;
   if (user && changeAddressPage) {
     return <AddressDetails userDetails={user.adress} goBack={goBack} />;
   }
@@ -200,7 +204,7 @@ export default function Profile() {
                     <Adress>{user.adress.street}</Adress>
                   </>
                 ) : (
-                  <Name>Inga inställningar</Name>
+                  <Name>Saknar information..</Name>
                 )}
               </span>
 
@@ -215,6 +219,11 @@ export default function Profile() {
           <FAQContainer>
             <Button onClick={() => setFAQPage(!FAQPage)}>FAQ</Button>
           </FAQContainer>
+          {number > 0 && (
+            <BoughtSoupsContainer>
+              <BoughtSoups number={number} />
+            </BoughtSoupsContainer>
+          )}
         </Container>
       ) : (
         <h1>Loading ...</h1>
