@@ -6,7 +6,7 @@ import Cart from '../misc/Cart';
 import PaymentPage from './PaymentPage';
 import styled from 'styled-components';
 import { ShoppingCartOutlined } from '@ant-design/icons';
-
+import CartContext from '../../context/CartContext';
 const Container = styled.div`
   background-color: ${(props) => props.theme.mainBg};
   margin-bottom: 60px;
@@ -26,6 +26,7 @@ const EmptyCart = styled.main`
 export default function ShoppingCart() {
   const { foodData } = useContext(FoodContext);
   const { userData } = useContext(UserContext);
+  const { cartItems, setCartItems } = useContext(CartContext);
   const [cart, setCart] = useState();
   const [isPayment, setIsPayment] = useState(false);
   //counting...
@@ -67,7 +68,7 @@ export default function ShoppingCart() {
   const countSide = (arr) => {
     let total = 0;
     arr.forEach((elem) => {
-      if (elem.typeOfProd == 'drink' || elem.typeOfProd == 'bread') {
+      if (elem.typeOfProd === 'drink' || elem.typeOfProd === 'bread') {
         total += elem.price * elem.quantity;
       }
     });
@@ -76,7 +77,7 @@ export default function ShoppingCart() {
   const countSoup = (arr) => {
     let total = 0;
     arr.forEach((elem) => {
-      if (elem.typeOfProd == 'soup') {
+      if (elem.typeOfProd === 'soup') {
         total += elem.price * elem.quantity;
       }
     });
@@ -102,13 +103,9 @@ export default function ShoppingCart() {
       price
     };
     try {
-      const res = await Axios.post(
-        'http://localhost:5000/users/cart',
-        payload,
-        {
-          headers: { 'x-auth-token': authToken }
-        }
-      );
+      await Axios.post('http://localhost:5000/users/cart', payload, {
+        headers: { 'x-auth-token': authToken }
+      });
     } catch (err) {
       console.log(err);
     }
@@ -122,13 +119,9 @@ export default function ShoppingCart() {
     };
 
     try {
-      const res = await Axios.post(
-        'http://localhost:5000/users/deleteCartItem',
-        payload,
-        {
-          headers: { 'x-auth-token': authToken }
-        }
-      );
+      await Axios.post('http://localhost:5000/users/deleteCartItem', payload, {
+        headers: { 'x-auth-token': authToken }
+      });
     } catch (err) {
       console.log(err);
     }
@@ -138,17 +131,24 @@ export default function ShoppingCart() {
     remove(userId, prod.productId);
 
     let newCart = cart.filter((elem) => elem.productId !== prod.productId); // should return array of objs with everything but removed item.
-
+    const count = (cart) => {
+      let num = 0;
+      cart.forEach((elem) => (num += elem.quantity));
+      return num;
+    };
+    console.log(newCart);
+    setCartItems(count(newCart));
     setCart(newCart);
   };
   const increaseOrder = (userId, prod, type) => {
     //works, doesnt rerender page.
     increase(userId, prod.productId, type, prod.name, prod.price, 1);
+    setCartItems(cartItems + 1);
     /*******thoughts***** */
 
     let obj = cart;
 
-    let foundIndex = obj.findIndex((x) => x.productId == prod.productId);
+    let foundIndex = obj.findIndex((x) => x.productId === prod.productId);
     obj[foundIndex].quantity = obj[foundIndex].quantity + 1;
     //add to db here
 
@@ -192,10 +192,11 @@ export default function ShoppingCart() {
 
   const decreaseOrder = (userId, prod, type) => {
     decrease(userId, prod.productId, type, prod.name, prod.price, 1);
+    setCartItems(cartItems - 1);
     /**********thoughts******** */
 
     let obj = cart;
-    let foundIndex = obj.findIndex((x) => x.productId == prod.productId);
+    let foundIndex = obj.findIndex((x) => x.productId === prod.productId);
 
     if (obj[foundIndex].quantity > 1) {
       obj[foundIndex].quantity = obj[foundIndex].quantity - 1;

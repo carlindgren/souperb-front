@@ -15,15 +15,9 @@ const Container = styled.section`
   height: 200px;
   border-radius: 8px;
 `;
-const SubContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  height: 50%;
-`;
 
 export default function BoughtSoups({ number }) {
-  const [soupsLeft, setSoupsLeft] = useState(6 - number);
+  const [soupsLeft] = useState(6 - number);
   const circles = [
     { id: 1 },
     { id: 2 },
@@ -49,7 +43,7 @@ export default function BoughtSoups({ number }) {
         gratis!
       </Title>
       <Container>
-        {circles.map(({ id, bought }) => (
+        {circles.map(({ id }) => (
           <Circle key={id} p={checkIfBought(id, number)} />
         ))}
       </Container>

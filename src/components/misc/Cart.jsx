@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React from 'react';
 import CartItem from './CartItem';
-import UserContext from '../../context/UserContext';
-import Axios from 'axios';
+
 import styled from 'styled-components';
 import CartSum from './CartSum';
 import Header from './HeaderInfo';

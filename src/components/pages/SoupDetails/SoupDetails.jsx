@@ -1,14 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
 
-import {
-  ShoppingCartOutlined,
-  LeftOutlined,
-  CodeSandboxCircleFilled
-} from '@ant-design/icons';
+import { ShoppingCartOutlined, LeftOutlined } from '@ant-design/icons';
 import Axios from 'axios';
 import { message, Modal } from 'antd';
 import UserContext from '../../../context/UserContext';
 import FoodContext from '../../../context/FoodContext';
+import CartContext from '../../../context/CartContext';
 import { useHistory } from 'react-router-dom';
 import Sides from '../../misc/Sides';
 import {
@@ -19,8 +16,9 @@ import {
   Text
 } from './SoupDetails.styled';
 export default function Details({ soup, goBack }) {
-  const { userData, setUserData } = useContext(UserContext);
-  const { foodData, setFoodData } = useContext(FoodContext);
+  const { userData } = useContext(UserContext);
+  const { foodData } = useContext(FoodContext);
+  const { cartItems, setCartItems } = useContext(CartContext);
   const { user } = userData;
   //modal
   const [visible, setVisible] = useState();
@@ -55,7 +53,7 @@ export default function Details({ soup, goBack }) {
   //handling decrease in sides to the order.
   const handleDecrement = (id, kind) => {
     let obj = amount;
-    var foundIndex = amount.findIndex((x) => x.id == id);
+    var foundIndex = amount.findIndex((x) => x.id === id);
     if (obj[foundIndex].amount > 0) {
       obj[foundIndex].amount = obj[foundIndex].amount - 1;
       let quantity = obj[foundIndex].amount;
@@ -63,17 +61,19 @@ export default function Details({ soup, goBack }) {
       setAmount((cs) => [...obj]);
 
       if (kind === 'drink') {
-        const found = foodData.drinks.find((elem) => elem._id == id);
+        const found = foodData.drinks.find((elem) => elem._id === id);
         let sideName = found.name;
         let sidePrice = found.price;
         removeSide(user.id, id, kind, sideName, sidePrice, quantity);
+        setCartItems(cartItems - 1);
       }
 
-      if (kind == 'bread') {
-        const found = foodData.breads.find((elem) => elem._id == id);
+      if (kind === 'bread') {
+        const found = foodData.breads.find((elem) => elem._id === id);
         let sideName = found.name;
         let sidePrice = found.price;
         removeSide(user.id, id, kind, sideName, sidePrice, quantity);
+        setCartItems(cartItems - 1);
       }
     }
   };
@@ -82,21 +82,23 @@ export default function Details({ soup, goBack }) {
   const handleIncrement = (id, kind) => {
     //find name and price send to addSide
     if (kind === 'drink') {
-      const found = foodData.drinks.find((elem) => elem._id == id);
+      const found = foodData.drinks.find((elem) => elem._id === id);
       let sideName = found.name;
       let sidePrice = found.price;
 
       addSide(user.id, id, kind, sideName, sidePrice);
+      setCartItems(cartItems + 1);
     }
-    if (kind == 'bread') {
-      const found = foodData.breads.find((elem) => elem._id == id);
+    if (kind === 'bread') {
+      const found = foodData.breads.find((elem) => elem._id === id);
       let sideName = found.name;
       let sidePrice = found.price;
 
       addSide(user.id, id, kind, sideName, sidePrice);
+      setCartItems(cartItems + 1);
     }
     let obj = amount;
-    let foundIndex = amount.findIndex((x) => x.id == id);
+    let foundIndex = amount.findIndex((x) => x.id === id);
     obj[foundIndex].amount = obj[foundIndex].amount + 1;
     //add to db here
 
@@ -161,7 +163,6 @@ export default function Details({ soup, goBack }) {
           headers: { 'x-auth-token': authToken }
         }
       );
-      console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -202,11 +203,9 @@ export default function Details({ soup, goBack }) {
         price: soup.price
       };
 
-      const cart = await Axios.post(
-        'http://localhost:5000/users/cart',
-        payload,
-        { headers: { 'x-auth-token': authToken } }
-      );
+      await Axios.post('http://localhost:5000/users/cart', payload, {
+        headers: { 'x-auth-token': authToken }
+      });
     } catch (err) {
       console.log(err);
     }
@@ -216,6 +215,7 @@ export default function Details({ soup, goBack }) {
     if (user) {
       addSoup(user.id);
       success('added soup to cart');
+      setCartItems(cartItems + 1);
     } else {
       history.push('/login');
     }

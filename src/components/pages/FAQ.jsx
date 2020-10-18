@@ -1,81 +1,45 @@
 import React from 'react';
-import { Accordion, WhiteSpace } from 'antd-mobile';
-
-//import some antd stuff
+import Accordion from '../misc/Accordion';
 import Header from '../misc/HeaderInfo';
 import styled from 'styled-components';
 
 const Container = styled.main`
-  background-color: ${(props) => props.theme.mainBg};
   justify-content: center;
   max-width: 800px;
+  width: 90vw;
   margin: 0 auto;
-  padding: 0 20px;
 `;
-const Content = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  > p {
-    text-align: center;
-    width: 80vw;
-  }
-`;
 export default function FAQ({ goBack }) {
-  const onChange = (key) => {
-    console.log(key);
-  };
+  const accContent = [
+    {
+      title: 'Vi levererar hit',
+      content:
+        'Etiam ut augue mi. Ut mollis viverra urna a rhoncus. Maecenas tincidunt ex augue, id ullamcorper ante bibendum sed. Cras et finibus massa, non posuere mauris. Duis ut mi at risus rutrum tristique eget eget lorem',
+      id: 1
+    },
+    {
+      title: 'Hur fungerar tjänsten?',
+      content:
+        'Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur sed dolor rutrum enim semper porttitor ut et magna. Vestibulum pretium tincidunt leo vel suscipit.',
+      id: 2
+    },
+    {
+      title: 'Vilka betalmöjligheter finns det?',
+      content:
+        'Donec rutrum odio fermentum lorem ullamcorper hendrerit et nec elit. Praesent posuere sit amet magna eu gravida. Aenean facilisis pretium rhoncus. Proin pretium quis tellus sed dictum. Cras sit amet enim in est fringilla feugiat at id justo. In sit amet sapien consequat, hendrerit orci vitae, elementum nulla. Cras luctus erat eu massa commodo porttitor. Etiam vel consectetur velit. Suspendisse at enim erat. Sed molestie odio ipsum, ut tristique arcu condimentum nec.',
+      id: 3
+    }
+  ];
+
   return (
-    <Container>
+    <div>
       <Header goBack={goBack} title={'FAQ'}></Header>
-      <div style={{ marginTop: 10, marginBottom: 10 }}>
-        <Accordion
-          accordion
-          openAnimation={{}}
-          className='my-accordion'
-          onChange={onChange}
-        >
-          <WhiteSpace size={'xl'} />
-          <Accordion.Panel header='Hur fungerar tjänsten?' className='pad'>
-            <Content>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since{' '}
-              </p>
-            </Content>
-          </Accordion.Panel>
-          <WhiteSpace size={'xl'} />
-
-          <Accordion.Panel
-            header='Vilka betalmöjligheter finns?'
-            className='pad'
-          >
-            <Content>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since{' '}
-              </p>
-            </Content>
-          </Accordion.Panel>
-          <WhiteSpace size={'xl'} />
-
-          <Accordion.Panel
-            header='Vi levererar till dessa platser'
-            className='pad'
-          >
-            <Content>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since{' '}
-              </p>
-            </Content>
-          </Accordion.Panel>
-        </Accordion>
-      </div>
-    </Container>
+      <Container>
+        {accContent.map(({ title, content, id }) => (
+          <Accordion key={id} title={title} content={content} />
+        ))}
+      </Container>
+    </div>
   );
 }

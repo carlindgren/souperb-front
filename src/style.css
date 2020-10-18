@@ -19,6 +19,13 @@ ul {
     list-style: none;
 }
 
+.defaultCursor {
+    cursor: default;
+}
+
+.pointer {
+    cursor: pointer;
+}
 button {
     border: none;
     background: none;

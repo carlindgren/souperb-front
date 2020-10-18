@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 //import '../../../node_modules/antd/lib/radio/style/index.css';
 //doesnt add all of the styling.
 import Header from '../misc/HeaderInfo';
-import { List, Radio, Flex, WhiteSpace } from 'antd-mobile';
-
-const header = styled.header`
-  height: 40px;
-`;
+import { List, Radio, WhiteSpace } from 'antd-mobile';
 
 const Container = styled.div`
   background-color: ${(props) => props.theme.mainBg};
@@ -17,11 +13,6 @@ const Container = styled.div`
   margin: 0 auto;
   padding: 0 20px;
 `;
-const radioStyle = {
-  display: 'block',
-  height: '30px',
-  lineHeight: '30px'
-};
 
 const data = [
   { value: 0, label: 'Kort' },

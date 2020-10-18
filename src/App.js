@@ -13,6 +13,7 @@ import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
 import UserContext from './context/UserContext';
 import FoodContext from './context/FoodContext';
+import CartContext from './context/CartContext';
 import './style.css';
 import styled, { ThemeProvider } from 'styled-components';
 const theme = {
@@ -55,6 +56,23 @@ export default function App() {
     breads: undefined,
     drinks: undefined
   });
+  const [cartItems, setCartItems] = useState(0);
+
+  //should check if there is any cartItems in db. and set default state.
+
+  const getCart = async () => {
+    const authToken = localStorage.getItem('auth-token');
+    let cart = await Axios.get('http://localhost:5000/users/getCart', {
+      headers: { 'x-auth-token': authToken }
+    });
+    const count = (cart) => {
+      let num = 0;
+      cart.forEach((elem) => (num += elem.quantity));
+      return num;
+    };
+    console.log(cart.data.cart);
+    setCartItems(count(cart.data.cart[0].products));
+  };
 
   useEffect(() => {
     //checking if user is logged in, setting auth-token.
@@ -97,6 +115,7 @@ export default function App() {
       });
     };
     getFood();
+    getCart();
     let LSaddress = localStorage.getItem('user-address');
     setAddress(LSaddress);
   }, [address]);
@@ -106,23 +125,25 @@ export default function App() {
     <AppContainer className='AppContainer'>
       <Router>
         <ThemeProvider theme={theme}>
-          <UserContext.Provider value={{ userData, setUserData }}>
-            <FoodContext.Provider value={{ foodData, setFoodData }}>
-              {/*address && <Header />*/}
-              <Container>
-                <Switch>
-                  <Route exact path='/' component={Address} />
-                  <Route exact path='/home' component={Home} />
-                  <Route path='/SoupDetails' components={SoupDetails} />
-                  <Route path='/login' component={Login} />
-                  <Route path='/register' component={Register} />
-                  <Route path='/profile' component={Profile} />
-                  <Route path='/CartPage' component={CartPage} />
-                </Switch>
-              </Container>
-              {address && <Footer />}
-            </FoodContext.Provider>
-          </UserContext.Provider>
+          <CartContext.Provider value={{ cartItems, setCartItems }}>
+            <UserContext.Provider value={{ userData, setUserData }}>
+              <FoodContext.Provider value={{ foodData, setFoodData }}>
+                {/*address && <Header />*/}
+                <Container>
+                  <Switch>
+                    <Route exact path='/' component={Address} />
+                    <Route exact path='/home' component={Home} />
+                    <Route path='/SoupDetails' components={SoupDetails} />
+                    <Route path='/login' component={Login} />
+                    <Route path='/register' component={Register} />
+                    <Route path='/profile' component={Profile} />
+                    <Route path='/CartPage' component={CartPage} />
+                  </Switch>
+                </Container>
+                {address && <Footer />}
+              </FoodContext.Provider>
+            </UserContext.Provider>
+          </CartContext.Provider>
         </ThemeProvider>
       </Router>
     </AppContainer>

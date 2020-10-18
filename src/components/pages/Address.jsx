@@ -101,7 +101,7 @@ export default function Address() {
     if (address !== '') {
       history.push('/home');
     }
-  }, [address]);
+  }, [address, history]);
 
   return (
     <Container>

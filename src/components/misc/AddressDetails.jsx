@@ -3,7 +3,7 @@ import UserContext from '../../context/UserContext';
 import styled from 'styled-components';
 import Header from '../misc/HeaderInfo';
 import Axios from 'axios';
-import { Switch, List, InputItem, WhiteSpace } from 'antd-mobile';
+import { Switch, List, InputItem } from 'antd-mobile';
 import { message } from 'antd';
 const Container = styled.div`
   background-color: ${(props) => props.theme.mainBg};
@@ -51,7 +51,7 @@ export default function AddressDetails({ title, goBack, userDetails }) {
       setFloor(floor);
     }
     //get information from db and set state,
-  }, []);
+  }, [userData.user, userDetails]);
   const save = async (user) => {
     //save infromation from state to db.
     const authToken = localStorage.getItem('auth-token');
@@ -65,7 +65,7 @@ export default function AddressDetails({ title, goBack, userDetails }) {
     };
 
     try {
-      let details = await Axios.post(
+      await Axios.post(
         'http://localhost:5000/users/addAdressDetails',
         payload,
         {

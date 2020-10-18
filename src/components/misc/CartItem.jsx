@@ -1,16 +1,9 @@
-import React, { useContext, useState } from 'react';
-import FoodContext from '../../context/FoodContext';
+import React, { useContext } from 'react';
+
 import styled from 'styled-components';
 import UserData from '../../context/UserContext';
-import Header from '../misc/HeaderInfo';
+
 import { DeleteOutlined } from '@ant-design/icons';
-const Button = styled.button`
-  position: fixed;
-  bottom: 100px;
-  padding: 10px;
-  background-color: lightskyblue;
-  border-radius: 8px;
-`;
 
 const Container = styled.div``;
 const Ul = styled.ul`
@@ -67,21 +60,25 @@ export default function CartItem({
             {cart.map((prod) => (
               <Li key={prod._id}>
                 <ListContainer>
-                  <h3 id='name'>{prod.name}</h3>
-                  <h3 id='price'>{prod.price}Kr</h3>
+                  <h3 className='defaultCursor' id='name'>
+                    {prod.name}
+                  </h3>
+                  <h3 className='defaultCursor' id='price'>
+                    {prod.price}Kr
+                  </h3>
 
                   <h3 id='amount'>
                     <Span
-                      className='decrease'
+                      className='pointer decrease'
                       onClick={() =>
                         decreaseOrder(userData.user.id, prod, type)
                       }
                     >
                       -
                     </Span>
-                    {prod.quantity}
+                    <span className={'defaultCursor'}>{prod.quantity}</span>
                     <Span
-                      className='increase'
+                      className='pointer increase'
                       onClick={() =>
                         increaseOrder(userData.user.id, prod, type)
                       }
@@ -90,10 +87,12 @@ export default function CartItem({
                     </Span>
                   </h3>
                   <h3
-                    id='trashCan'
+                    id='trashCanr'
                     onClick={() => removeItem(userData.user.id, prod, type)}
                   >
-                    <DeleteOutlined style={{ fontSize: '25px' }} />
+                    <DeleteOutlined
+                      style={{ fontSize: '25px', cursor: 'pointer' }}
+                    />
                   </h3>
                 </ListContainer>
               </Li>

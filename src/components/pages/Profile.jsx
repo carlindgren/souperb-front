@@ -78,7 +78,7 @@ const BoughtSoupsContainer = styled.section`
 export default function Profile() {
   const { userData, setUserData } = useContext(UserContext);
   const [user, setUser] = useState();
-
+  const [boughtSoups, setBoughtSoups] = useState(0);
   //should set prefered payment method.
   //use useeffect for this to update in db.
 
@@ -104,6 +104,7 @@ export default function Profile() {
       if (preferedPayment !== null) {
         setPaymentMethod(user.preferedPayment);
       }
+      setBoughtSoups(user.boughtSoups);
     } catch (err) {
       console.log(err);
     }
@@ -166,7 +167,6 @@ export default function Profile() {
     );
   }
 
-  let number = 5;
   if (user && changeAddressPage) {
     return <AddressDetails userDetails={user.adress} goBack={goBack} />;
   }
@@ -219,9 +219,9 @@ export default function Profile() {
           <FAQContainer>
             <Button onClick={() => setFAQPage(!FAQPage)}>FAQ</Button>
           </FAQContainer>
-          {number > 0 && (
+          {boughtSoups > 0 && (
             <BoughtSoupsContainer>
-              <BoughtSoups number={number} />
+              <BoughtSoups number={boughtSoups} />
             </BoughtSoupsContainer>
           )}
         </Container>
