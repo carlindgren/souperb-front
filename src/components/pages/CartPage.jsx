@@ -217,7 +217,14 @@ export default function ShoppingCart() {
   if (isPayment) {
     return (
       <Container>
-        <PaymentPage totalCartValue={totalValue} goBack={goBack} />;
+        <PaymentPage
+          sideValue={sideValue}
+          soupValue={soupValue}
+          deliveryFee={39}
+          totalCartValue={totalValue}
+          goBack={goBack}
+        />
+        ;
       </Container>
     );
   }

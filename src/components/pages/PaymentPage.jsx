@@ -2,6 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import Axios from 'axios';
 import styled from 'styled-components';
 import Header from '../misc/HeaderInfo';
+import CartSum from '../misc/CartSum';
+import { MdDirectionsBike, MdDirectionsWalk } from 'react-icons/md';
+import { AiOutlineCheck } from 'react-icons/ai';
 const Container = styled.main`
   display: flex;
   margin: 0 auto;
@@ -11,9 +14,21 @@ const Container = styled.main`
 `;
 const Title = styled.h1``;
 const Content = styled.section``;
-export default function PaymentPage({ goBack, totalCartValue }) {
+const P = styled.p`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px;
+  cursor: pointer;
+`;
+export default function PaymentPage({
+  goBack,
+  totalCartValue,
+  sideValue,
+  soupValue,
+  deliveryFee
+}) {
   const [user, setUser] = useState();
-
+  const [deliveryType, setDeliveryType] = useState('delivery');
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
     try {
@@ -36,12 +51,51 @@ export default function PaymentPage({ goBack, totalCartValue }) {
   return (
     <Container>
       <Header title='Checkout' goBack={goBack}></Header>
-      <Content>{/* preffered payment method, change available. */}</Content>
-      <Content>{/* userAddress. if none, set userAddress */}</Content>
-      <Content>{/* userAddress. if none, set userAddress */}</Content>
       <Content>
-        {/*delivery alternative. takeaway och delivery. change in cost if takeaway.  */}
+        <Title>Leveransalternativ</Title>
+        <P
+          style={{
+            color: deliveryType === 'takeAway' ? '#438a5e' : 'black',
+            borderTop: deliveryType === 'takeAway' ? '1px solid #438a5e' : '',
+            borderBottom: deliveryType === 'takeAway' ? '1px solid #438a5e' : ''
+          }}
+          onClick={() => setDeliveryType('takeAway')}
+        >
+          <div>
+            <MdDirectionsWalk /> Jag hämtar soppan själv{' '}
+          </div>
+          <div>{deliveryType === 'takeAway' && <AiOutlineCheck />}</div>
+        </P>
+        <P
+          style={{
+            color: deliveryType === 'delivery' ? '#438a5e' : 'black',
+            borderTop: deliveryType === 'delivery' ? '1px solid #438a5e' : '',
+            borderBottom: deliveryType === 'delivery' ? '1px solid #438a5e' : ''
+          }}
+          onClick={() => setDeliveryType('delivery')}
+        >
+          <div>
+            <MdDirectionsBike /> Jag vill att soppan budas ut{' '}
+          </div>
+          <div>{deliveryType === 'delivery' && <AiOutlineCheck />}</div>
+        </P>
       </Content>
+      {deliveryType === 'delivery' && (
+        <Content>
+          <div></div>
+          <CartSum
+            deliveryFee={deliveryFee}
+            sideValue={sideValue}
+            soupValue={soupValue}
+            total={totalCartValue}
+          />
+        </Content>
+      )}
+      {deliveryType === 'takeAway' && (
+        <Content>
+          <Title>När vill du hämta din soppa?</Title>
+        </Content>
+      )}
       <Content>{totalCartValue}</Content>
     </Container>
   );

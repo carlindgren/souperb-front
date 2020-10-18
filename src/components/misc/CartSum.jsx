@@ -14,7 +14,7 @@ const Title = styled.h1`
   padding: 5px 0 10px 0;
 `;
 
-export default function CartSum({ total, sideValue, soupValue }) {
+export default function CartSum({ total, sideValue, soupValue, deliveryFee }) {
   return (
     <>
       <Title>Summering</Title>
@@ -26,6 +26,12 @@ export default function CartSum({ total, sideValue, soupValue }) {
         <span>Tillägg</span>
         <span>{sideValue}kr</span>
       </H2>
+      {deliveryFee && (
+        <H2>
+          <span>leveranskostnad</span>
+          <span>{deliveryFee}kr</span>
+        </H2>
+      )}
       <hr style={{ border: '1px solid black', margin: '5px' }} />
       <H2>
         <span>Totalt</span>

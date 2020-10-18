@@ -214,7 +214,7 @@ export default function Details({ soup, goBack }) {
   const addToCart = async (user) => {
     if (user) {
       addSoup(user.id);
-      success('added soup to cart');
+      success('Du la till en soppa i varukorgen');
       setCartItems(cartItems + 1);
     } else {
       history.push('/login');
