@@ -28,8 +28,9 @@ export default function ShoppingCart() {
   const { userData } = useContext(UserContext);
   const { cartItems, setCartItems } = useContext(CartContext);
   const [cart, setCart] = useState();
-  const [isPayment, setIsPayment] = useState(false);
-  //counting...
+  //set to false - only dev state
+  const [isPayment, setIsPayment] = useState(true);
+  //counting..
   const [totalValue, setTotalValue] = useState();
   const [soupValue, setSoupValue] = useState(0);
   const [sideValue, setSideValue] = useState(0);
@@ -224,7 +225,6 @@ export default function ShoppingCart() {
           totalCartValue={totalValue}
           goBack={goBack}
         />
-        ;
       </Container>
     );
   }
