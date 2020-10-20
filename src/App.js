@@ -8,6 +8,7 @@ import Register from './components/auth/Register';
 import Address from './components/pages/Address';
 import Profile from './components/pages/Profile';
 import CartPage from './components/pages/CartPage';
+import TrackYourOrder from './components/pages/TrackYourOrder';
 
 import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
@@ -133,6 +134,11 @@ export default function App() {
                   <Switch>
                     <Route exact path='/' component={Address} />
                     <Route exact path='/home' component={Home} />
+                    <Route
+                      exact
+                      path='/TrackOrder'
+                      component={TrackYourOrder}
+                    />
                     <Route path='/SoupDetails' components={SoupDetails} />
                     <Route path='/login' component={Login} />
                     <Route path='/register' component={Register} />

@@ -7,6 +7,7 @@ import AddressDetails from '../misc/AddressDetails';
 import PaymentMethod from '../misc/PaymentMethod';
 import FAQ from './FAQ';
 import BoughtSoups from '../misc/BoughtSoups';
+import { useHistory } from 'react-router-dom';
 //import Change from '../misc/Change';
 const Container = styled.main`
   display: flex;
@@ -76,6 +77,8 @@ const BoughtSoupsContainer = styled.section`
   margin: 0 auto;
 `;
 export default function Profile() {
+  const history = useHistory();
+
   const { userData, setUserData } = useContext(UserContext);
   const [user, setUser] = useState();
   const [boughtSoups, setBoughtSoups] = useState(0);
@@ -246,6 +249,9 @@ export default function Profile() {
           )}
           {activeOrder && (
             <div>
+              <button onClick={() => history.push('/trackOrder')}>
+                Track your order
+              </button>
               <h2>Du har en aktiv Order</h2>
               <div>Den kommer Att kosta {activeOrder.orderPrice}</div>
 

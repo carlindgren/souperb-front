@@ -1,0 +1,18 @@
+.leaflet-container {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+    height: 400px;
+    width: 90%;
+    margin-left:5%;
+
+}
+.leaflet-control-container .leaflet-routing-container-hide {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .leaflet-container {
+    width: 100%;
+    margin-left: 0;
+    box-shadow: none;
+  }
+}
