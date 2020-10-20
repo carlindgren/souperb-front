@@ -7,7 +7,7 @@ import { MdDirectionsBike, MdDirectionsWalk } from 'react-icons/md';
 import { AiOutlineCheck } from 'react-icons/ai';
 import moment from 'moment';
 import { TimePicker, Steps, Button, message } from 'antd';
-
+import CartContext from '../../context/CartContext';
 const ButtonSection = styled.div`
   position: absolute;
   bottom: 80px;
@@ -43,7 +43,7 @@ export default function PaymentPage({
   const format = 'HH:mm';
   let date = new Date();
   const { Step } = Steps;
-
+  const { setCartItems } = useContext(CartContext);
   const stepsTakeAway = [
     {
       title: 'Välj en tid',
@@ -88,6 +88,29 @@ export default function PaymentPage({
     setCurrent(current - 1);
   };
 
+  const takeAway = async (userId) => {
+    try {
+      const authToken = localStorage.getItem('auth-token');
+      const orderType = deliveryType;
+      const orderTime = value;
+      const orderPrice = totalCartValue;
+      console.log(userId);
+      const payload = {
+        userId,
+        orderType,
+        orderTime,
+        orderPrice
+      };
+      await Axios.post('http://localhost:5000/users/order', payload, {
+        headers: { 'x-auth-token': authToken }
+      });
+      setCartItems(0);
+      message.success('din order är nu beställd.');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
     try {
@@ -97,16 +120,13 @@ export default function PaymentPage({
           headers: { 'x-auth-token': authToken }
         }
       );
-      setUser(user.data);
+      setUser(user.data.user);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    //fetching userInformation for payment details.
-    //need paymentinformation, how much to pay and so on.
-
     getUser();
   }, []);
 
@@ -195,12 +215,7 @@ export default function PaymentPage({
               </Button>
             )}
             {current === stepsTakeAway.length - 1 && (
-              <Button
-                type='primary'
-                onClick={() =>
-                  message.success('Din soppa är redo att hämtas ' + value._d)
-                }
-              >
+              <Button type='primary' onClick={() => takeAway(user._id)}>
                 Beställ
               </Button>
             )}

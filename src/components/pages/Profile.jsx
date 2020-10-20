@@ -79,6 +79,7 @@ export default function Profile() {
   const { userData, setUserData } = useContext(UserContext);
   const [user, setUser] = useState();
   const [boughtSoups, setBoughtSoups] = useState(0);
+  const [activeOrder, setActiveOrder] = useState();
   //should set prefered payment method.
   //use useeffect for this to update in db.
 
@@ -89,6 +90,25 @@ export default function Profile() {
   const [changeAddressPage, setChangeAddressPage] = useState(false);
   const [FAQPage, setFAQPage] = useState(false);
 
+  const getActiveOrder = async () => {
+    const authToken = localStorage.getItem('auth-token');
+    try {
+      const order = await Axios.get(
+        'http://localhost:5000/users/getOrderInformation',
+
+        { headers: { 'x-auth-token': authToken } }
+      );
+      if (order) {
+        setActiveOrder(order.data.order[order.data.order.length - 1]);
+      }
+      console.log(activeOrder);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getActiveOrder();
+  }, []);
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
     try {
@@ -223,6 +243,20 @@ export default function Profile() {
             <BoughtSoupsContainer>
               <BoughtSoups number={boughtSoups} />
             </BoughtSoupsContainer>
+          )}
+          {activeOrder && (
+            <div>
+              <h2>Du har en aktiv Order</h2>
+              <div>Den kommer Att kosta {activeOrder.orderPrice}</div>
+
+              {activeOrder.orderType === 'takeAway' ? (
+                <div>Du kan hämta den klockan {activeOrder.orderTime}</div>
+              ) : (
+                <div>
+                  den Kommer att levereras till dig {activeOrder.orderTime}
+                </div>
+              )}
+            </div>
           )}
         </Container>
       ) : (
