@@ -8,6 +8,7 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import moment from 'moment';
 import { TimePicker, Steps, Button, message } from 'antd';
 import CartContext from '../../context/CartContext';
+import { useHistory } from 'react-router-dom';
 const ButtonSection = styled.div`
   position: absolute;
   bottom: 80px;
@@ -41,6 +42,7 @@ export default function PaymentPage({
   deliveryFee
 }) {
   const format = 'HH:mm';
+  const history = useHistory();
   let date = new Date();
   const { Step } = Steps;
   const { setCartItems } = useContext(CartContext);
@@ -64,8 +66,12 @@ export default function PaymentPage({
       content: 'paymentMethod'
     },
     {
+      title: 'Din Address',
+      content: 'adress'
+    },
+    {
       title: 'Betala',
-      content: 'pay'
+      content: 'sum'
     }
   ];
 
@@ -88,7 +94,7 @@ export default function PaymentPage({
     setCurrent(current - 1);
   };
 
-  const takeAway = async (userId) => {
+  const order = async (userId) => {
     try {
       const authToken = localStorage.getItem('auth-token');
       const orderType = deliveryType;
@@ -105,6 +111,7 @@ export default function PaymentPage({
         headers: { 'x-auth-token': authToken }
       });
       setCartItems(0);
+      history.push('/profile');
       message.success('din order är nu beställd.');
     } catch (err) {
       console.log(err);
@@ -161,23 +168,63 @@ export default function PaymentPage({
           </span>
           <span>{deliveryType === 'delivery' && <AiOutlineCheck />}</span>
         </P>
+        {/* underneath, steps container  delivery*/}
       </Content>
       {deliveryType === 'delivery' && (
-        <Content>
-          <Title>När vill du att soppan ska budas ut?</Title>
+        <StepsContainer>
+          <Steps current={current}>
+            {stepsDelivery.map((item) => (
+              <Step key={item.title} title={item.title} />
+            ))}
+          </Steps>
+          <div className='steps-content'>
+            {stepsDelivery[current].content === 'time' && (
+              <Content>
+                <Title>När vill du hämta din soppa?</Title>
+                <TimePicker
+                  defaultValue={moment(date.getHours(), format)}
+                  minuteStep={30}
+                  value={value}
+                  onChange={onChange}
+                  format={format}
+                  disabledHours={() => disabledHours}
+                />
+              </Content>
+            )}
+            {stepsDelivery[current].content === 'paymentMethod' &&
+              'paymentMethod'}
 
-          <TimePicker
-            defaultValue={moment(date.getHours(), format)}
-            minuteStep={30}
-            value={value}
-            onChange={onChange}
-            format={format}
-            disabledHours={() => disabledHours}
-          />
-          <div>payment details.</div>
-        </Content>
+            {stepsDelivery[current].content === 'adress' && 'adress'}
+            {stepsDelivery[current].content === 'sum' && (
+              <Content>
+                <CartSum
+                  sideValue={sideValue}
+                  soupValue={soupValue}
+                  total={totalCartValue}
+                />
+              </Content>
+            )}
+          </div>
+          <ButtonSection className='steps-action'>
+            {current < stepsDelivery.length - 1 && (
+              <Button type='primary' onClick={() => next()}>
+                Nästa
+              </Button>
+            )}
+            {current === stepsDelivery.length - 1 && (
+              <Button type='primary' onClick={() => order(user._id)}>
+                Betala
+              </Button>
+            )}
+            {current > 0 && (
+              <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                Tillbaka
+              </Button>
+            )}
+          </ButtonSection>
+        </StepsContainer>
       )}
-
+      {/* underneath, stepscontainer takeAway. */}
       {deliveryType === 'takeAway' && (
         <StepsContainer>
           <Steps current={current}>
@@ -215,7 +262,7 @@ export default function PaymentPage({
               </Button>
             )}
             {current === stepsTakeAway.length - 1 && (
-              <Button type='primary' onClick={() => takeAway(user._id)}>
+              <Button type='primary' onClick={() => order(user._id)}>
                 Beställ
               </Button>
             )}
