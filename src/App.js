@@ -9,7 +9,7 @@ import Address from './components/pages/Address';
 import Profile from './components/pages/Profile';
 import CartPage from './components/pages/CartPage';
 import TrackYourOrder from './components/pages/TrackYourOrder';
-
+import Employee from './Employee/Employee';
 import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
 import UserContext from './context/UserContext';
@@ -34,6 +34,7 @@ const AppContainer = styled.div`
   padding-bottom: 60px;
   background-color: #f9f8eb;
 `;
+
 /* const theme = {
   mainBg: '#f7fbe1',
   secondaryBg: '#438A5E',
@@ -122,6 +123,15 @@ export default function App() {
   }, [address]);
 
   //header layout? perhaps move header into homecomponent.
+  if (userData.user !== undefined && userData.user.ROLE === 'souperber') {
+    return (
+      <>
+        <UserContext.Provider value={{ userData, setUserData }}>
+          <Employee />
+        </UserContext.Provider>
+      </>
+    );
+  }
   return (
     <AppContainer className='AppContainer'>
       <Router>
@@ -134,11 +144,7 @@ export default function App() {
                   <Switch>
                     <Route exact path='/' component={Address} />
                     <Route exact path='/home' component={Home} />
-                    <Route
-                      exact
-                      path='/TrackOrder'
-                      component={TrackYourOrder}
-                    />
+                    <Route path='/TrackOrder' component={TrackYourOrder} />
                     <Route path='/SoupDetails' components={SoupDetails} />
                     <Route path='/login' component={Login} />
                     <Route path='/register' component={Register} />
