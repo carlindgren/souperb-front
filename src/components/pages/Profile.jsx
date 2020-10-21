@@ -21,9 +21,9 @@ const Title = styled.h1`
   margin: 0;
 `;
 const Subtitle = styled.h2`
-  padding: 0 5px;
   color: ${(props) => props.theme.mainButtonColor};
 `;
+
 const Content = styled.div`
   margin-bottom: 15px;
   > span {
@@ -36,22 +36,49 @@ const Content = styled.div`
     top: 10px;
     color: ${(props) => props.theme.mainButtonBg};
     cursor: pointer;
+    &:hover {
+      color: #e39a57;
+    }
     font-size: 15px;
   }
   .text {
     color: ${(props) => props.theme.mainButtonColor};
   }
 `;
-
+const P = styled.p`
+  margin: 0;
+  padding: 0;
+`;
 const Button = styled.button`
+  background-color: ${(props) => props.theme.mainButtonBg};
+  color: ${(props) => props.theme.mainButtonColor};
+  &:hover {
+    background-color: #e39a57;
+  }
+`;
+
+const FAQBtn = styled(Button)`
+  box-shadow: ${(props) => props.theme.shadow};
   display: block;
-  padding: 10px;
   float: right;
   margin-right: 10px;
   font-size: 25px;
   border-radius: 8px;
-  box-shadow: ${(props) => props.theme.shadow};
-  background-color: ${(props) => props.theme.mainButtonBg};
+  padding: 10px;
+`;
+const TrackBtn = styled(Button)`
+  display: block;
+  float: right;
+  padding: 5px;
+  font-size: 15px;
+  border-radius: 5px;
+  margin-top: 5px;
+`;
+const ActiveOrderContainer = styled.section`
+  background-color: ${(props) => props.theme.mainCardBg};
+  margin: 10px 10px;
+  padding: 10px;
+  border-radius: 8px;
   color: ${(props) => props.theme.mainButtonColor};
 `;
 const FAQContainer = styled.section``;
@@ -76,6 +103,7 @@ const Adress = styled.span`
 const BoughtSoupsContainer = styled.section`
   margin: 0 auto;
 `;
+
 export default function Profile() {
   const history = useHistory();
 
@@ -239,31 +267,30 @@ export default function Profile() {
               </span>
             </Content>
           </SubContainer>
-          <FAQContainer>
-            <Button onClick={() => setFAQPage(!FAQPage)}>FAQ</Button>
-          </FAQContainer>
+
           {boughtSoups > 0 && (
             <BoughtSoupsContainer>
               <BoughtSoups number={boughtSoups} />
             </BoughtSoupsContainer>
           )}
           {activeOrder && (
-            <div>
-              <button onClick={() => history.push('/trackOrder')}>
-                Track your order
-              </button>
-              <h2>Du har en aktiv Order</h2>
-              <div>Den kommer Att kosta {activeOrder.orderPrice}</div>
+            <ActiveOrderContainer>
+              <Subtitle>Du har en aktiv Order</Subtitle>
+              <P>Den kommer Att kosta {activeOrder.orderPrice} kr</P>
 
               {activeOrder.orderType === 'takeAway' ? (
-                <div>Du kan hämta den klockan {activeOrder.orderTime}</div>
+                <P>Du kan hämta den klockan {activeOrder.orderTime}</P>
               ) : (
-                <div>
-                  den Kommer att levereras till dig {activeOrder.orderTime}
-                </div>
+                <P>den Kommer att levereras till dig {activeOrder.orderTime}</P>
               )}
-            </div>
+              <TrackBtn onClick={() => history.push('/trackOrder')}>
+                Följ Order
+              </TrackBtn>
+            </ActiveOrderContainer>
           )}
+          <FAQContainer>
+            <FAQBtn onClick={() => setFAQPage(!FAQPage)}>FAQ</FAQBtn>
+          </FAQContainer>
         </Container>
       ) : (
         <h1>Loading ...</h1>
