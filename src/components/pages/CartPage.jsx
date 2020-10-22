@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import Axios from 'axios';
 import UserContext from '../../context/UserContext';
-import FoodContext from '../../context/FoodContext';
+//import FoodContext from '../../context/FoodContext';
 import Cart from '../misc/Cart';
 import PaymentPage from './PaymentPage';
 import styled from 'styled-components';
@@ -24,7 +24,7 @@ const EmptyCart = styled.main`
 `;
 
 export default function ShoppingCart() {
-  const { foodData } = useContext(FoodContext);
+  //const { foodData } = useContext(FoodContext);
   const { userData } = useContext(UserContext);
   const { cartItems, setCartItems } = useContext(CartContext);
   const [cart, setCart] = useState();
@@ -179,13 +179,9 @@ export default function ShoppingCart() {
       price
     };
     try {
-      const res = await Axios.post(
-        'http://localhost:5000/users/removeFromCart',
-        payload,
-        {
-          headers: { 'x-auth-token': authToken }
-        }
-      );
+      await Axios.post('http://localhost:5000/users/removeFromCart', payload, {
+        headers: { 'x-auth-token': authToken }
+      });
     } catch (err) {
       console.log(err);
     }

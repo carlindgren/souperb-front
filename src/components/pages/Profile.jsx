@@ -107,7 +107,7 @@ const BoughtSoupsContainer = styled.section`
 export default function Profile() {
   const history = useHistory();
 
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const [user, setUser] = useState();
   const [boughtSoups, setBoughtSoups] = useState(0);
   const [activeOrder, setActiveOrder] = useState();
@@ -175,7 +175,7 @@ export default function Profile() {
           preferedPayment,
           id
         };
-        const updatedUser = await Axios.post(
+        await Axios.post(
           'http://localhost:5000/users/addPreferedPayment',
           paymentObj,
           { headers: { 'x-auth-token': authToken } }
@@ -190,7 +190,7 @@ export default function Profile() {
     if (userData.user) {
       addPreferedPayment(userData.user.id);
     }
-  }, [paymentMethod]);
+  }, [paymentMethod, userData.user]);
 
   const goBack = () => {
     if (changePaymentPage) {
@@ -212,7 +212,6 @@ export default function Profile() {
       <PaymentMethod
         paymentMethod={paymentMethod}
         onChangePayment={onChangePayment}
-        paymentMethod={paymentMethod}
         goBack={goBack}
       />
     );

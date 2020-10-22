@@ -11,7 +11,7 @@ import CartPage from './components/pages/CartPage';
 import TrackYourOrder from './components/pages/TrackYourOrder';
 import Employee from './Employee/Employee';
 import Footer from './components/layout/Footer';
-import Header from './components/layout/Header';
+
 import UserContext from './context/UserContext';
 import FoodContext from './context/FoodContext';
 import CartContext from './context/CartContext';
@@ -120,7 +120,7 @@ export default function App() {
     getCart();
     let LSaddress = localStorage.getItem('user-address');
     setAddress(LSaddress);
-  }, [address]);
+  }, [address, userData]);
 
   //header layout? perhaps move header into homecomponent.
   if (userData.user !== undefined && userData.user.ROLE === 'souperber') {

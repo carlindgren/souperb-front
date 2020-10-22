@@ -110,7 +110,7 @@ export default function Address() {
         <h1 className='souperb'>Souperb</h1>
       </Title>
       <Icon>
-        <img src={LOGO} />
+        <img alt='' src={LOGO} />
       </Icon>
       <Form onSubmit={submit}>
         <input

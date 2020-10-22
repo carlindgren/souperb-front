@@ -32,10 +32,10 @@ export default function Details({ soup, goBack }) {
     const arrOfObj = [];
 
     arr1.map((elem, i) => {
-      arrOfObj.push({ id: arr1[i], amount: 0, typeOfProd: 'drinks' });
+      return arrOfObj.push({ id: arr1[i], amount: 0, typeOfProd: 'drinks' });
     });
     arr2.map((elem, i) => {
-      arrOfObj.push({ id: arr2[i], amount: 0, typeOfProd: 'bread' });
+      return arrOfObj.push({ id: arr2[i], amount: 0, typeOfProd: 'bread' });
     });
     return arrOfObj;
   };
@@ -132,14 +132,9 @@ export default function Details({ soup, goBack }) {
       price
     };
     try {
-      const res = await Axios.post(
-        'http://localhost:5000/users/removeFromCart',
-        payload,
-        {
-          headers: { 'x-auth-token': authToken }
-        }
-      );
-      console.log(res);
+      await Axios.post('http://localhost:5000/users/removeFromCart', payload, {
+        headers: { 'x-auth-token': authToken }
+      });
     } catch (err) {
       console.log(err);
     }
@@ -156,13 +151,9 @@ export default function Details({ soup, goBack }) {
       price
     };
     try {
-      const res = await Axios.post(
-        'http://localhost:5000/users/cart',
-        payload,
-        {
-          headers: { 'x-auth-token': authToken }
-        }
-      );
+      await Axios.post('http://localhost:5000/users/cart', payload, {
+        headers: { 'x-auth-token': authToken }
+      });
     } catch (err) {
       console.log(err);
     }
@@ -230,7 +221,7 @@ export default function Details({ soup, goBack }) {
         <GoBackContainer>
           <LeftOutlined onClick={goBack} />
         </GoBackContainer>
-        <img src={soup.imgUrl} />
+        <img alt='' src={soup.imgUrl} />
       </ImgContainer>
       <Text>
         <h1>{soup.name}</h1>

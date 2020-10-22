@@ -18,4 +18,5 @@ You will also see any lint errors in the console.
 - fix employee page, deactivating orders. should mirror in clientside.
 - make an adminpage - for adding deleting or updating soups, drinks, bread.
 - bug when adding sides.
+- checkout babel-plugin-import for fixing some imports
 - all lint warnings.

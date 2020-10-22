@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Axios from 'axios';
 import UserContext from '../../context/UserContext';
-import CartContext from '../../context/CartContext';
+//import CartContext from '../../context/CartContext';
 import { Form } from './auth.styled';
 import ErrorNotice from '../misc/ErrorNotice';
 import { Button } from './auth.styled';

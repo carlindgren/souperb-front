@@ -12,13 +12,7 @@ const EmployeeContainer = styled.div`
 const Title = styled.h2`
   text-align: center;
 `;
-const OrderContainer = styled.main`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-`;
+
 export default function Employee() {
   const { setUserData } = useContext(UserContext);
   const [orders, setOrders] = useState();
