@@ -101,7 +101,7 @@ const Adress = styled.span`
   left: 50px;
 `;
 const BoughtSoupsContainer = styled.section`
-  margin: 0 auto;
+  margin: 5px auto;
 `;
 
 export default function Profile() {
@@ -267,12 +267,6 @@ export default function Profile() {
               </span>
             </Content>
           </SubContainer>
-
-          {boughtSoups > 0 && (
-            <BoughtSoupsContainer>
-              <BoughtSoups number={boughtSoups} />
-            </BoughtSoupsContainer>
-          )}
           {activeOrder && (
             <ActiveOrderContainer>
               <Subtitle>Du har en aktiv Order</Subtitle>
@@ -287,6 +281,12 @@ export default function Profile() {
                 Följ Order
               </TrackBtn>
             </ActiveOrderContainer>
+          )}
+
+          {boughtSoups > 0 && (
+            <BoughtSoupsContainer>
+              <BoughtSoups number={boughtSoups} />
+            </BoughtSoupsContainer>
           )}
           <FAQContainer>
             <FAQBtn onClick={() => setFAQPage(!FAQPage)}>FAQ</FAQBtn>

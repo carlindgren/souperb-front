@@ -98,14 +98,11 @@ export default function PaymentPage({
     //get user and add 1 to boughtSoups.
     try {
       const authToken = localStorage.getItem('auth-token');
-      const orderType = deliveryType;
-      const orderTime = value;
-      const orderPrice = totalCartValue;
       const payload = {
         userId,
-        orderType,
-        orderTime,
-        orderPrice
+        orderType: deliveryType,
+        orderTime: value,
+        orderPrice: totalCartValue
       };
       await Axios.put('http://localhost:5000/users/order', payload, {
         headers: { 'x-auth-token': authToken }

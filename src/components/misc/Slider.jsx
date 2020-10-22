@@ -16,7 +16,6 @@ const StyledCarousel = styled(Carousel)`
   }
 `;
 export default function Slider() {
-  const onChange = () => {};
   const handleClick = () => {
     alert('clicked carousel');
   };
@@ -32,7 +31,7 @@ export default function Slider() {
 
   return (
     <Container>
-      <StyledCarousel afterChange={onChange}>
+      <StyledCarousel>
         <div onClick={handleClick}>
           <h3 style={contentStyle}>
             Dela med en vän för 20% rabatt på nästa köp
@@ -40,7 +39,7 @@ export default function Slider() {
         </div>
         <div>
           <h3 style={contentStyle}>
-            Köp fem soppor - få den sjätte på köpet.{' '}
+            Köp sex soppor - få den sjunde på köpet.{' '}
           </h3>
         </div>
       </StyledCarousel>
