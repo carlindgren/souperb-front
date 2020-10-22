@@ -111,7 +111,6 @@ export default function PaymentPage({
           headers: { 'x-auth-token': authToken }
         }
       );
-
       if (order.data.msg) {
         message.error('Det verkar som att du redan väntar på en soppa');
         history.push('/profile');

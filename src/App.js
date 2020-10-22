@@ -72,7 +72,7 @@ export default function App() {
       cart.forEach((elem) => (num += elem.quantity));
       return num;
     };
-    console.log(cart.data.cart);
+
     setCartItems(count(cart.data.cart[0].products));
   };
 
@@ -152,7 +152,7 @@ export default function App() {
                     <Route path='/CartPage' component={CartPage} />
                   </Switch>
                 </Container>
-                {address && <Footer />}
+                <Footer />
               </FoodContext.Provider>
             </UserContext.Provider>
           </CartContext.Provider>

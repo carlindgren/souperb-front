@@ -18,6 +18,7 @@ export default class LeafletMap extends React.Component {
     });
   };
   render() {
+    const { latlng } = this.props;
     const position = [this.state.lat, this.state.lng];
     return (
       <Map center={position} zoom={this.state.zoom} ref={this.saveMap}>
@@ -25,7 +26,9 @@ export default class LeafletMap extends React.Component {
         <Marker position={[59.33611, 18.06975]}>
           <Popup>Souperb HQ</Popup>
         </Marker>
-        {this.state.isMapInit && <Routing map={this.map} />}
+        {this.state.isMapInit && latlng && (
+          <Routing latlng={latlng} map={this.map} />
+        )}
       </Map>
     );
   }

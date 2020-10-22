@@ -8,7 +8,9 @@ import { Form } from './auth.styled';
 import ErrorNotice from '../misc/ErrorNotice';
 import { Button } from './auth.styled';
 const Container = styled.main`
+  margin: 0 auto;
   padding: 10px;
+  max-width: 800px;
 `;
 const Title = styled.h2`
   text-align: center;

@@ -7,7 +7,7 @@ import Slider from '../misc/Slider';
 import Header from '../layout/Header';
 import SortMenu from '../misc/SortMenu';
 import Soups from '../misc/Soups';
-const Container = styled.div`
+const Container = styled.main`
   display: flex;
   flex-flow: row wrap;
   background-color: ${(props) => props.theme.mainBg};

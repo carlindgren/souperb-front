@@ -4,11 +4,15 @@ export const Button = styled.input`
   display: block;
   float: right;
   border: none;
+  cursor: pointer;
   padding: 15px;
   border-radius: 8px;
   font-size: 15px;
   background-color: ${(props) => props.theme.mainButtonBg};
   color: ${(props) => props.theme.mainButtonColor};
+  &:hover {
+    background-color: #e39a57;
+  }
 `;
 export const Form = styled.form`
   > input,

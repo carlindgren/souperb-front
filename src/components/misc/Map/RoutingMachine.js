@@ -6,12 +6,12 @@ import { HQ } from '../../../StaticContent/StaticContent';
 class Routing extends MapLayer {
   createLeafletElement() {
     //userAdress should be something like userAdress = [24324,32434]
-    const { map, userAdress } = this.props;
-    const userAdress2 = [59.30694, 17.99504];
+    const { map, latlng } = this.props;
+    console.log(latlng);
     let leafletElement = L.Routing.control({
       waypoints: [
         L.latLng(HQ.latlong[0], HQ.latlong[1]),
-        L.latLng(userAdress2[0], userAdress2[1])
+        L.latLng(latlng[0], latlng[1])
       ],
       lineOptions: {
         styles: [
@@ -23,6 +23,7 @@ class Routing extends MapLayer {
       geometryOnly: true
     }).addTo(map.leafletElement);
     leafletElement.hide();
+
     return leafletElement.getPlan();
   }
 }

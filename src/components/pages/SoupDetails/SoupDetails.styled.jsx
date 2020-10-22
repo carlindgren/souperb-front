@@ -16,9 +16,9 @@ export const GoBackContainer = styled.div`
 `;
 
 export const Button = styled.button`
-  position: absolute;
-  bottom: 70px;
-  right: 10px;
+  display: block;
+  float: right;
+  margin-right: 10px;
   width: 120px;
   height: 40px;
   background-color: ${(props) => props.theme.mainButtonBg};
@@ -29,13 +29,14 @@ export const Button = styled.button`
   }
 `;
 
-export const Container = styled.div`
-  background-color: ${(props) => props.theme.mainBg};
-  width: 100%;
+export const Container = styled.main`
+  margin: 0 auto;
+  max-width: 800px;
 `;
 export const ImgContainer = styled.div`
   width: 100vw;
-  height: 50vh;
+  max-width: inherit;
+
   overflow: hidden;
   > img  {
     width: 100%;

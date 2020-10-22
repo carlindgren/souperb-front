@@ -40,6 +40,7 @@ export default function AddressDetails({ title, goBack, userDetails }) {
   const [floor, setFloor] = useState();
 
   const [user, setUser] = useState();
+
   useEffect(() => {
     setUser(userData.user);
     if (userDetails) {

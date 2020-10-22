@@ -8,7 +8,9 @@ import ErrorNotice from '../misc/ErrorNotice';
 const RegisterButton = styled(Button)``;
 
 const RegisterPage = styled.div`
+  margin: 0 auto;
   padding: 10px;
+  max-width: 800px;
 `;
 const Title = styled.h2`
   text-align: center;

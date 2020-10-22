@@ -225,7 +225,7 @@ export default function Details({ soup, goBack }) {
   };
 
   return (
-    <Container>
+    <Container className='container'>
       <ImgContainer>
         <GoBackContainer>
           <LeftOutlined onClick={goBack} />
@@ -241,7 +241,7 @@ export default function Details({ soup, goBack }) {
       <Button onClick={() => addToCart(user)}>
         {' '}
         <ShoppingCartOutlined />
-        Add To Cart
+        Lägg i Varukorgen
       </Button>
       <Modal
         title='Tillbehör'

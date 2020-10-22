@@ -1,17 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ImgWrapper = styled.div`
-  & :hover {
-    cursor: pointer;
-    filter: grayscale(80%);
-  }
-
+const ImgWrapper = styled.section`
   width: 25vw;
   display: flex;
   flex-direction: column;
   margin: 10px 10px 10px 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  & :hover {
+    cursor: pointer;
+    filter: grayscale(80%);
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+  }
   @media (max-width: 1200px) {
     width: 40vw;
   }

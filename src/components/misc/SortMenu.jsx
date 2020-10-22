@@ -20,6 +20,9 @@ const Li = styled.li`
   background: ${(props) =>
     props.clicked ? props.theme.secondaryBg : props.theme.mainButtonBg};
   color: ${(props) => props.theme.mainButtonColor};
+  &:hover {
+    background: ${(props) => props.theme.secondaryBg};
+  }
 `;
 
 export default function SortMenu({ filterOptions, onClick, searchTerm }) {
