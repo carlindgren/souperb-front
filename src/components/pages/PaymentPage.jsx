@@ -104,12 +104,22 @@ export default function PaymentPage({
         orderTime: value,
         orderPrice: totalCartValue
       };
-      await Axios.put('http://localhost:5000/users/order', payload, {
-        headers: { 'x-auth-token': authToken }
-      });
-      setCartItems(0);
-      history.push('/profile');
-      message.success('din order är nu beställd.');
+      const order = await Axios.put(
+        'http://localhost:5000/users/order',
+        payload,
+        {
+          headers: { 'x-auth-token': authToken }
+        }
+      );
+
+      if (order.data.msg) {
+        message.error('Det verkar som att du redan väntar på en soppa');
+        history.push('/profile');
+      } else {
+        history.push('/profile');
+        setCartItems(0);
+        message.success('din order är nu beställd.');
+      }
     } catch (err) {
       console.log(err);
     }
