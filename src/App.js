@@ -120,7 +120,7 @@ export default function App() {
     getCart();
     let LSaddress = localStorage.getItem('user-address');
     setAddress(LSaddress);
-  }, [address, userData]);
+  }, [address]);
 
   //header layout? perhaps move header into homecomponent.
   if (userData.user !== undefined && userData.user.ROLE === 'souperber') {

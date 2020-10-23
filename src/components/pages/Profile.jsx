@@ -132,7 +132,6 @@ export default function Profile() {
       if (order) {
         setActiveOrder(order.data.order[order.data.order.length - 1]);
       }
-      console.log(activeOrder);
     } catch (err) {
       console.log(err);
     }
@@ -166,20 +165,19 @@ export default function Profile() {
 
   const addPreferedPayment = async (userID) => {
     try {
-      const id = userID;
       const authToken = localStorage.getItem('auth-token');
-      const preferedPayment = paymentMethod;
 
-      if (preferedPayment !== undefined) {
+      if (paymentMethod !== undefined) {
         const paymentObj = {
-          preferedPayment,
-          id
+          preferedPayment: paymentMethod,
+          id: userID
         };
         await Axios.post(
           'http://localhost:5000/users/addPreferedPayment',
           paymentObj,
           { headers: { 'x-auth-token': authToken } }
         );
+        return;
       }
     } catch (err) {
       console.log(err);
