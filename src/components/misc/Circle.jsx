@@ -5,7 +5,6 @@ const CircleStyling = styled.div`
   width: 26%;
   height: 46.8%;
   border-radius: 50%;
-  z-index: 1;
 `;
 
 export default function Circle({ p }) {

@@ -15,6 +15,7 @@ const Container = styled.main`
   flex-direction: column;
   max-width: 800px;
   background-color: ${(props) => props.theme.mainBg};
+  margin-bottom: 60px;
 `;
 const Title = styled.h1`
   text-align: center;
@@ -61,7 +62,7 @@ const FAQBtn = styled(Button)`
   box-shadow: ${(props) => props.theme.shadow};
   display: block;
   float: right;
-  margin-right: 10px;
+  margin: 10px 10px 10px 10px;
   font-size: 25px;
   border-radius: 8px;
   padding: 10px;
@@ -264,7 +265,7 @@ export default function Profile() {
               </span>
             </Content>
           </SubContainer>
-          {activeOrder && (
+          {activeOrder && activeOrder.active && (
             <ActiveOrderContainer>
               <Subtitle>Du har en aktiv Order</Subtitle>
               <P>Den kommer Att kosta {activeOrder.orderPrice} kr</P>

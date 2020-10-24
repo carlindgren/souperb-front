@@ -41,7 +41,6 @@ const Nav = styled.div`
   bottom: 0;
   background-color: ${(props) => props.theme.secondaryBg};
   background-image: linear-gradient(to right, #436f8a, #438a5e);
-
   height: 60px;
   > * {
     font-size: 2rem;

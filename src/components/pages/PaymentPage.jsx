@@ -6,12 +6,36 @@ import CartSum from '../misc/CartSum';
 import { MdDirectionsBike, MdDirectionsWalk } from 'react-icons/md';
 import { AiOutlineCheck } from 'react-icons/ai';
 import moment from 'moment';
+import { CreditCardOutlined } from '@ant-design/icons';
 import { TimePicker, Steps, Button, message } from 'antd';
 import CartContext from '../../context/CartContext';
 import { useHistory } from 'react-router-dom';
+const DeliveryTitle = styled.h1``;
+const DeliveryTypeContainer = styled.section``;
+const PayDetails = styled.div`
+  position: relative;
+  > span {
+    padding-left: 10px;
+    font-size: 20px;
+  }
+  .change {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    color: ${(props) => props.theme.mainButtonBg};
+    cursor: pointer;
+    &:hover {
+      color: #e39a57;
+    }
+    font-size: 15px;
+  }
+  .text {
+    color: ${(props) => props.theme.mainButtonColor};
+  }
+`;
 const ButtonSection = styled.div`
-  position: absolute;
-  bottom: 80px;
+  position: fixed;
+  bottom: 70px;
 `;
 const Container = styled.main`
   display: flex;
@@ -20,8 +44,16 @@ const Container = styled.main`
   max-width: 800px;
   background-color: ${(props) => props.theme.mainBg};
 `;
-const Title = styled.h1``;
-const Content = styled.section``;
+const Title = styled.h1`
+  text-align: center;
+  color: ${(props) => props.theme.mainButtonColor};
+`;
+const Content = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
 const P = styled.p`
   font-size: 18px;
   display: flex;
@@ -30,8 +62,15 @@ const P = styled.p`
   cursor: pointer;
 `;
 const StepsContainer = styled.section`
-  height: 500px;
   padding: 10px;
+  margin-bottom: 60px;
+`;
+const StepsContent = styled.div`
+  margin-top: 10px;
+  padding: 20px 0;
+
+  background-color: ${(props) => props.theme.mainCardBg};
+  border-radius: 9px;
 `;
 
 export default function PaymentPage({
@@ -39,7 +78,9 @@ export default function PaymentPage({
   totalCartValue,
   sideValue,
   soupValue,
-  deliveryFee
+  deliveryFee,
+  discount,
+  userDetails
 }) {
   const format = 'HH:mm';
   const history = useHistory();
@@ -58,7 +99,7 @@ export default function PaymentPage({
   ];
   const stepsDelivery = [
     {
-      title: 'Välj en tid för leverans',
+      title: 'Leveranstid',
       content: 'time'
     },
     {
@@ -66,7 +107,8 @@ export default function PaymentPage({
       content: 'paymentMethod'
     },
     {
-      title: 'Din Address',
+      title: 'Leveransaddress',
+
       content: 'adress'
     },
     {
@@ -146,8 +188,8 @@ export default function PaymentPage({
   return (
     <Container>
       <Header title='Checkout' goBack={goBack}></Header>
-      <Content>
-        <Title>Leveransalternativ</Title>
+      <DeliveryTypeContainer>
+        <h1>Leveransalternativ</h1>
         <P
           style={{
             color: deliveryType === 'takeAway' ? '#438a5e' : 'black',
@@ -175,7 +217,7 @@ export default function PaymentPage({
           <span>{deliveryType === 'delivery' && <AiOutlineCheck />}</span>
         </P>
         {/* underneath, steps container  delivery*/}
-      </Content>
+      </DeliveryTypeContainer>
       {deliveryType === 'delivery' && (
         <StepsContainer>
           <Steps current={current}>
@@ -183,10 +225,10 @@ export default function PaymentPage({
               <Step key={item.title} title={item.title} />
             ))}
           </Steps>
-          <div className='steps-content'>
+          <StepsContent className='steps-content'>
             {stepsDelivery[current].content === 'time' && (
               <Content>
-                <Title>När vill du hämta din soppa?</Title>
+                <Title>När ska soppan levereras?</Title>
                 <TimePicker
                   defaultValue={moment(date.getHours(), format)}
                   minuteStep={30}
@@ -197,33 +239,63 @@ export default function PaymentPage({
                 />
               </Content>
             )}
-            {stepsDelivery[current].content === 'paymentMethod' &&
-              'paymentMethod'}
+            {userDetails && stepsDelivery[current].content === 'paymentMethod' && (
+              <PayDetails>
+                <CreditCardOutlined style={{ color: '#F5F1DA' }} />
+                <span className='text'>
+                  {userDetails.preferedPayment
+                    ? userDetails.preferedPayment
+                    : 'ingen betalmetod inlagd'}
+                </span>
+                <span onClick={() => console.log('clicked')} className='change'>
+                  ÄNDRA
+                </span>
+              </PayDetails>
+            )}
 
-            {stepsDelivery[current].content === 'adress' && 'adress'}
+            {stepsDelivery[current].content === 'adress' && (
+              <div>
+                {' '}
+                form field with option of writing address and filling in your
+                own from profile if there is any
+              </div>
+            )}
             {stepsDelivery[current].content === 'sum' && (
               <Content>
                 <CartSum
                   sideValue={sideValue}
                   soupValue={soupValue}
                   total={totalCartValue}
+                  discount={discount}
                 />
               </Content>
             )}
-          </div>
+          </StepsContent>
           <ButtonSection className='steps-action'>
             {current < stepsDelivery.length - 1 && (
-              <Button type='primary' onClick={() => next()}>
+              <Button
+                className='primartBtn'
+                type='primary'
+                onClick={() => next()}
+              >
                 Nästa
               </Button>
             )}
             {current === stepsDelivery.length - 1 && (
-              <Button type='primary' onClick={() => order(user._id)}>
+              <Button
+                className='primartBtn'
+                type='primary'
+                onClick={() => order(user._id)}
+              >
                 Betala
               </Button>
             )}
             {current > 0 && (
-              <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+              <Button
+                className='prevBtn'
+                style={{ margin: '0 8px' }}
+                onClick={() => prev()}
+              >
                 Tillbaka
               </Button>
             )}
@@ -238,11 +310,12 @@ export default function PaymentPage({
               <Step key={item.title} title={item.title} />
             ))}
           </Steps>
-          <div className='steps-content'>
+          <StepsContent className='steps-content'>
             {stepsTakeAway[current].content === 'time' ? (
               <Content>
                 <Title>När vill du hämta din soppa?</Title>
                 <TimePicker
+                  style={{ width: '150px' }}
                   defaultValue={moment(date.getHours(), format)}
                   minuteStep={30}
                   value={value}
@@ -257,10 +330,11 @@ export default function PaymentPage({
                   sideValue={sideValue}
                   soupValue={soupValue}
                   total={totalCartValue}
+                  discount={discount}
                 />
               </Content>
             )}
-          </div>
+          </StepsContent>
           <ButtonSection className='steps-action'>
             {current < stepsTakeAway.length - 1 && (
               <Button type='primary' onClick={() => next()}>

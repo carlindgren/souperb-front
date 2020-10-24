@@ -1,8 +1,5 @@
 import React from 'react';
-
 import styled from 'styled-components';
-//import '../../../node_modules/antd/lib/radio/style/index.css';
-//doesnt add all of the styling.
 import Header from '../misc/HeaderInfo';
 import { List, Radio, WhiteSpace } from 'antd-mobile';
 

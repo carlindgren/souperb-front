@@ -8,12 +8,14 @@ import FoodContext from '../../../context/FoodContext';
 import CartContext from '../../../context/CartContext';
 import { useHistory } from 'react-router-dom';
 import Sides from '../../misc/Sides';
+import SoupSub from '../../misc/SoupSub';
 import {
   GoBackContainer,
   Button,
   Container,
   ImgContainer,
-  Text
+  Text,
+  Title
 } from './SoupDetails.styled';
 export default function Details({ soup, goBack }) {
   const { userData } = useContext(UserContext);
@@ -224,7 +226,10 @@ export default function Details({ soup, goBack }) {
         <img alt='' src={soup.imgUrl} />
       </ImgContainer>
       <Text>
-        <h1>{soup.name}</h1>
+        <Title>
+          <h1>{soup.name}</h1>
+          <SoupSub subs={soup.sub} />
+        </Title>
         <h3>Beskrivning</h3>
         <p>{soup.description}</p>
       </Text>

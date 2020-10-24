@@ -7,19 +7,21 @@ import PaymentPage from './PaymentPage';
 import styled from 'styled-components';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import CartContext from '../../context/CartContext';
+import { getQueriesForElement } from '@testing-library/react';
 const Container = styled.div`
   background-color: ${(props) => props.theme.mainBg};
   margin-bottom: 60px;
 `;
 const EmptyCart = styled.main`
   height: 90vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  //justify-content: center;
+  //align-items: center;
   font-size: 22px;
   > :first-child {
     font-size: 80px;
+  }
+  > p {
+    text-align: center;
   }
 `;
 
@@ -28,12 +30,40 @@ export default function ShoppingCart() {
   const { userData } = useContext(UserContext);
   const { cartItems, setCartItems } = useContext(CartContext);
   const [cart, setCart] = useState();
+  const [userDetails, setUserDetails] = useState({
+    adress: undefined,
+    phoneNumber: undefined,
+    preferedPayment: undefined,
+    discount: undefined
+  });
   //set to false - only dev state
   const [isPayment, setIsPayment] = useState(false);
+
   //counting..
   const [totalValue, setTotalValue] = useState();
   const [soupValue, setSoupValue] = useState(0);
   const [sideValue, setSideValue] = useState(0);
+
+  const getUser = async () => {
+    const authToken = localStorage.getItem('auth-token');
+    const userRes = await Axios.get(
+      'http://localhost:5000/users/getuserinformation',
+      { headers: { 'x-auth-token': authToken } }
+    );
+    console.log(userRes.data.user);
+    const {
+      adress,
+      discount,
+      preferedPayment,
+      phoneNumber
+    } = userRes.data.user;
+    setUserDetails({
+      adress,
+      phoneNumber,
+      preferedPayment,
+      discount
+    });
+  };
 
   const getCart = async (userId) => {
     const authToken = localStorage.getItem('auth-token');
@@ -52,13 +82,17 @@ export default function ShoppingCart() {
       console.log(err);
     }
   };
-  //effect for getting user.
+  //effect for getting cart
   useEffect(() => {
     if (userData.user) {
       const { id } = userData.user;
       getCart(id);
     }
   }, [userData]);
+  //effect fro getting users
+  useEffect(() => {
+    getUser();
+  }, []);
   const countTotal = (arr) => {
     let total = 0;
     arr.forEach((elem) => {
@@ -137,7 +171,6 @@ export default function ShoppingCart() {
       cart.forEach((elem) => (num += elem.quantity));
       return num;
     };
-    console.log(newCart);
     setCartItems(count(newCart));
     setCart(newCart);
   };
@@ -215,11 +248,13 @@ export default function ShoppingCart() {
     return (
       <Container>
         <PaymentPage
+          userDetails={userDetails}
           sideValue={sideValue}
           soupValue={soupValue}
           deliveryFee={39}
           totalCartValue={totalValue}
           goBack={goBack}
+          discount={userDetails.discount}
         />
       </Container>
     );
@@ -238,12 +273,13 @@ export default function ShoppingCart() {
             totalCartValue={totalValue}
             cart={cart}
             goToPayment={goToPayment}
+            discount={userDetails.discount}
           />
         </>
       ) : (
         <EmptyCart>
           <ShoppingCartOutlined />
-          <span>Ooops.. Det verkar som att din varukorg är tom.</span>
+          <p>Ooops.. Det verkar som att din varukorg är tom.</p>
         </EmptyCart>
       )}
     </Container>

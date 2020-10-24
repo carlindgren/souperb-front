@@ -5,7 +5,7 @@ const Title = styled.h1`
   text-align: center;
   margin-top: 2px;
   margin-bottom: 0px;
-  border-bottom: 0.2px solid black;
+
   padding-bottom: 12px;
 `;
 const BackArrow = styled.span`
@@ -16,7 +16,10 @@ const BackArrow = styled.span`
 `;
 
 const Container = styled.div`
-  height: 50px;
+  height: 60px;
+  @media (max-width: 800px) {
+    box-shadow: ${(props) => props.theme.shadow};
+  }
 `;
 export default function HeaderInfo({ title, goBack, noBackArrow }) {
   return (

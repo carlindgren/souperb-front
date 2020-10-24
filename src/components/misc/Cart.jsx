@@ -61,7 +61,8 @@ export default function Cart({
   soupValue,
   sideValue,
   removeItem,
-  goToPayment
+  goToPayment,
+  discount
 }) {
   if (totalCartValue) {
     return (
@@ -97,6 +98,7 @@ export default function Cart({
 
           <CostContainer>
             <CartSum
+              discount={discount}
               total={totalCartValue}
               sideValue={sideValue}
               soupValue={soupValue}

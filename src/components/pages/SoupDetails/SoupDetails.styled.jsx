@@ -24,6 +24,10 @@ export const Button = styled.button`
   background-color: ${(props) => props.theme.mainButtonBg};
   color: ${(props) => props.theme.mainButtonColor};
   border-radius: 8px;
+  box-shadow: ${(props) => props.theme.shadow};
+  &:hover {
+    background-color: #e39a57;
+  }
   * {
     color: ${(props) => props.theme.mainButtonColor};
   }
@@ -44,4 +48,8 @@ export const ImgContainer = styled.div`
 `;
 export const Text = styled.section`
   padding: 10px;
+`;
+export const Title = styled.section`
+  display: flex;
+  justify-content: space-between;
 `;
