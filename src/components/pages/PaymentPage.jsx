@@ -6,33 +6,27 @@ import CartSum from '../misc/CartSum';
 import { MdDirectionsBike, MdDirectionsWalk } from 'react-icons/md';
 import { AiOutlineCheck } from 'react-icons/ai';
 import moment from 'moment';
+
 import { CreditCardOutlined } from '@ant-design/icons';
-import { TimePicker, Steps, Button, message } from 'antd';
+import { TimePicker, Steps, Button, message, Select } from 'antd';
 import CartContext from '../../context/CartContext';
 import { useHistory } from 'react-router-dom';
-const DeliveryTitle = styled.h1``;
+
 const DeliveryTypeContainer = styled.section``;
 const PayDetails = styled.div`
-  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   > span {
     padding-left: 10px;
     font-size: 20px;
-  }
-  .change {
-    position: absolute;
-    right: 20px;
-    top: 10px;
-    color: ${(props) => props.theme.mainButtonBg};
-    cursor: pointer;
-    &:hover {
-      color: #e39a57;
-    }
-    font-size: 15px;
   }
   .text {
     color: ${(props) => props.theme.mainButtonColor};
   }
 `;
+const AdressDetails = styled(PayDetails)``;
 const ButtonSection = styled.div`
   position: fixed;
   bottom: 70px;
@@ -82,6 +76,7 @@ export default function PaymentPage({
   discount,
   userDetails
 }) {
+  const { Option } = Select;
   const format = 'HH:mm';
   const history = useHistory();
   let date = new Date();
@@ -122,6 +117,12 @@ export default function PaymentPage({
   const [value, setValue] = useState(null);
   const [current, setCurrent] = useState(0);
   const [deliveryType, setDeliveryType] = useState('takeAway');
+  const [paymentMethod, setPaymentMethod] = useState(
+    userDetails.preferedPayment || undefined
+  );
+  const handleChange = (value) => {
+    setPaymentMethod(value);
+  };
   const onChange = (value) => {
     setValue(value);
   };
@@ -134,6 +135,10 @@ export default function PaymentPage({
   };
   const prev = () => {
     setCurrent(current - 1);
+  };
+  const delivery = (value) => {
+    setCurrent(0);
+    setDeliveryType(value);
   };
 
   const order = async (userId) => {
@@ -196,7 +201,7 @@ export default function PaymentPage({
             borderTop: deliveryType === 'takeAway' ? '1px solid #438a5e' : '',
             borderBottom: deliveryType === 'takeAway' ? '1px solid #438a5e' : ''
           }}
-          onClick={() => setDeliveryType('takeAway')}
+          onClick={() => delivery('takeAway')}
         >
           <span>
             <MdDirectionsWalk /> Jag hämtar soppan själv{' '}
@@ -209,7 +214,7 @@ export default function PaymentPage({
             borderTop: deliveryType === 'delivery' ? '1px solid #438a5e' : '',
             borderBottom: deliveryType === 'delivery' ? '1px solid #438a5e' : ''
           }}
-          onClick={() => setDeliveryType('delivery')}
+          onClick={() => delivery('delivery')}
         >
           <span>
             <MdDirectionsBike /> Jag vill att soppan budas ut{' '}
@@ -232,6 +237,7 @@ export default function PaymentPage({
                 <TimePicker
                   defaultValue={moment(date.getHours(), format)}
                   minuteStep={30}
+                  placeholder={'Välj en tid'}
                   value={value}
                   onChange={onChange}
                   format={format}
@@ -241,24 +247,44 @@ export default function PaymentPage({
             )}
             {userDetails && stepsDelivery[current].content === 'paymentMethod' && (
               <PayDetails>
-                <CreditCardOutlined style={{ color: '#F5F1DA' }} />
-                <span className='text'>
-                  {userDetails.preferedPayment
-                    ? userDetails.preferedPayment
-                    : 'ingen betalmetod inlagd'}
-                </span>
-                <span onClick={() => console.log('clicked')} className='change'>
-                  ÄNDRA
-                </span>
+                <Title>Vilken betalmetod vill du använda?</Title>
+                <Select
+                  defaultValue={
+                    (paymentMethod && paymentMethod) || 'Välj Betalmetod'
+                  }
+                  style={{ width: 160 }}
+                  onChange={handleChange}
+                >
+                  <Option value='Swish'>
+                    <CreditCardOutlined /> Swish
+                  </Option>
+                  <Option value='Kort'>
+                    <CreditCardOutlined /> Kort
+                  </Option>
+                  <Option value='Klarna'>
+                    <CreditCardOutlined /> Klarna
+                  </Option>
+                </Select>
               </PayDetails>
             )}
 
             {stepsDelivery[current].content === 'adress' && (
-              <div>
-                {' '}
-                form field with option of writing address and filling in your
-                own from profile if there is any
-              </div>
+              <AdressDetails>
+                <Title>
+                  Vart ska soppan ta vägen? hem till dig eller kanske till en
+                  vän
+                </Title>
+                <div>
+                  <div>
+                    <button>Fyll i från profil</button>
+                  </div>
+                  <form onSubmit={() => console.log('submit')}>
+                    <input type='text'></input>
+                    <input type='text'></input>
+                    <input type='text'></input>
+                  </form>
+                </div>
+              </AdressDetails>
             )}
             {stepsDelivery[current].content === 'sum' && (
               <Content>
@@ -318,6 +344,7 @@ export default function PaymentPage({
                   style={{ width: '150px' }}
                   defaultValue={moment(date.getHours(), format)}
                   minuteStep={30}
+                  placeholder={'Välj en tid'}
                   value={value}
                   onChange={onChange}
                   format={format}
