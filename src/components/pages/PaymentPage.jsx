@@ -79,6 +79,11 @@ const StepsContent = styled.div`
 const FormContainer = styled.section`
   width: 85%;
 `;
+const FillBtn = styled.button`
+  color: ${(props) => props.theme.mainButtonColor};
+  background-color: ${(props) => props.theme.mainButtonBg};
+  padding: 5px;
+`;
 
 export default function PaymentPage({
   goBack,
@@ -149,12 +154,19 @@ export default function PaymentPage({
   const onChange = (value) => {
     setValue(value);
   };
-  const next = () => {
-    if (value) {
-      setCurrent(current + 1);
+  const next = (current) => {
+    if (stepsDelivery[current].content === 'time' && !value) {
+      message.error('du måste fylla i en tid');
       return;
     }
-    message.error('du måste fylla i en tid');
+    if (stepsDelivery[current].content === 'adress') {
+      const { adress, name, zipCode } = inputValues;
+      if (!adress || !name || !zipCode) {
+        message.error('Fyll i några fält till');
+        return;
+      }
+    }
+    setCurrent(current + 1);
   };
   const prev = () => {
     setCurrent(current - 1);
@@ -310,9 +322,9 @@ export default function PaymentPage({
                 </Title>
                 <FormContainer>
                   <div>
-                    <button onClick={() => fillFields()}>
+                    <FillBtn onClick={() => fillFields()}>
                       Fyll i från profil
-                    </button>
+                    </FillBtn>
                   </div>
                   <>
                     <Form layout={'vertical'} form={form}>
@@ -374,7 +386,7 @@ export default function PaymentPage({
               <Button
                 className='primartBtn'
                 type='primary'
-                onClick={() => next()}
+                onClick={() => next(current)}
               >
                 Nästa
               </Button>
@@ -436,7 +448,7 @@ export default function PaymentPage({
           </StepsContent>
           <ButtonSection className='steps-action'>
             {current < stepsTakeAway.length - 1 && (
-              <Button type='primary' onClick={() => next()}>
+              <Button type='primary' onClick={() => next(current)}>
                 Nästa
               </Button>
             )}
