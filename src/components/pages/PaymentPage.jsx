@@ -8,7 +8,16 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import moment from 'moment';
 
 import { CreditCardOutlined } from '@ant-design/icons';
-import { TimePicker, Steps, Button, message, Select } from 'antd';
+import {
+  TimePicker,
+  Steps,
+  Button,
+  message,
+  Select,
+  Form,
+  Input,
+  Radio
+} from 'antd';
 import CartContext from '../../context/CartContext';
 import { useHistory } from 'react-router-dom';
 
@@ -67,6 +76,10 @@ const StepsContent = styled.div`
   border-radius: 9px;
 `;
 
+const FormContainer = styled.section`
+  width: 85%;
+`;
+
 export default function PaymentPage({
   goBack,
   totalCartValue,
@@ -82,6 +95,9 @@ export default function PaymentPage({
   let date = new Date();
   const { Step } = Steps;
   const { setCartItems } = useContext(CartContext);
+  const [form] = Form.useForm();
+  const [formLayout, setFormLayout] = useState('horizontal');
+
   const stepsTakeAway = [
     {
       title: 'Välj en tid',
@@ -116,6 +132,13 @@ export default function PaymentPage({
   const [user, setUser] = useState();
   const [value, setValue] = useState(null);
   const [current, setCurrent] = useState(0);
+  const [inputValues, setInputValues] = useState({
+    name: undefined,
+    street: undefined,
+    zipCode: undefined,
+    portCode: undefined,
+    floor: undefined
+  });
   const [deliveryType, setDeliveryType] = useState('takeAway');
   const [paymentMethod, setPaymentMethod] = useState(
     userDetails.preferedPayment || undefined
@@ -139,6 +162,17 @@ export default function PaymentPage({
   const delivery = (value) => {
     setCurrent(0);
     setDeliveryType(value);
+  };
+
+  const onInputChange = (e, inputType) => {
+    const value = e.target.value;
+    setInputValues((prev) => ({ ...prev, [inputType]: value }));
+  };
+
+  const fillFields = () => {
+    setInputValues({
+      ...userDetails.adress
+    });
   };
 
   const order = async (userId) => {
@@ -274,16 +308,54 @@ export default function PaymentPage({
                   Vart ska soppan ta vägen? hem till dig eller kanske till en
                   vän
                 </Title>
-                <div>
+                <FormContainer>
                   <div>
-                    <button>Fyll i från profil</button>
+                    <button onClick={() => fillFields()}>
+                      Fyll i från profil
+                    </button>
                   </div>
-                  <form onSubmit={() => console.log('submit')}>
-                    <input type='text'></input>
-                    <input type='text'></input>
-                    <input type='text'></input>
-                  </form>
-                </div>
+                  <>
+                    <Form layout={'vertical'} form={form}>
+                      <Form.Item label='Mottagarens namn'>
+                        <Input
+                          value={inputValues.name}
+                          onChange={(e) => onInputChange(e, 'name')}
+                          placeholder='input placeholder'
+                        />
+                      </Form.Item>
+                      <Form.Item label='Mottagarens address'>
+                        <Input
+                          value={inputValues.street}
+                          onChange={(e) => onInputChange(e, 'street')}
+                          placeholder='input placeholder'
+                        />
+                      </Form.Item>
+                      <Form.Item label='Mottagarens postnr'>
+                        <Input
+                          value={inputValues.zipCode}
+                          onChange={(e) => onInputChange(e, 'zipCode')}
+                          placeholder='input placeholder'
+                        />
+                      </Form.Item>
+                      <Form.Item label='Portkod (optional)'>
+                        <Input
+                          value={inputValues.portCode}
+                          onChange={(e) => onInputChange(e, 'portCode')}
+                          tooltip='Endast om du bor i lägenhet'
+                          placeholder='input placeholder'
+                        />
+                      </Form.Item>
+                      <Form.Item label='Våning (optional)'>
+                        <Input
+                          value={inputValues.floor}
+                          onChange={(e) => onInputChange(e, 'floor')}
+                          tooltip='Endast om du bor i lägenhet'
+                          placeholder='input placeholder'
+                        />
+                      </Form.Item>
+                    </Form>
+                  </>
+                </FormContainer>
               </AdressDetails>
             )}
             {stepsDelivery[current].content === 'sum' && (
