@@ -11,8 +11,8 @@ const Container = styled.section`
   justify-content: space-around;
   align-items: center;
   flex-flow: row wrap;
-  width: 360px;
-  height: 200px;
+  width: 320px;
+  height: 160px;
   border-radius: 8px;
 `;
 

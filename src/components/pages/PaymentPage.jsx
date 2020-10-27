@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import Axios from 'axios';
 import styled from 'styled-components';
 import Header from '../misc/HeaderInfo';
-import CartSum from '../misc/CartSum';
+
 import { MdDirectionsBike, MdDirectionsWalk } from 'react-icons/md';
 import { AiOutlineCheck } from 'react-icons/ai';
 import moment from 'moment';
-
+import OrderDetails from '../misc/OrderDetails';
 import { CreditCardOutlined } from '@ant-design/icons';
 import {
   TimePicker,
@@ -71,7 +71,6 @@ const StepsContainer = styled.section`
 const StepsContent = styled.div`
   margin-top: 10px;
   padding: 20px 0;
-
   background-color: ${(props) => props.theme.mainCardBg};
   border-radius: 9px;
 `;
@@ -83,6 +82,11 @@ const FillBtn = styled.button`
   color: ${(props) => props.theme.mainButtonColor};
   background-color: ${(props) => props.theme.mainButtonBg};
   padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  &:hover {
+    background-color: ${(props) => props.theme.buttonHoverBg};
+  }
 `;
 
 export default function PaymentPage({
@@ -102,6 +106,10 @@ export default function PaymentPage({
   const { setCartItems } = useContext(CartContext);
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState('horizontal');
+
+  const inputTextColor = {
+    color: 'white'
+  };
 
   const stepsTakeAway = [
     {
@@ -137,10 +145,12 @@ export default function PaymentPage({
   const [user, setUser] = useState();
   const [value, setValue] = useState(null);
   const [current, setCurrent] = useState(0);
+  const [latlng, setLatlng] = useState(undefined);
   const [inputValues, setInputValues] = useState({
     name: undefined,
     street: undefined,
     zipCode: undefined,
+    phoneNumber: undefined,
     portCode: undefined,
     floor: undefined
   });
@@ -160,8 +170,9 @@ export default function PaymentPage({
       return;
     }
     if (stepsDelivery[current].content === 'adress') {
-      const { adress, name, zipCode } = inputValues;
-      if (!adress || !name || !zipCode) {
+      const { street, name, zipCode, phoneNumber } = inputValues;
+
+      if (!street || !name || !zipCode || !phoneNumber) {
         message.error('Fyll i några fält till');
         return;
       }
@@ -183,19 +194,41 @@ export default function PaymentPage({
 
   const fillFields = () => {
     setInputValues({
-      ...userDetails.adress
+      ...userDetails.adress,
+      phoneNumber: '0' + userDetails.phoneNumber
     });
   };
-
-  const order = async (userId) => {
-    //get user and add 1 to boughtSoups.
+  const getLatLng = async () => {
     try {
+      if (inputValues.street) {
+        const doc = await Axios.get(
+          `https://geocode.search.hereapi.com/v1/geocode?q=${inputValues.street}%2C+Stockholm&apiKey=ZJN5huejZ9HJIoIDJv4bErkkwITySR_j3PIRdK0PefQ`
+        );
+        console.log(doc);
+        const { lat, lng } = doc.data.items[0].position;
+        return [lat, lng];
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const order = async (userId) => {
+    //get latlng from adress.
+    try {
+      const latlng = await getLatLng(inputValues.street);
+
       const authToken = localStorage.getItem('auth-token');
       const payload = {
         userId,
         orderType: deliveryType,
         orderTime: value,
-        orderPrice: totalCartValue
+        orderPrice: totalCartValue,
+        phoneNo: userDetails.phoneNumber,
+        port: inputValues.portCode,
+        floor: inputValues.floor,
+        street: inputValues.street,
+        latlng,
+        name: inputValues.name
       };
       const order = await Axios.put(
         'http://localhost:5000/users/order',
@@ -328,41 +361,78 @@ export default function PaymentPage({
                   </div>
                   <>
                     <Form layout={'vertical'} form={form}>
-                      <Form.Item label='Mottagarens namn'>
+                      <Form.Item
+                        label={
+                          <label style={{ color: 'white' }}>
+                            Mottagarens namn
+                          </label>
+                        }
+                      >
                         <Input
                           value={inputValues.name}
                           onChange={(e) => onInputChange(e, 'name')}
-                          placeholder='input placeholder'
                         />
                       </Form.Item>
-                      <Form.Item label='Mottagarens address'>
+                      <Form.Item
+                        label={
+                          <label style={{ color: 'white' }}>
+                            Mottagarens telefonnummer
+                          </label>
+                        }
+                      >
+                        <Input
+                          value={inputValues.phoneNumber}
+                          onChange={(e) => onInputChange(e, 'phoneNumber')}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        label={
+                          <label style={{ color: 'white' }}>
+                            Mottagarens adress
+                          </label>
+                        }
+                      >
                         <Input
                           value={inputValues.street}
                           onChange={(e) => onInputChange(e, 'street')}
-                          placeholder='input placeholder'
                         />
                       </Form.Item>
-                      <Form.Item label='Mottagarens postnr'>
+                      <Form.Item
+                        label={
+                          <label style={{ color: 'white' }}>
+                            Mottagarens postNr
+                          </label>
+                        }
+                      >
                         <Input
                           value={inputValues.zipCode}
                           onChange={(e) => onInputChange(e, 'zipCode')}
-                          placeholder='input placeholder'
                         />
                       </Form.Item>
-                      <Form.Item label='Portkod (optional)'>
+                      <Form.Item
+                        label={
+                          <label style={{ color: 'white' }}>
+                            portkod (optional)
+                          </label>
+                        }
+                      >
                         <Input
                           value={inputValues.portCode}
                           onChange={(e) => onInputChange(e, 'portCode')}
                           tooltip='Endast om du bor i lägenhet'
-                          placeholder='input placeholder'
                         />
                       </Form.Item>
-                      <Form.Item label='Våning (optional)'>
+                      <Form.Item
+                        label={
+                          <label style={{ color: 'white' }}>
+                            Våning (optional)
+                          </label>
+                        }
+                      >
                         <Input
                           value={inputValues.floor}
                           onChange={(e) => onInputChange(e, 'floor')}
                           tooltip='Endast om du bor i lägenhet'
-                          placeholder='input placeholder'
                         />
                       </Form.Item>
                     </Form>
@@ -371,14 +441,14 @@ export default function PaymentPage({
               </AdressDetails>
             )}
             {stepsDelivery[current].content === 'sum' && (
-              <Content>
-                <CartSum
-                  sideValue={sideValue}
-                  soupValue={soupValue}
+              <>
+                <OrderDetails
+                  phoneNumber={inputValues.phoneNumber}
+                  deliveryAdress={inputValues.street}
+                  name={inputValues.name}
                   total={totalCartValue}
-                  discount={discount}
                 />
-              </Content>
+              </>
             )}
           </StepsContent>
           <ButtonSection className='steps-action'>
@@ -436,14 +506,9 @@ export default function PaymentPage({
                 />
               </Content>
             ) : (
-              <Content>
-                <CartSum
-                  sideValue={sideValue}
-                  soupValue={soupValue}
-                  total={totalCartValue}
-                  discount={discount}
-                />
-              </Content>
+              <>
+                <OrderDetails total={totalCartValue} />
+              </>
             )}
           </StepsContent>
           <ButtonSection className='steps-action'>

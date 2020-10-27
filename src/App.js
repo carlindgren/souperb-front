@@ -26,7 +26,8 @@ const theme = {
   mainButtonBg: '#FDAC61',
   mainButtonColor: '#F5F1DA',
   mainCardBg: '#438a5e',
-  shadow: '0px 3px 4px 1px rgba(0, 0, 0, 0.29)'
+  shadow: '0px 3px 4px 1px rgba(0, 0, 0, 0.29)',
+  buttonHoverBg: '#e39a57'
 };
 
 const AppContainer = styled.div`

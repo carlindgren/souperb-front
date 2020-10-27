@@ -7,7 +7,6 @@ class Routing extends MapLayer {
   createLeafletElement() {
     //userAdress should be something like userAdress = [24324,32434]
     const { map, latlng } = this.props;
-    console.log(latlng);
     let leafletElement = L.Routing.control({
       waypoints: [
         L.latLng(HQ.latlong[0], HQ.latlong[1]),

@@ -41,6 +41,16 @@ const Span = styled.span`
   .decrease {
   }
 `;
+const DeleteIcon = styled(DeleteOutlined)`
+  font-size: 25px;
+  cursor: pointer;
+  transition: ease-in-out;
+  &:hover {
+    color: black;
+
+    transform: scale(1.2, 1.2);
+  }
+`;
 
 export default function CartItem({
   title,
@@ -90,9 +100,7 @@ export default function CartItem({
                     id='trashCanr'
                     onClick={() => removeItem(userData.user.id, prod, type)}
                   >
-                    <DeleteOutlined
-                      style={{ fontSize: '25px', cursor: 'pointer' }}
-                    />
+                    <DeleteIcon />
                   </h3>
                 </ListContainer>
               </Li>

@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const CircleStyling = styled.div`
-  width: 26%;
-  height: 46.8%;
+  width: 25.1%;
+  height: 49%;
   border-radius: 50%;
 `;
 

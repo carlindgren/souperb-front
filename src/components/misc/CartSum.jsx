@@ -1,4 +1,5 @@
 import React from 'react';
+import { MdSignalWifi1BarLock } from 'react-icons/md';
 import styled from 'styled-components';
 const H2 = styled.h2`
   padding: 0 10px;
@@ -33,7 +34,7 @@ export default function CartSum({
         <PriceTag discount>{soupValue}kr</PriceTag>
       </H2>
       <H2>
-        <Subtitle>Tillägg</Subtitle>
+        <Subtitle>Tillbehör</Subtitle>
         <PriceTag>{sideValue}kr</PriceTag>
       </H2>
       {deliveryFee && (

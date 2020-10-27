@@ -6,44 +6,27 @@ import styled from 'styled-components';
 import Header from '../misc/HeaderInfo';
 
 export default function TrackYourOrder() {
-  const [latlng, setLatlng] = useState([59.34822, 18.063]); // [lat,lng]
-  const [street, setStreet] = useState();
-  const getUser = async () => {
+  const [latlng, setLatlng] = useState(); // [lat,lng]
+  const getOrder = async () => {
     const authToken = localStorage.getItem('auth-token');
     try {
-      const user = await Axios.get(
-        'http://localhost:5000/users/getuserinformation',
+      const orderDoc = await Axios.get(
+        'http://localhost:5000/users/getOrderInformation',
         {
           headers: { 'x-auth-token': authToken }
         }
       );
-      setStreet(user.data.user.adress.street);
+
+      const { latlng } = orderDoc.data.order[0].deliveryDetails;
+      setLatlng(latlng);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
-    //getUser();
+    getOrder();
   }, []);
 
-  const getLatLng = async () => {
-    try {
-      if (street) {
-        const doc = await Axios.get(
-          `https://geocode.search.hereapi.com/v1/geocode?q=${street}%2C+Stockholm&apiKey=ZJN5huejZ9HJIoIDJv4bErkkwITySR_j3PIRdK0PefQ`
-        );
-        console.log(doc);
-        const { lat, lng } = doc.data.items[0].position;
-        setLatlng([lat, lng]);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  useEffect(() => {
-    //fetch later.
-    //getLatLng();
-  }, [street]);
   const history = useHistory();
   return (
     <div>

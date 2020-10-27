@@ -12,8 +12,6 @@ You will also see any lint errors in the console.
 
 ### todo
 
-- style soup details page. perhaps new images.
-- fix steps when delivery payment
 - get persons lat long depending on adress and/or ask for position
 - fix employee page, deactivating orders. should mirror in clientside.
 - make an adminpage - for adding deleting or updating soups, drinks, bread.
