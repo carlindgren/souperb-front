@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import Axios from 'axios';
 import styled from 'styled-components';
 import Header from '../misc/HeaderInfo';
-
 import { MdDirectionsBike, MdDirectionsWalk } from 'react-icons/md';
 import { AiOutlineCheck } from 'react-icons/ai';
 import moment from 'moment';
@@ -96,7 +95,8 @@ export default function PaymentPage({
   soupValue,
   deliveryFee,
   discount,
-  userDetails
+  userDetails,
+  cart
 }) {
   const { Option } = Select;
   const format = 'HH:mm';
@@ -105,11 +105,6 @@ export default function PaymentPage({
   const { Step } = Steps;
   const { setCartItems } = useContext(CartContext);
   const [form] = Form.useForm();
-  const [formLayout, setFormLayout] = useState('horizontal');
-
-  const inputTextColor = {
-    color: 'white'
-  };
 
   const stepsTakeAway = [
     {
@@ -145,7 +140,6 @@ export default function PaymentPage({
   const [user, setUser] = useState();
   const [value, setValue] = useState(null);
   const [current, setCurrent] = useState(0);
-  const [latlng, setLatlng] = useState(undefined);
   const [inputValues, setInputValues] = useState({
     name: undefined,
     street: undefined,
@@ -214,6 +208,7 @@ export default function PaymentPage({
   };
   const order = async (userId) => {
     //get latlng from adress.
+
     try {
       const latlng = await getLatLng(inputValues.street);
 
@@ -228,7 +223,8 @@ export default function PaymentPage({
         floor: inputValues.floor,
         street: inputValues.street,
         latlng,
-        name: inputValues.name
+        name: inputValues.name,
+        cartItems: cart
       };
       const order = await Axios.put(
         'http://localhost:5000/users/order',

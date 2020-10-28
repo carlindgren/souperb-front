@@ -20,6 +20,9 @@ const Button = styled.button`
   padding: 6px;
   color: ${(props) => props.theme.mainButtonColor};
   border-radius: 3px;
+  &:hover {
+    background-color: ${(props) => props.theme.buttonHoverBg};
+  }
 `;
 
 const SubTitle = styled.div``;

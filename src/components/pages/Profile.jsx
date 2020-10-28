@@ -24,6 +24,9 @@ const Title = styled.h1`
 const Subtitle = styled.h2`
   color: ${(props) => props.theme.mainButtonColor};
 `;
+const ActiveTitle = styled(Subtitle)`
+  text-align: center;
+`;
 
 const Content = styled.div`
   margin-bottom: 15px;
@@ -46,10 +49,7 @@ const Content = styled.div`
     color: ${(props) => props.theme.mainButtonColor};
   }
 `;
-const P = styled.p`
-  margin: 0;
-  padding: 0;
-`;
+
 const Button = styled.button`
   background-color: ${(props) => props.theme.mainButtonBg};
   color: ${(props) => props.theme.mainButtonColor};
@@ -267,16 +267,9 @@ export default function Profile() {
           </SubContainer>
           {activeOrder && activeOrder.active && (
             <ActiveOrderContainer>
-              <Subtitle>Du har en aktiv Order</Subtitle>
-              <P>Den kommer Att kosta {activeOrder.orderPrice} kr</P>
-
-              {activeOrder.orderType === 'takeAway' ? (
-                <P>Du kan hämta den klockan {activeOrder.orderTime}</P>
-              ) : (
-                <P>den Kommer att levereras till dig {activeOrder.orderTime}</P>
-              )}
+              <ActiveTitle>Du har en aktiv order!</ActiveTitle>
               <TrackBtn onClick={() => history.push('/trackOrder')}>
-                Följ Order
+                Mer Information
               </TrackBtn>
             </ActiveOrderContainer>
           )}

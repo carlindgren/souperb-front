@@ -21,13 +21,18 @@ export default class LeafletMap extends React.Component {
     const { latlng } = this.props;
     const position = [this.state.lat, this.state.lng];
     return (
-      <Map center={position} zoom={this.state.zoom} ref={this.saveMap}>
+      <Map
+        scrollWheelZoom={false}
+        center={position}
+        zoom={this.state.zoom}
+        ref={this.saveMap}
+      >
         <TileLayer url='https://api.mapbox.com/styles/v1/calle8/ckgi2xhtm05vm19pe9x00riyg/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiY2FsbGU4IiwiYSI6ImNrZ2kyMjk3NTBoZHoyeHFuOXphamJhdzgifQ.CHJcskJfSOEF08-fO2NKxg' />
         <Marker position={[59.33611, 18.06975]}>
           <Popup>Souperb HQ</Popup>
         </Marker>
         {this.state.isMapInit && latlng && (
-          <Routing latlng={latlng} map={this.map} />
+          <Routing latlng={latlng && latlng} map={this.map} />
         )}
       </Map>
     );

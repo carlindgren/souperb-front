@@ -5,13 +5,13 @@ import { withLeaflet } from 'react-leaflet';
 import { HQ } from '../../../StaticContent/StaticContent';
 class Routing extends MapLayer {
   createLeafletElement() {
-    //userAdress should be something like userAdress = [24324,32434]
     const { map, latlng } = this.props;
+    const wayPoints = (latlng && [
+      L.latLng(HQ.latlong[0], HQ.latlong[1]),
+      L.latLng(latlng[0], latlng[1])
+    ]) || [L.latLng(HQ.latlong[0], HQ.latlong[1])];
     let leafletElement = L.Routing.control({
-      waypoints: [
-        L.latLng(HQ.latlong[0], HQ.latlong[1]),
-        L.latLng(latlng[0], latlng[1])
-      ],
+      waypoints: wayPoints,
       lineOptions: {
         styles: [
           { color: 'black', opacity: 0.15, weight: 9 },

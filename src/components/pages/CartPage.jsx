@@ -50,7 +50,6 @@ export default function ShoppingCart() {
       'http://localhost:5000/users/getuserinformation',
       { headers: { 'x-auth-token': authToken } }
     );
-    console.log(userRes.data.user);
     const {
       adress,
       discount,
@@ -255,6 +254,7 @@ export default function ShoppingCart() {
           totalCartValue={totalValue}
           goBack={goBack}
           discount={userDetails.discount}
+          cart={cart}
         />
       </Container>
     );
