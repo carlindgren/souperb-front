@@ -1,11 +1,18 @@
 import React from 'react';
 import CartItem from './CartItem';
-
 import styled from 'styled-components';
 import CartSum from './CartSum';
 import Header from './HeaderInfo';
-
 import { ShoppingCartOutlined } from '@ant-design/icons';
+const Link = styled.p`
+  cursor: pointer;
+  text-decoration: underline;
+  color: ${(props) => props.theme.mainButtonBg};
+  &:hover {
+    color: ${(props) => props.theme.buttonHoverBg};
+  }
+`;
+
 const Container = styled.main`
   display: flex;
   margin: 0 auto;
@@ -62,7 +69,8 @@ export default function Cart({
   sideValue,
   removeItem,
   goToPayment,
-  discount
+  discount,
+  history
 }) {
   if (totalCartValue) {
     return (
@@ -116,7 +124,8 @@ export default function Cart({
   return (
     <EmptyCart>
       <ShoppingCartOutlined />
-      <span>Ooops.. Det verkar som att din varukorg är tom.</span>
+      <p>Ooops.. Det verkar som att din varukorg är tom.</p>
+      <Link onClick={() => history.push('/home')}>Gå till menyn</Link>
     </EmptyCart>
   );
 }

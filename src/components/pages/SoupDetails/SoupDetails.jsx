@@ -10,6 +10,8 @@ import { useHistory } from 'react-router-dom';
 import Sides from '../../misc/Sides';
 import SoupSub from '../../misc/SoupSub';
 import {
+  BtnContainer,
+  PriceTag,
   GoBackContainer,
   Button,
   Container,
@@ -230,15 +232,22 @@ export default function Details({ soup, goBack }) {
           <h1>{soup.name}</h1>
           <SoupSub subs={soup.sub} />
         </Title>
+        <PriceTag>
+          <h2>
+            {soup.price}
+            <span>kr/portion</span>
+          </h2>
+        </PriceTag>
         <h3>Beskrivning</h3>
         <p>{soup.description}</p>
       </Text>
-
-      <Button onClick={() => addToCart(user)}>
-        {' '}
-        <ShoppingCartOutlined />
-        Lägg i Varukorgen
-      </Button>
+      <BtnContainer>
+        <Button onClick={() => addToCart(user)}>
+          {' '}
+          <ShoppingCartOutlined />
+          Lägg i Varukorgen
+        </Button>
+      </BtnContainer>
       <Modal
         title='Tillbehör'
         visible={visible}

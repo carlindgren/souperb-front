@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import UserContext from '../../context/UserContext';
 //import FoodContext from '../../context/FoodContext';
@@ -10,7 +11,6 @@ import CartContext from '../../context/CartContext';
 import { getQueriesForElement } from '@testing-library/react';
 const Container = styled.div`
   background-color: ${(props) => props.theme.mainBg};
-  margin-bottom: 60px;
 `;
 const EmptyCart = styled.main`
   height: 90vh;
@@ -24,9 +24,19 @@ const EmptyCart = styled.main`
     text-align: center;
   }
 `;
+const Link = styled.p`
+  cursor: pointer;
+  text-decoration: underline;
+  color: ${(props) => props.theme.mainButtonBg};
+  &:hover {
+    color: ${(props) => props.theme.buttonHoverBg};
+  }
+`;
 
 export default function ShoppingCart() {
   //const { foodData } = useContext(FoodContext);
+
+  const history = useHistory();
   const { userData } = useContext(UserContext);
   const { cartItems, setCartItems } = useContext(CartContext);
   const [cart, setCart] = useState();
@@ -274,12 +284,14 @@ export default function ShoppingCart() {
             cart={cart}
             goToPayment={goToPayment}
             discount={userDetails.discount}
+            history={history}
           />
         </>
       ) : (
         <EmptyCart>
           <ShoppingCartOutlined />
           <p>Ooops.. Det verkar som att din varukorg är tom.</p>
+          <Link onClick={() => history.push('/home')}>Gå till menyn</Link>
         </EmptyCart>
       )}
     </Container>

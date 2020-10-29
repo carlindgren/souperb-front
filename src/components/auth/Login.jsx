@@ -20,7 +20,13 @@ const LoginButton = styled(Button)``;
 const NoAccount = styled.section`
   text-align: center;
   margin-top: 90px;
+  &:hover {
+    p {
+      color: ${(props) => props.theme.buttonHoverBg};
+    }
+  }
   > p {
+    cursor: pointer;
     margin-bottom: 0;
     font-size: 17px;
     color: ${(props) => props.theme.mainButtonBg};

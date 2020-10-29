@@ -38,14 +38,10 @@ const InputContainer = styled.div`
 `;
 
 export default function Header() {
-  // if address exists return header..
-  // make functionality for changing localstorage address. if userContext exists,
-  //this should render user address information instead.
   const address = localStorage.getItem('user-address');
   const [input, setInput] = useState(address);
 
   useEffect(() => {
-    //every time input changes, run this function,
     localStorage.setItem('user-address', input);
   }, [input]);
   return (

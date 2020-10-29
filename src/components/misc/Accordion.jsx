@@ -4,6 +4,7 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons';
 
 const Title = styled.h2`
   font-size: 20px;
+  padding-top: 8px;
   color: ${(props) => props.theme.mainButtonColor};
 `;
 const Container = styled.main`
@@ -31,7 +32,7 @@ const Content = styled.div`
   }
 `;
 
-export default function Accordion({ title, content }) {
+export default function Accordion({ title, content, color }) {
   const style = {
     fontSize: '20px'
   };
@@ -41,7 +42,10 @@ export default function Accordion({ title, content }) {
     setIsShown(!isShown);
   };
   return (
-    <Container className='container'>
+    <Container
+      style={color && { backgroundColor: { color } }}
+      className='container'
+    >
       <TopContainer onClick={() => toggleContent()}>
         <Title>{title}</Title>
         {isShown ? (
@@ -56,7 +60,7 @@ export default function Accordion({ title, content }) {
       </TopContainer>
       {isShown && (
         <Content>
-          <p>{content}</p>
+          <div>{content}</div>
         </Content>
       )}
     </Container>

@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { LeftOutlined } from '@ant-design/icons';
 const Title = styled.h1`
   text-align: center;
-  margin-top: 2px;
+  margin-top: 0px;
   margin-bottom: 0px;
 
+  padding-top: 10px;
   padding-bottom: 12px;
 `;
 const BackArrow = styled.span`

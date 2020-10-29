@@ -10,6 +10,11 @@ const Container = styled.main`
   margin: 0 auto;
 `;
 
+const P = styled.p`
+  color: ${(props) => props.theme.mainBg};
+  padding: 5px 10px;
+`;
+
 export default function FAQ({ goBack }) {
   const accContent = [
     {
@@ -31,13 +36,12 @@ export default function FAQ({ goBack }) {
       id: 3
     }
   ];
-
   return (
     <div>
       <Header goBack={goBack} title={'FAQ'}></Header>
       <Container>
         {accContent.map(({ title, content, id }) => (
-          <Accordion key={id} title={title} content={content} />
+          <Accordion key={id} title={title} content={<P>{content}</P>} />
         ))}
       </Container>
     </div>

@@ -92,7 +92,7 @@ export default function Footer() {
           style={{ color: clicked === '/home' && '#FDAC61' }}
           onClick={goToHome}
         />
-        <WholeShoppingIcon>
+        <WholeShoppingIcon className='outer'>
           <Circle cartItems={cartItems}>
             <CartCount>{cartItems}</CartCount>
           </Circle>

@@ -21,7 +21,7 @@ export default function SoupSub({ subs }) {
   return (
     <Container>
       {subs.map((i) => (
-        <Sub> {i}</Sub>
+        <Sub key={i}> {i}</Sub>
       ))}
     </Container>
   );

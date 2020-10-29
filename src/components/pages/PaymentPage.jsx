@@ -118,7 +118,7 @@ export default function PaymentPage({
   ];
   const stepsDelivery = [
     {
-      title: 'Leveranstid',
+      title: 'Tid',
       content: 'time'
     },
     {
@@ -126,7 +126,7 @@ export default function PaymentPage({
       content: 'paymentMethod'
     },
     {
-      title: 'Leveransaddress',
+      title: 'Address',
 
       content: 'adress'
     },

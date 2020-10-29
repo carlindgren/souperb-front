@@ -15,7 +15,7 @@ const Container = styled.main`
   flex-direction: column;
   max-width: 800px;
   background-color: ${(props) => props.theme.mainBg};
-  margin-bottom: 60px;
+  margin-bottom: 10px;
 `;
 const Title = styled.h1`
   text-align: center;

@@ -12,8 +12,7 @@ const Container = styled.main`
   flex-flow: row wrap;
   background-color: ${(props) => props.theme.mainBg};
   justify-content: center;
-  margin-bottom: 60px;
-  /* margin-top: 10px; */
+  margin-bottom: 10px;
 `;
 
 const SpinnerContainer = styled.div`

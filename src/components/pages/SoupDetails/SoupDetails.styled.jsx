@@ -1,5 +1,16 @@
 import styled from 'styled-components';
 
+export const PriceTag = styled.div`
+  h2 {
+    font-size: 30px;
+    margin-right: 4px;
+  }
+  span {
+    color: grey;
+    font-size: 15px;
+  }
+`;
+
 export const GoBackContainer = styled.div`
   position: fixed;
   background-color: ${(props) => props.theme.mainButtonBg};
@@ -14,10 +25,13 @@ export const GoBackContainer = styled.div`
     color: ${(props) => props.theme.mainButtonColor};
   }
 `;
-
+export const BtnContainer = styled.div`
+  position: relative;
+`;
 export const Button = styled.button`
   display: block;
-  float: right;
+  position: absolute;
+  right: 10px;
   margin-right: 10px;
   width: 120px;
   height: 40px;
@@ -44,6 +58,7 @@ export const ImgContainer = styled.div`
   overflow: hidden;
   > img  {
     width: 100%;
+    max-height: 50vh;
   }
 `;
 export const Text = styled.section`
