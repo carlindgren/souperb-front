@@ -25,15 +25,14 @@ export const GoBackContainer = styled.div`
     color: ${(props) => props.theme.mainButtonColor};
   }
 `;
-export const BtnContainer = styled.div`
-  position: relative;
-`;
+
 export const Button = styled.button`
-  display: block;
   position: absolute;
-  right: 10px;
-  margin-right: 10px;
-  width: 120px;
+
+  bottom: 67px;
+  width: 100vw;
+  max-width: 800px;
+  padding: 0 10px;
   height: 40px;
   background-color: ${(props) => props.theme.mainButtonBg};
   color: ${(props) => props.theme.mainButtonColor};
@@ -62,9 +61,9 @@ export const ImgContainer = styled.div`
   }
 `;
 export const Text = styled.section`
-  padding: 10px;
+  padding: 10px 10px 0 10px;
 `;
-export const Title = styled.section`
-  display: flex;
-  justify-content: space-between;
+export const DescriptionTitle = styled.h3`
+  font-weight: bold;
 `;
+export const Title = styled.section``;

@@ -19,6 +19,7 @@ const Container = styled.main`
 `;
 const Title = styled.h1`
   text-align: center;
+  max-width: 100vw;
   margin: 0;
 `;
 const Subtitle = styled.h2`

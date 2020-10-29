@@ -8,7 +8,7 @@ const Container = styled.section`
   height: 100px;
 `;
 export default function Orders({ orders }) {
-  console.log(orders && orders.length);
+  console.log(orders && orders);
   return (
     <>
       <div>antal Order: {orders && orders.length}</div>
@@ -16,7 +16,7 @@ export default function Orders({ orders }) {
         orders.map((elem) => (
           <Container>
             <div>{elem.orderType}</div>
-            <div>{elem._id}</div>
+            <ul>{elem.cartItems[0].name}</ul>
             <div>{elem.orderPrice}</div>
             <div>{elem.orderTime}</div>
           </Container>

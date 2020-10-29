@@ -26,13 +26,16 @@ const InputContainer = styled.div`
     border: none;
     border-bottom: 1px solid black;
     border-radius: 4px;
-    width: 200px;
+
     height: 20px;
     outline: none;
     text-align: center;
     &:focus {
       color: red;
       border-bottom: 1px solid red;
+    }
+    @media screen and (max-width: 992px) {
+      display: hidden;
     }
   }
 `;
@@ -47,7 +50,7 @@ export default function Header() {
   return (
     <StyledHeader>
       <InputContainer>
-        <label htmlFor='register-address'>Din adress är: </label>
+        <label htmlFor='register-address'></label>
         <input
           id='register-address'
           type='text'

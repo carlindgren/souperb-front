@@ -9,12 +9,12 @@ const StyledNav = styled.nav`
   height: 100%;
 
   > button {
-    padding: 0 1rem;
-    background-color: #bac964;
-    color: white;
+    padding: 0 5px;
+    background-color: #fdac61;
+    color: #f9f8eb;
     font-size: 1.1 rem;
     &:hover {
-      background-color: #dcd2cc;
+      background-color: #e39a57;
     }
   }
 `;
@@ -42,11 +42,11 @@ export default function AuthOptions() {
   return (
     <StyledNav>
       {userData.user ? (
-        <button onClick={logout}>Log out</button>
+        <button onClick={logout}>Logga ut</button>
       ) : (
         <>
-          <button onClick={register}>Register</button>
-          <button onClick={login}>Log in</button>
+          <button onClick={register}>Registrera dig</button>
+          <button onClick={login}>Logga in </button>
         </>
       )}
     </StyledNav>

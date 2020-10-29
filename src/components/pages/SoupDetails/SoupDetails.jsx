@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 import Sides from '../../misc/Sides';
 import SoupSub from '../../misc/SoupSub';
 import {
+  DescriptionTitle,
   BtnContainer,
   PriceTag,
   GoBackContainer,
@@ -104,12 +105,8 @@ export default function Details({ soup, goBack }) {
     let obj = amount;
     let foundIndex = amount.findIndex((x) => x.id === id);
     obj[foundIndex].amount = obj[foundIndex].amount + 1;
-    //add to db here
-
-    //works
     setAmount((cs) => [...obj]);
   };
-  //popup when adding soup
   const success = (prompt) => {
     message.success(prompt);
   };
@@ -163,19 +160,13 @@ export default function Details({ soup, goBack }) {
     }
   };
 
-  //close modal on ok click
   const handleOk = async (userID) => {
-    //await addSides(userID);
-    //push to cart, if logged in else, register
-    //reset state.
     setAmount(
       createObject(
         foodData.drinks.map((elem) => elem._id),
         foodData.breads.map((elem) => elem._id)
       )
     );
-    //setBreadOrder([]);
-    //setDrinksOrder([]);
     setVisible(false);
     history.push('/cartpage');
   };
@@ -230,7 +221,6 @@ export default function Details({ soup, goBack }) {
       <Text>
         <Title>
           <h1>{soup.name}</h1>
-          <SoupSub subs={soup.sub} />
         </Title>
         <PriceTag>
           <h2>
@@ -238,16 +228,17 @@ export default function Details({ soup, goBack }) {
             <span>kr/portion</span>
           </h2>
         </PriceTag>
-        <h3>Beskrivning</h3>
+        <SoupSub subs={soup.sub} kcal={soup.calories} />
+        <DescriptionTitle>Beskrivning</DescriptionTitle>
         <p>{soup.description}</p>
       </Text>
-      <BtnContainer>
-        <Button onClick={() => addToCart(user)}>
-          {' '}
-          <ShoppingCartOutlined />
-          Lägg i Varukorgen
-        </Button>
-      </BtnContainer>
+
+      <Button onClick={() => addToCart(user)}>
+        {' '}
+        <ShoppingCartOutlined />
+        Lägg i Varukorgen
+      </Button>
+
       <Modal
         title='Tillbehör'
         visible={visible}
