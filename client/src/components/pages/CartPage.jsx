@@ -8,7 +8,7 @@ import PaymentPage from './PaymentPage';
 import styled from 'styled-components';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import CartContext from '../../context/CartContext';
-import { getQueriesForElement } from '@testing-library/react';
+
 const Container = styled.div`
   background-color: ${(props) => props.theme.mainBg};
 `;

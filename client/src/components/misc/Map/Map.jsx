@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import Routing from './RoutingMachine';
 // https://api.mapbox.com/styles/v1/calle8/ckgi261np5spx19pazt1mnq7x/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiY2FsbGU4IiwiYSI6ImNrZ2kzbWdxeTAxMTMyd296Nnhwc2g0bXIifQ.dzyXClbi4cRjOYMTn-O2Fg
 //mapbox://styles/calle8/ckgi261np5spx19pazt1mnq7x

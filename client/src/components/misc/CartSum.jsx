@@ -1,5 +1,5 @@
 import React from 'react';
-import { MdSignalWifi1BarLock } from 'react-icons/md';
+
 import styled from 'styled-components';
 const H2 = styled.h2`
   padding: 0 10px;

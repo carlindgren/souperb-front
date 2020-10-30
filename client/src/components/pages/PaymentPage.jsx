@@ -7,16 +7,7 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import moment from 'moment';
 import OrderDetails from '../misc/OrderDetails';
 import { CreditCardOutlined } from '@ant-design/icons';
-import {
-  TimePicker,
-  Steps,
-  Button,
-  message,
-  Select,
-  Form,
-  Input,
-  Radio
-} from 'antd';
+import { TimePicker, Steps, Button, message, Select, Form, Input } from 'antd';
 import CartContext from '../../context/CartContext';
 import { useHistory } from 'react-router-dom';
 

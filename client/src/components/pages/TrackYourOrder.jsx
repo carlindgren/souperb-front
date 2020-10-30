@@ -19,9 +19,6 @@ const MapContainer = styled.section``;
 const Subtitle = styled.h1`
   text-align: center;
 `;
-const H3 = styled.h3`
-  text-align: center;
-`;
 const Ul = styled.ul`
   padding: 5px;
 `;
@@ -120,7 +117,7 @@ export default function TrackYourOrder() {
                           </Li>
                           <hr></hr>
                           {order[0].cartItems.map((i) => (
-                            <Li>
+                            <Li key={i._id}>
                               <span>{i.name} </span>
                               <span>{i.quantity}</span>
 

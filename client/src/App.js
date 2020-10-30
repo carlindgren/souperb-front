@@ -11,7 +11,7 @@ import CartPage from './components/pages/CartPage';
 import TrackYourOrder from './components/pages/TrackYourOrder';
 import Employee from './Employee/Employee';
 import Footer from './components/layout/Footer';
-
+import empty from 'is-empty';
 import UserContext from './context/UserContext';
 import FoodContext from './context/FoodContext';
 import CartContext from './context/CartContext';
@@ -74,8 +74,9 @@ export default function App() {
       cart.forEach((elem) => (num += elem.quantity));
       return num;
     };
-
-    setCartItems(count(cart.data.cart[0].products));
+    if (!empty(cart.data.cart[0])) {
+      setCartItems(count(cart.data.cart[0].products));
+    }
   };
 
   useEffect(() => {

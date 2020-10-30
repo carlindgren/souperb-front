@@ -11,7 +11,6 @@ import Sides from '../../misc/Sides';
 import SoupSub from '../../misc/SoupSub';
 import {
   DescriptionTitle,
-  Content,
   PriceTag,
   GoBackContainer,
   Button,
