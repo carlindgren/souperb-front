@@ -4,7 +4,7 @@
 
 the goal was to implement ux features from an existing figma prototype with html, javascript and css with or withour framework.
 
-[https://www.figma.com/file/tL19YXSOiIpwaYzoEP6oBO/Grupp7?node-id=169%3A28](figma-prototype)
+[figma-prototype](https://www.figma.com/file/tL19YXSOiIpwaYzoEP6oBO/Grupp7?node-id=169%3A28)
 
 ## Available Scripts
 
