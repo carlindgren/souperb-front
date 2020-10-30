@@ -10,10 +10,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.listen(port, () => {
-  console.log('app running on port: ' + port);
-});
-
 //set up mongoose
 const uri = process.env.MONGO_URI;
 mongoose.connect(uri, {
@@ -35,3 +31,18 @@ app.use('/users', require('./routes/userRouter'));
 app.use('/breads', require('./routes/breadRouter'));
 app.use('/drinks', require('./routes/drinkRouter'));
 app.use('/soups', require('./routes/soupRouter'));
+
+if (
+  process.env.NODE_ENV === 'production' ||
+  process.env.NODE_ENV === 'staging'
+) {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+
+  app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+}
+
+app.listen(port, () => {
+  console.log('app running on port: ' + port);
+});
