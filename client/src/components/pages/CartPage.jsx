@@ -56,9 +56,12 @@ export default function ShoppingCart() {
 
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
-    const userRes = await Axios.get('/users/getuserinformation', {
-      headers: { 'x-auth-token': authToken }
-    });
+    const userRes = await Axios.get(
+      'http://localhost:5000/users/getuserinformation',
+      {
+        headers: { 'x-auth-token': authToken }
+      }
+    );
     const {
       adress,
       discount,
@@ -79,7 +82,7 @@ export default function ShoppingCart() {
       userId
     };
     try {
-      const cart = await Axios.get('/users/getCart', {
+      const cart = await Axios.get('http://localhost:5000/users/getCart', {
         payload,
         headers: { 'x-auth-token': authToken }
       });
@@ -146,7 +149,7 @@ export default function ShoppingCart() {
       price
     };
     try {
-      await Axios.post('/users/cart', payload, {
+      await Axios.post('http://localhost:5000/users/cart', payload, {
         headers: { 'x-auth-token': authToken }
       });
     } catch (err) {
@@ -162,7 +165,7 @@ export default function ShoppingCart() {
     };
 
     try {
-      await Axios.post('/users/deleteCartItem', payload, {
+      await Axios.post('http://localhost:5000/users/deleteCartItem', payload, {
         headers: { 'x-auth-token': authToken }
       });
     } catch (err) {
@@ -220,7 +223,7 @@ export default function ShoppingCart() {
       price
     };
     try {
-      await Axios.post('/users/removeFromCart', payload, {
+      await Axios.post('http://localhost:5000/users/removeFromCart', payload, {
         headers: { 'x-auth-token': authToken }
       });
     } catch (err) {

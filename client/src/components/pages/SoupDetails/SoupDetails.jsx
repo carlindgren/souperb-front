@@ -132,7 +132,7 @@ export default function Details({ soup, goBack }) {
       price
     };
     try {
-      await Axios.post('/users/removeFromCart', payload, {
+      await Axios.post('http://localhost:5000/users/removeFromCart', payload, {
         headers: { 'x-auth-token': authToken }
       });
     } catch (err) {
@@ -151,7 +151,7 @@ export default function Details({ soup, goBack }) {
       price
     };
     try {
-      await Axios.post('/users/cart', payload, {
+      await Axios.post('http://localhost:5000/users/cart', payload, {
         headers: { 'x-auth-token': authToken }
       });
     } catch (err) {
@@ -188,7 +188,7 @@ export default function Details({ soup, goBack }) {
         price: soup.price
       };
 
-      await Axios.post('/users/cart', payload, {
+      await Axios.post('http://localhost:5000/users/cart', payload, {
         headers: { 'x-auth-token': authToken }
       });
     } catch (err) {

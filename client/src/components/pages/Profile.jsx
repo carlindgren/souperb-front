@@ -127,7 +127,7 @@ export default function Profile() {
     const authToken = localStorage.getItem('auth-token');
     try {
       const order = await Axios.get(
-        '/users/getOrderInformation',
+        'http://localhost:5000/users/getOrderInformation',
 
         { headers: { 'x-auth-token': authToken } }
       );
@@ -144,9 +144,12 @@ export default function Profile() {
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
     try {
-      const userObj = await Axios.get('/users/getUserInformation', {
-        headers: { 'x-auth-token': authToken }
-      });
+      const userObj = await Axios.get(
+        'http://localhost:5000/users/getUserInformation',
+        {
+          headers: { 'x-auth-token': authToken }
+        }
+      );
       const { user } = userObj.data;
       setUser(user);
       const { preferedPayment } = user;
@@ -171,9 +174,13 @@ export default function Profile() {
           preferedPayment: paymentMethod,
           id: userID
         };
-        await Axios.post('/users/addPreferedPayment', paymentObj, {
-          headers: { 'x-auth-token': authToken }
-        });
+        await Axios.post(
+          'http://localhost:5000/users/addPreferedPayment',
+          paymentObj,
+          {
+            headers: { 'x-auth-token': authToken }
+          }
+        );
         return;
       }
     } catch (err) {

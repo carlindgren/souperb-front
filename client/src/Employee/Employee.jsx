@@ -45,13 +45,13 @@ export default function Employee() {
     const payload = {
       orderId
     };
-    await Axios.post('/users/markfinished', payload, {
+    await Axios.post('http://localhost:5000/users/markfinished', payload, {
       headers: { 'x-auth-token': authToken }
     });
   };
   const getOrders = async () => {
     const authToken = localStorage.getItem('auth-token');
-    const orderRes = await Axios.get('/users/getOrders', {
+    const orderRes = await Axios.get('http://localhost:5000/users/getOrders', {
       headers: { 'x-auth-token': authToken }
     });
     setOrders(orderRes.data.orders);

@@ -217,9 +217,13 @@ export default function PaymentPage({
         name: inputValues.name,
         cartItems: cart
       };
-      const order = await Axios.put('/users/order', payload, {
-        headers: { 'x-auth-token': authToken }
-      });
+      const order = await Axios.put(
+        'http://localhost:5000/users/order',
+        payload,
+        {
+          headers: { 'x-auth-token': authToken }
+        }
+      );
       if (order.data.msg) {
         message.error('Det verkar som att du redan väntar på en soppa');
         history.push('/profile');
@@ -236,9 +240,12 @@ export default function PaymentPage({
   const getUser = async () => {
     const authToken = localStorage.getItem('auth-token');
     try {
-      const user = await Axios.get('/users/getuserInformation', {
-        headers: { 'x-auth-token': authToken }
-      });
+      const user = await Axios.get(
+        'http://localhost:5000/users/getuserInformation',
+        {
+          headers: { 'x-auth-token': authToken }
+        }
+      );
       setUser(user.data.user);
     } catch (err) {
       console.log(err);

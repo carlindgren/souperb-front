@@ -72,9 +72,13 @@ export default function AddressDetails({ title, goBack, userDetails }) {
     };
 
     try {
-      await Axios.post('/users/addAdressDetails', payload, {
-        headers: { 'x-auth-token': authToken }
-      });
+      await Axios.post(
+        'http://localhost:5000/users/addAdressDetails',
+        payload,
+        {
+          headers: { 'x-auth-token': authToken }
+        }
+      );
 
       message.success('Dina inställningar är sparade');
       goBack();

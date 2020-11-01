@@ -62,9 +62,12 @@ export default function TrackYourOrder() {
   const getOrder = async () => {
     const authToken = localStorage.getItem('auth-token');
     try {
-      const orderDoc = await Axios.get('/users/getOrderInformation', {
-        headers: { 'x-auth-token': authToken }
-      });
+      const orderDoc = await Axios.get(
+        'http://localhost:5000/users/getOrderInformation',
+        {
+          headers: { 'x-auth-token': authToken }
+        }
+      );
       setOrder(orderDoc.data.order);
       const { latlng } = orderDoc.data.order[0].deliveryDetails;
       setLatlng(latlng);

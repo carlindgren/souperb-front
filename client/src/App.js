@@ -66,7 +66,7 @@ export default function App() {
 
   const getCart = async () => {
     const authToken = localStorage.getItem('auth-token');
-    let cart = await Axios.get('/users/getCart', {
+    let cart = await Axios.get('http://localhost:5000/users/getCart', {
       headers: { 'x-auth-token': authToken }
     });
     const count = (cart) => {
@@ -74,6 +74,7 @@ export default function App() {
       cart.forEach((elem) => (num += elem.quantity));
       return num;
     };
+    console.log(cart);
     if (!empty(cart.data.cart[0])) {
       setCartItems(count(cart.data.cart[0].products));
     }
@@ -88,11 +89,15 @@ export default function App() {
         token = '';
       }
 
-      const tokenRes = await Axios.post('/users/tokenIsValid', null, {
-        headers: { 'x-auth-token': token }
-      });
+      const tokenRes = await Axios.post(
+        'http://localhost:5000/users/tokenIsValid',
+        null,
+        {
+          headers: { 'x-auth-token': token }
+        }
+      );
       if (tokenRes.data) {
-        const userRes = await Axios.get('/users/', {
+        const userRes = await Axios.get('http://localhost:5000/users/', {
           headers: { 'x-auth-token': token }
         });
         setUserData({
@@ -104,11 +109,11 @@ export default function App() {
     };
     checkLoggedIn();
     const getFood = async () => {
-      const soups = await Axios.get('/soups/getall');
+      const soups = await Axios.get('http://localhost:5000/soups/getall');
       //setSoups(soups.data);
-      const drinks = await Axios.get('/drinks/getall');
+      const drinks = await Axios.get('http://localhost:5000/drinks/getall');
       //se
-      const breads = await Axios.get('/breads/getall');
+      const breads = await Axios.get('http://localhost:5000/breads/getall');
       //setBread(breads.data);
 
       setFoodData({
