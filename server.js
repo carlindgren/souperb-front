@@ -4,6 +4,9 @@ const cors = require('cors');
 
 const port = process.env.PORT || 5000;
 require('dotenv').config();
+
+// Serve static files from the React frontend app
+
 // set up express
 const app = express();
 

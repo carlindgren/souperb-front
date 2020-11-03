@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
   },
   deliveryDetails: {
     phoneNo: { type: Number },
-    portCode: { type: Number || String },
+    portCode: {},
     floor: { type: Number },
     street: { type: String },
     latlng: [{ type: Number }],
